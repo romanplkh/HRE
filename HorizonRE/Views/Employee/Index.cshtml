@@ -1,0 +1,48 @@
+﻿@model IEnumerable<HorizonRE.Models.Employee>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">@Html.DisplayNameFor(model => model.FirstName)</th>
+        <th scope="col">@Html.DisplayNameFor(model => model.LastName)</th>
+        <th scope="col">@Html.DisplayNameFor(model => model.MiddleName)</th>
+        <th scope="col">@Html.DisplayNameFor(model => model.SIN)</th>
+        <th scope="col">@Html.DisplayNameFor(model => model.StreetAddress)</th>
+        <th scope="col">@Html.DisplayNameFor(model => model.Country)</th>
+        <th scope="col">@Html.DisplayNameFor(model => model.Province)</th>
+        <th scope="col">@Html.DisplayNameFor(model => model.PostalCode)</th>
+        <th scope="col">@Html.DisplayNameFor(model => model.HomePhone)</th>
+        <th scope="col">@Html.DisplayNameFor(model => model.CellPhone)</th>
+        <th scope="col">@Html.DisplayNameFor(model => model.OfficePhone)</th>
+        <th scope="col">@Html.DisplayNameFor(model => model.DOB)</th>
+        <th scope="col">@Html.DisplayNameFor(model => model.AddedBy)</th>
+        <th scope="col">@Html.DisplayNameFor(model => model.HireDate)</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@@mdo</td>
+    </tr>
+    <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@@fat</td>
+    </tr>
+    <tr>
+        <th scope="row">3</th>
+        <td>Larry</td>
+        <td>the Bird</td>
+        <td>@@twitter</td>
+    </tr>
+    </tbody>
+</table>
