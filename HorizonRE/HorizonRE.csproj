@@ -167,6 +167,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -181,10 +182,23 @@
     <Compile Include="Migrations\201910061955276_WithoutCountryProvince.Designer.cs">
       <DependentUpon>201910061955276_WithoutCountryProvince.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910071921567_AddCustomerTable.cs" />
+    <Compile Include="Migrations\201910071921567_AddCustomerTable.Designer.cs">
+      <DependentUpon>201910071921567_AddCustomerTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910071930338_AddedValidationToCustomerTable.cs" />
+    <Compile Include="Migrations\201910071930338_AddedValidationToCustomerTable.Designer.cs">
+      <DependentUpon>201910071930338_AddedValidationToCustomerTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910071941563_AddCustomersToProvAndCountry.cs" />
+    <Compile Include="Migrations\201910071941563_AddCustomersToProvAndCountry.Designer.cs">
+      <DependentUpon>201910071941563_AddCustomersToProvAndCountry.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\CustomAttribute.cs" />
+    <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\HorizonContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -337,6 +351,8 @@
     <Content Include="Views\Shared\_Admin.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\Add.cshtml" />
+    <Content Include="Views\Customer\AddCustomer.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -356,6 +372,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910061955276_WithoutCountryProvince.resx">
       <DependentUpon>201910061955276_WithoutCountryProvince.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910071921567_AddCustomerTable.resx">
+      <DependentUpon>201910071921567_AddCustomerTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910071930338_AddedValidationToCustomerTable.resx">
+      <DependentUpon>201910071930338_AddedValidationToCustomerTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910071941563_AddCustomersToProvAndCountry.resx">
+      <DependentUpon>201910071941563_AddCustomersToProvAndCountry.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

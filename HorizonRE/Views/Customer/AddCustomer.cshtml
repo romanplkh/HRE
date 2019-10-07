@@ -1,0 +1,89 @@
+﻿@model HorizonRE.Models.Customer
+@{
+    ViewBag.Title = "AddCustomer";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="container mt-md-5 mt-sm-0">
+    <h2 class="text-center display-4 mb-4">Add Customer</h2>
+
+    @using (Html.BeginForm("AddCustomer", "Customer", FormMethod.Post))
+    {
+
+        @Html.AntiForgeryToken()
+
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(c => c.FirstName)
+                @Html.TextBoxFor(c => c.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.FirstName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(c => c.LastName)
+                @Html.TextBoxFor(c => c.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.LastName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(c => c.MiddleName)
+                @Html.TextBoxFor(c => c.MiddleName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.MiddleName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(c => c.DOB)
+                @Html.TextBoxFor(c => c.DOB, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.DOB, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(c => c.Email)
+                @Html.TextBoxFor(c => c.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(c => c.Phone)
+                @Html.TextBoxFor(c => c.Phone, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(c => c.Country, "Country")
+                @Html.DropDownList("CountryData", null, "--Select Country--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Country, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(c => c.Province, "Province")
+                @Html.DropDownList("ProvinceData", null, "--Select Province--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Province, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(c => c.City)
+                @Html.TextBoxFor(c => c.City, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.City, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(c => c.StreetAddress)
+                @Html.TextBoxFor(c => c.StreetAddress, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.StreetAddress, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(c => c.PostalCode)
+                @Html.TextBoxFor(c => c.PostalCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.PostalCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <button type="reset" class="btn btn-secondary ml-4 float-right">Cancel</button>
+        <button type="submit" class="btn btn-primary float-right">Save</button>
+
+    }
+
+
+</div>
+
+
