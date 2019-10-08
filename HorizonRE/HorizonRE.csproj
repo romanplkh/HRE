@@ -194,6 +194,10 @@
     <Compile Include="Migrations\201910071941563_AddCustomersToProvAndCountry.Designer.cs">
       <DependentUpon>201910071941563_AddCustomersToProvAndCountry.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910082246095_EmptyRoman1.cs" />
+    <Compile Include="Migrations\201910082246095_EmptyRoman1.Designer.cs">
+      <DependentUpon>201910082246095_EmptyRoman1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Country.cs" />
@@ -381,6 +385,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910071941563_AddCustomersToProvAndCountry.resx">
       <DependentUpon>201910071941563_AddCustomersToProvAndCountry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910082246095_EmptyRoman1.resx">
+      <DependentUpon>201910082246095_EmptyRoman1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
