@@ -1,0 +1,90 @@
+﻿@model HorizonRE.Models.Employee
+
+
+<div class="form-row mt-5">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.FirstName)
+        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+
+        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.LastName)
+        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.MiddleName)
+        @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.MiddleName, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-row">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.DOB)
+        @Html.TextBoxFor(m => m.DOB, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.SIN)
+        @Html.TextBoxFor(m => m.SIN, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SIN, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.HireDate)
+        @Html.TextBoxFor(m => m.HireDate, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.HireDate, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.Country, "Country")
+        @Html.DropDownList("CountryData", null, "--Select Country--", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.Province, "Province")
+        @Html.DropDownList("ProvinceData", null, "--Select Province--", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Province, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.City)
+        @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.StreetAddress)
+        @Html.TextBoxFor(m => m.StreetAddress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.StreetAddress, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.PostalCode)
+        @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.PostalCode, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.HomePhone)
+        @Html.TextBoxFor(m => m.HomePhone, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.HomePhone, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.CellPhone)
+        @Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CellPhone, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.OfficePhone)
+        @Html.TextBoxFor(m => m.OfficePhone, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.OfficePhone, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.OfficeEmail)
+        @Html.TextBoxFor(m => m.OfficeEmail, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.OfficeEmail, "", new { @class = "text-danger" })
+    </div>
+</div>
