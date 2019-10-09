@@ -198,6 +198,22 @@
     <Compile Include="Migrations\201910082246095_EmptyRoman1.Designer.cs">
       <DependentUpon>201910082246095_EmptyRoman1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910090047331_EmptyOlena1.cs" />
+    <Compile Include="Migrations\201910090047331_EmptyOlena1.Designer.cs">
+      <DependentUpon>201910090047331_EmptyOlena1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910091456153_RelationBetweenProvAndCountry.cs" />
+    <Compile Include="Migrations\201910091456153_RelationBetweenProvAndCountry.Designer.cs">
+      <DependentUpon>201910091456153_RelationBetweenProvAndCountry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910091457368_AddDataToCoutryAndProvince.cs" />
+    <Compile Include="Migrations\201910091457368_AddDataToCoutryAndProvince.Designer.cs">
+      <DependentUpon>201910091457368_AddDataToCoutryAndProvince.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910091518483_AddedDataToProvinces.cs" />
+    <Compile Include="Migrations\201910091518483_AddedDataToProvinces.Designer.cs">
+      <DependentUpon>201910091518483_AddedDataToProvinces.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Country.cs" />
@@ -389,6 +405,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910082246095_EmptyRoman1.resx">
       <DependentUpon>201910082246095_EmptyRoman1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910090047331_EmptyOlena1.resx">
+      <DependentUpon>201910090047331_EmptyOlena1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910091456153_RelationBetweenProvAndCountry.resx">
+      <DependentUpon>201910091456153_RelationBetweenProvAndCountry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910091457368_AddDataToCoutryAndProvince.resx">
+      <DependentUpon>201910091457368_AddDataToCoutryAndProvince.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910091518483_AddedDataToProvinces.resx">
+      <DependentUpon>201910091518483_AddedDataToProvinces.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
