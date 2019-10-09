@@ -57,7 +57,7 @@
                     </a>
                     <ul class="collapse list-unstyled" id="agentsSub">
                         <li>
-                            <a href="#">Add Agent</a>
+                            @Html.ActionLink("Add Employee", "Add", "Employee")
                         </li>
                         <li>
                             <a href="#">Edit Agent</a>
@@ -159,6 +159,10 @@
 
             <div class="container-fluid">
                 @RenderBody()
+                
+                @*<a href="#" class="float-btn">
+                    <i class="fa fa-plus icon-float-btn"></i>
+                </a>*@
             </div>
 
 
