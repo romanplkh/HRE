@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -19,6 +20,13 @@ namespace HorizonRE.Models
         [Display(Name = "Last Name")]
         [StringLength(30, MinimumLength = 3)]
         public string LastName { get; set; }
+
+        [NotMapped]
+        public string FullName { get
+            {
+                return $"{FirstName} {LastName}";
+            }
+        }
 
         [Display(Name = "Middle Name")]
         [StringLength(20)]
@@ -58,9 +66,9 @@ namespace HorizonRE.Models
         [CustomAttribute.AgeIsValid]
         public DateTime DOB { get; set; }
 
-
-        //foreign keys
-        public virtual Province Province { get; set; }
+       
+        //foreign keys      
+        public virtual Province Province { get; set; }      
         public virtual Country Country { get; set; }
     }
 }
