@@ -30,11 +30,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @*@foreach (var customer in Model)
+                            @foreach (var customer in Model)
                             {
                                 <tr>
-                                    <td> @Html.ActionLink(customer.Name, "Edit", "Customers", new { id = customer.Id }, new { @class = "lead" }) </td>
-                                    <td> @customer.LastName @customer.FirstName</td>
+                                    <td> @Html.ActionLink(customer.FullName, "Edit", "Customers", new { id = customer.CustomerId }, new { @class = "lead" }) </td>
+                                    @*<td> @customer.LastName @customer.LastName</td>*@
                                     <td> @customer.StreetAddress</td>
                                     <td> @customer.Phone</td>
                                     <td> @customer.Email</td>
@@ -46,7 +46,7 @@
                                         </button>
                                     </td>
                                 </tr>
-                            }*@
+                            }
                         </tbody>
                     </table>
 

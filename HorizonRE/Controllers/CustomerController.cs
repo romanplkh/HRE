@@ -14,10 +14,10 @@ namespace HorizonRE.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            // var customers = db.Customers.ToList().OrderBy(c => c.LastName);
-            //return View(customers);
+            var customers = db.Customers.ToList().OrderBy(c => c.LastName);
+            return View(customers);
 
-            return View();
+            //return View();
         }
 
         // GET: country and province for form
@@ -32,8 +32,9 @@ namespace HorizonRE.Controllers
         //POST: add new customer
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddCustomer([Bind(Include = "CustomerId, FirstName, LastName, MiddleName, " +
-            "StreetAddress, City, Country, Province, PostalCode, Phone, Email, DOB")] Customer customer)
+        public ActionResult AddCustomer([Bind(Include = "FirstName, LastName, MiddleName, " +
+            "StreetAddress, City, Country, Province, PostalCode, Phone, Email, DOB")] Customer customer,
+            FormCollection form)
         {
             if (ModelState.IsValid)
             {
@@ -41,6 +42,8 @@ namespace HorizonRE.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewData["CountryData"] = new SelectList(db.Countries, "CountryId", "Name");
+            ViewData["ProvinceData"] = new SelectList(db.Provinces, "ProvinceId", "Name");
             return View();
         }
     }

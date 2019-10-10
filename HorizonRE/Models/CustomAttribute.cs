@@ -16,7 +16,7 @@ namespace HorizonRE.Models
 
             DateTime date = (DateTime) value;
 
-            if (date.AddYears(19) > DateTime.Now)
+            if (date.AddYears(19) <= DateTime.Now)
             {
                return ValidationResult.Success;
             }
