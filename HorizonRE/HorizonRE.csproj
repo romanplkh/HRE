@@ -186,33 +186,29 @@
     <Compile Include="Migrations\201910071921567_AddCustomerTable.Designer.cs">
       <DependentUpon>201910071921567_AddCustomerTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201910071930338_AddedValidationToCustomerTable.cs" />
-    <Compile Include="Migrations\201910071930338_AddedValidationToCustomerTable.Designer.cs">
-      <DependentUpon>201910071930338_AddedValidationToCustomerTable.cs</DependentUpon>
+    <Compile Include="Migrations\201910122049223_AddProvCountry.cs" />
+    <Compile Include="Migrations\201910122049223_AddProvCountry.Designer.cs">
+      <DependentUpon>201910122049223_AddProvCountry.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201910071941563_AddCustomersToProvAndCountry.cs" />
-    <Compile Include="Migrations\201910071941563_AddCustomersToProvAndCountry.Designer.cs">
-      <DependentUpon>201910071941563_AddCustomersToProvAndCountry.cs</DependentUpon>
+    <Compile Include="Migrations\201910122050224_AddDataToCountries.cs" />
+    <Compile Include="Migrations\201910122050224_AddDataToCountries.Designer.cs">
+      <DependentUpon>201910122050224_AddDataToCountries.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201910082246095_EmptyRoman1.cs" />
-    <Compile Include="Migrations\201910082246095_EmptyRoman1.Designer.cs">
-      <DependentUpon>201910082246095_EmptyRoman1.cs</DependentUpon>
+    <Compile Include="Migrations\201910122055228_AddDataToProvinces.cs" />
+    <Compile Include="Migrations\201910122055228_AddDataToProvinces.Designer.cs">
+      <DependentUpon>201910122055228_AddDataToProvinces.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201910090047331_EmptyOlena1.cs" />
-    <Compile Include="Migrations\201910090047331_EmptyOlena1.Designer.cs">
-      <DependentUpon>201910090047331_EmptyOlena1.cs</DependentUpon>
+    <Compile Include="Migrations\201910122104025_AddJoinProvinceCustomer.cs" />
+    <Compile Include="Migrations\201910122104025_AddJoinProvinceCustomer.Designer.cs">
+      <DependentUpon>201910122104025_AddJoinProvinceCustomer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201910091456153_RelationBetweenProvAndCountry.cs" />
-    <Compile Include="Migrations\201910091456153_RelationBetweenProvAndCountry.Designer.cs">
-      <DependentUpon>201910091456153_RelationBetweenProvAndCountry.cs</DependentUpon>
+    <Compile Include="Migrations\201910122121019_AddFKToCustomer.cs" />
+    <Compile Include="Migrations\201910122121019_AddFKToCustomer.Designer.cs">
+      <DependentUpon>201910122121019_AddFKToCustomer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201910091457368_AddDataToCoutryAndProvince.cs" />
-    <Compile Include="Migrations\201910091457368_AddDataToCoutryAndProvince.Designer.cs">
-      <DependentUpon>201910091457368_AddDataToCoutryAndProvince.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201910091518483_AddedDataToProvinces.cs" />
-    <Compile Include="Migrations\201910091518483_AddedDataToProvinces.Designer.cs">
-      <DependentUpon>201910091518483_AddedDataToProvinces.cs</DependentUpon>
+    <Compile Include="Migrations\201910122141461_RenameFKInCustomer.cs" />
+    <Compile Include="Migrations\201910122141461_RenameFKInCustomer.Designer.cs">
+      <DependentUpon>201910122141461_RenameFKInCustomer.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -224,6 +220,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Province.cs" />
+    <Compile Include="Models\ProvinceCustomer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -397,26 +394,23 @@
     <EmbeddedResource Include="Migrations\201910071921567_AddCustomerTable.resx">
       <DependentUpon>201910071921567_AddCustomerTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910071930338_AddedValidationToCustomerTable.resx">
-      <DependentUpon>201910071930338_AddedValidationToCustomerTable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910122049223_AddProvCountry.resx">
+      <DependentUpon>201910122049223_AddProvCountry.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910071941563_AddCustomersToProvAndCountry.resx">
-      <DependentUpon>201910071941563_AddCustomersToProvAndCountry.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910122050224_AddDataToCountries.resx">
+      <DependentUpon>201910122050224_AddDataToCountries.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910082246095_EmptyRoman1.resx">
-      <DependentUpon>201910082246095_EmptyRoman1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910122055228_AddDataToProvinces.resx">
+      <DependentUpon>201910122055228_AddDataToProvinces.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910090047331_EmptyOlena1.resx">
-      <DependentUpon>201910090047331_EmptyOlena1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910122104025_AddJoinProvinceCustomer.resx">
+      <DependentUpon>201910122104025_AddJoinProvinceCustomer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910091456153_RelationBetweenProvAndCountry.resx">
-      <DependentUpon>201910091456153_RelationBetweenProvAndCountry.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910122121019_AddFKToCustomer.resx">
+      <DependentUpon>201910122121019_AddFKToCustomer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910091457368_AddDataToCoutryAndProvince.resx">
-      <DependentUpon>201910091457368_AddDataToCoutryAndProvince.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910091518483_AddedDataToProvinces.resx">
-      <DependentUpon>201910091518483_AddedDataToProvinces.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910122141461_RenameFKInCustomer.resx">
+      <DependentUpon>201910122141461_RenameFKInCustomer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
