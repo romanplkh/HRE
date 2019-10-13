@@ -218,6 +218,14 @@
     <Compile Include="Migrations\201910122316096_AddCounProvStringToCust.Designer.cs">
       <DependentUpon>201910122316096_AddCounProvStringToCust.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910131510311_AddFKEmployeeProvince.cs" />
+    <Compile Include="Migrations\201910131510311_AddFKEmployeeProvince.Designer.cs">
+      <DependentUpon>201910131510311_AddFKEmployeeProvince.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910131544454_AddFkForEmployeeProvT1.cs" />
+    <Compile Include="Migrations\201910131544454_AddFkForEmployeeProvT1.Designer.cs">
+      <DependentUpon>201910131544454_AddFkForEmployeeProvT1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Country.cs" />
@@ -229,6 +237,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Province.cs" />
     <Compile Include="Models\ProvinceCustomer.cs" />
+    <Compile Include="Models\ProvinceEmployee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -425,6 +434,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910122316096_AddCounProvStringToCust.resx">
       <DependentUpon>201910122316096_AddCounProvStringToCust.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910131510311_AddFKEmployeeProvince.resx">
+      <DependentUpon>201910131510311_AddFKEmployeeProvince.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910131544454_AddFkForEmployeeProvT1.resx">
+      <DependentUpon>201910131544454_AddFkForEmployeeProvT1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
