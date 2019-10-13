@@ -12,7 +12,7 @@ namespace HorizonRE.Models
         public DbSet<Country> Countries { get; set; }
         public DbSet<Province> Provinces { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<ProvinceCustomer> ProvincesCustomers { get; set; }
+        public DbSet<ProvinceCustomer> ProvinceCustomers { get; set; }
 
 
 

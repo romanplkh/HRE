@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using HorizonRE.Models;
+using System.Data.Entity;
 
 namespace HorizonRE.Controllers
 {
@@ -15,6 +16,10 @@ namespace HorizonRE.Controllers
         public ActionResult Index()
         {
             var customers = db.Customers.ToList().OrderBy(c => c.LastName);
+            //var cust = db.Customers.Include(c => c.ProvinceCustomers)
+               // .Where(c => c.CustomerId == 3)
+               // .ToList();
+
             return View(customers);
 
             //return View();

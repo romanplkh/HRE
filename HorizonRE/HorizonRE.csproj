@@ -210,6 +210,14 @@
     <Compile Include="Migrations\201910122141461_RenameFKInCustomer.Designer.cs">
       <DependentUpon>201910122141461_RenameFKInCustomer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910122239165_AddNavPropToPC.cs" />
+    <Compile Include="Migrations\201910122239165_AddNavPropToPC.Designer.cs">
+      <DependentUpon>201910122239165_AddNavPropToPC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910122316096_AddCounProvStringToCust.cs" />
+    <Compile Include="Migrations\201910122316096_AddCounProvStringToCust.Designer.cs">
+      <DependentUpon>201910122316096_AddCounProvStringToCust.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Country.cs" />
@@ -411,6 +419,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910122141461_RenameFKInCustomer.resx">
       <DependentUpon>201910122141461_RenameFKInCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910122239165_AddNavPropToPC.resx">
+      <DependentUpon>201910122239165_AddNavPropToPC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910122316096_AddCounProvStringToCust.resx">
+      <DependentUpon>201910122316096_AddCounProvStringToCust.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
