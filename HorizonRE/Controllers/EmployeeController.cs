@@ -18,6 +18,7 @@ namespace HorizonRE.Controllers
          var prov = db.Provinces.ToList();
          var coun = db.Countries.ToList();
 
+
          foreach (var emp in db.Employees.ToList())
          {
             var p = prov.First(el => el.ProvinceId == emp.EmployeeProvinceId).Name;
@@ -36,10 +37,8 @@ namespace HorizonRE.Controllers
       [HttpGet]
       public ActionResult Add()
       {
-         ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name", 2);
-
-         var prov = db.Provinces.ToList().FindAll(p => p.CountryId == Convert.ToInt32(Request.Form["CountryList"]));
-         ViewBag.ProvinceList = new SelectList(prov, "ProvinceId", "Name");
+         ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name");
+         ViewBag.ProvinceList = new SelectList(db.Provinces, "ProvinceId", "Name");
          return View();
       }
 
