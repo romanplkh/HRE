@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using System.Linq;
 using System.Web;
@@ -32,6 +33,10 @@ namespace HorizonRE.Models
       [RegularExpression(@"^\d{3}-\d{3}-\d{3}$", ErrorMessage = "SIN has incorrect format")]
       public string SIN { get; set; }
 
+      [NotMapped] 
+      public string Country { get; set; }
+      [NotMapped] 
+      public string Province { get; set; }
 
       [Required(ErrorMessage = "Street address is required")]
       [Display(Name = "Street address" )]
@@ -92,15 +97,9 @@ namespace HorizonRE.Models
       public DateTime HireDate { get; set; }
 
 
-      //FK
-      public virtual Province Province { get; set; }
-      public virtual Country Country { get; set; }
 
-
-      //FK AUTH
-      // public virtual Authentication Auth { get; set; }
-      //FK
-      // public int AccessLevelId { get; set; }
+      public int EmployeeProvinceId { get; set; }
+      public ICollection<ProvinceEmployee> ProvinceEmployees { get; set; }
 
 
 
