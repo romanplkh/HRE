@@ -12,7 +12,7 @@ namespace HorizonRE.Models
 
         public ICollection<Province> Provinces { get; set; }
 
-        public ICollection<Employee> Employees { get; set; }
-        public ICollection<Customer> Customers { get; set; }
+       // public ICollection<Employee> Employees { get; set; }
+       
     }
 }

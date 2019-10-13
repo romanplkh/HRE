@@ -66,9 +66,14 @@ namespace HorizonRE.Models
         [CustomAttribute.AgeIsValid]
         public DateTime DOB { get; set; }
 
-       
-        //foreign keys      
-        public virtual Province Province { get; set; }      
-        public virtual Country Country { get; set; }
+        [Required]
+        public string Country { get; set; }
+        [Required]
+        public string Province { get; set; }
+
+        //foreign key to join table
+
+        public int CustomerProvinceId { get; set; }
+        public ICollection<ProvinceCustomer> ProvinceCustomers { get; set; }
     }
 }
