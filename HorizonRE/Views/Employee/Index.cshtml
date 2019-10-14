@@ -40,7 +40,7 @@
             {
                 <tr>
                     <td>
-                        @e.FirstName
+                        @Html.ActionLink(e.FirstName, "Edit", new {id = e.EmployeeId})
                     </td>
                     <td>
                         @e.LastName

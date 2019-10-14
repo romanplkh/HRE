@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HorizonRE.Models;
@@ -59,8 +61,6 @@ namespace HorizonRE.Controllers
 
 
             int empId = employee.EmployeeId;
-
-
             ProvinceEmployee pe = new ProvinceEmployee();
 
             pe.EmployeeId = empId;
@@ -71,6 +71,54 @@ namespace HorizonRE.Controllers
             db.SaveChanges();
 
 
+            return RedirectToAction("Index");
+         }
+
+         ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name");
+         ViewBag.ProvinceList = new SelectList(db.Provinces, "ProvinceId", "Name");
+
+
+         return View();
+      }
+
+
+      // GET: Edit
+      public ActionResult Edit(int? id)
+      {
+         if (id == null)
+         {
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+         }
+
+         Employee e = db.Employees.Find(id);
+         if (e == null)
+         {
+            return HttpNotFound();
+         }
+
+
+         //Find employee province 
+         int provId = e.EmployeeProvinceId;
+
+         //Find employee country
+         var countId = db.Provinces.ToList().First(pr => pr.ProvinceId == e.EmployeeProvinceId).CountryId;
+
+         //Add country to list
+         ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name", countId);
+         ViewBag.ProvinceList = new SelectList(db.Provinces, "ProvinceId", "Name", provId);
+         return View(e);
+      }
+
+      //POST: Edit
+      [HttpPost]
+      [ValidateAntiForgeryToken]
+      public ActionResult Edit([Bind(Include = "EmployeeId,FirstName,LastName,MiddleName,SIN,StreetAddress,City,PostalCode,HomePhone,CellPhone,OfficePhone,OfficeEmail,DOB,AddedBy,HireDate, EmployeeProvinceId, CountryList, ProvinceList")] Employee employee )
+      {
+         if (ModelState.IsValid)
+         {
+            employee.EmployeeProvinceId = Convert.ToInt32(Request.Form["ProvincesList"]);
+            db.Entry(employee).State = EntityState.Modified;
+            db.SaveChanges();
             return RedirectToAction("Index");
          }
 
