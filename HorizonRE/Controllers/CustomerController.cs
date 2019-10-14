@@ -15,14 +15,23 @@ namespace HorizonRE.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var customers = db.Customers.ToList().OrderBy(c => c.LastName);
-            //var cust = db.Customers.Include(c => c.ProvinceCustomers)
-               // .Where(c => c.CustomerId == 3)
-               // .ToList();
+            var customerList = db.Customers.ToList().OrderBy(c => c.LastName);
+            var provinces = db.Provinces.ToList();
+            var countries = db.Countries.ToList();
 
-            return View(customers);
 
-            //return View();
+            foreach (var customer in customerList)
+            {
+                var p = provinces.First(el => el.ProvinceId == customer.CustomerProvinceId).Name;
+                var countId = provinces.First(pr => pr.ProvinceId == customer.CustomerProvinceId).CountryId;
+                var countryName = countries.First(c => c.CountryId == countId).Name;
+
+                customer.Province = p;
+                customer.Country = countryName;
+            }
+
+            return View(customerList);
+
         }
 
         // GET: country and province for form
@@ -38,14 +47,14 @@ namespace HorizonRE.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AddCustomer([Bind(Include = "CustomerId,FirstName, LastName, MiddleName, " +
-            "StreetAddress, City, Country, Province, PostalCode, Phone, Email, DOB, ProvinceList," +
-            "ProvinceCustomer")] Customer customer
+            "StreetAddress, City, PostalCode, Phone, Email, DOB, ProvinceList," +
+            "ProvinceCustomer, CustomerProvinceId")] Customer customer
             )
         {
             if (ModelState.IsValid)
             {
                 int provId = Convert.ToInt32(Request.Form["ProvinceList"]);
-
+                customer.CustomerProvinceId = provId;
                 db.Customers.Add(customer);
                 db.SaveChanges();
 
@@ -55,7 +64,7 @@ namespace HorizonRE.Controllers
                 pc.CustomerId = customerId;
                 pc.ProvinceId = provId;
 
-                db.ProvinceCustomers.Add(pc);
+                db.ProvincesCustomers.Add(pc);
 
                 db.SaveChanges();
 
