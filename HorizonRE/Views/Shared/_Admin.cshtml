@@ -77,13 +77,15 @@
                     </a>
                     <ul class="collapse list-unstyled" id="customersSub">
                         <li>
-                           @Html.ActionLink("Add Customer", "AddCustomer", "Customer")
+                            @Html.ActionLink("View Customers", "Index", "Customer")
                         </li>
                         <li>
+                            @Html.ActionLink("Add Customer", "AddCustomer", "Customer")
+
+                        </li>
+                        <li>
+                            @*@Html.ActionLink("Add Customer", "AddCustomer", "Customer")*@
                             <a href="#">Edit Customer</a>
-                        </li>
-                        <li>
-                            <a href="#">Archive Customer</a>
                         </li>
                     </ul>
                 </li>
@@ -105,6 +107,24 @@
                         <li>
                             <a href="#">Archive Listing</a>
                         </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#photosSub"
+                       data-toggle="collapse"
+                       aria-expanded="false"
+                       class="dropdown-toggle">
+                        <i class="fas fa-file"></i>
+                        Photos
+                    </a>
+                    <ul class="collapse list-unstyled" id="photosSub">
+                        <li>
+                            @Html.ActionLink("Upload Photos", "Index", "FilesUpload")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Approve Photos", "MoveFile", "FilesUpload")
+
+                        </li>                      
                     </ul>
                 </li>
                 <li>

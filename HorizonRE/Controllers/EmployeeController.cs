@@ -48,7 +48,10 @@ namespace HorizonRE.Controllers
       // POST: AddEmployee
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public ActionResult Add([Bind(Include = "EmployeeId,FirstName,LastName,MiddleName,SIN,StreetAddress,City,PostalCode,HomePhone,CellPhone,OfficePhone,OfficeEmail,DOB,AddedBy,HireDate, Provinces, ProvinceEmployee, EmployeeProvinceId")]
+      public ActionResult Add([Bind(Include = "EmployeeId,FirstName,LastName," +
+          "MiddleName,SIN,StreetAddress,City,PostalCode,HomePhone," +
+          "CellPhone,OfficePhone,OfficeEmail,DOB,AddedBy,HireDate, " +
+          "Provinces, ProvinceEmployee, EmployeeProvinceId")]
          Employee employee)
       {
          if (ModelState.IsValid)
