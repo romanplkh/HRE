@@ -169,6 +169,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\FilesUploadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -225,6 +226,14 @@
     <Compile Include="Migrations\201910131544454_AddFkForEmployeeProvT1.cs" />
     <Compile Include="Migrations\201910131544454_AddFkForEmployeeProvT1.Designer.cs">
       <DependentUpon>201910131544454_AddFkForEmployeeProvT1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910132211553_NotMappedCPinCustomer.cs" />
+    <Compile Include="Migrations\201910132211553_NotMappedCPinCustomer.Designer.cs">
+      <DependentUpon>201910132211553_NotMappedCPinCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910132221508_AddRequiredEmailCustomer.cs" />
+    <Compile Include="Migrations\201910132221508_AddRequiredEmailCustomer.Designer.cs">
+      <DependentUpon>201910132221508_AddRequiredEmailCustomer.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -388,9 +397,15 @@
     <Content Include="Views\Customer\AddCustomer.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Employee\_AddEditEmployee.cshtml" />
+    <Content Include="Views\FilesUpload\Index.cshtml" />
+    <Content Include="Views\FilesUpload\MoveFile.cshtml" />
+    <Content Include="Views\FilesUpload\MoveFileDisplay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Files\" />
+    <Folder Include="FilesToDelete\" />
+    <Folder Include="TempFiles\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -440,6 +455,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910131544454_AddFkForEmployeeProvT1.resx">
       <DependentUpon>201910131544454_AddFkForEmployeeProvT1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910132211553_NotMappedCPinCustomer.resx">
+      <DependentUpon>201910132211553_NotMappedCPinCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910132221508_AddRequiredEmailCustomer.resx">
+      <DependentUpon>201910132221508_AddRequiredEmailCustomer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

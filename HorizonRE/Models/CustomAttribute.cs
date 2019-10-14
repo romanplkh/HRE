@@ -54,7 +54,7 @@ namespace HorizonRE.Models
       {
          protected override ValidationResult IsValid(object value, ValidationContext validationContext)
          {
-            string usZipcodePattern = @"^\d{5}(?:[-\s]\d{4})?$";
+            string usZipcodePattern = @"^[0-9]{5}(?:[-\s]\d{4})?$";
             string caPostalcodePattern = @"^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z]\d[ABCEGHJ-NPRSTV-Z]\d$";
 
             Match matchUs = Regex.Match(value.ToString(), usZipcodePattern, RegexOptions.IgnoreCase);

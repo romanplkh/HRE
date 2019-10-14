@@ -33,9 +33,8 @@
                             @foreach (var customer in Model)
                             {
                                 <tr>
-                                    <td> @Html.ActionLink(customer.FullName, "Edit", "Customers", new { id = customer.CustomerId }, new { @class = "lead" }) </td>
-                                    @*<td> @customer.LastName @customer.LastName</td>*@
-                                    <td> @customer.StreetAddress</td>
+                                    <td> @Html.ActionLink(customer.FullName, "Edit", "Customers", new { id = customer.CustomerId }, new { @class = "lead" }) </td>                                   
+                                    <td> @customer.StreetAddress,@customer.Province, @customer.Country</td>
                                     <td> @customer.Phone</td>
                                     <td> @customer.Email</td>
                                     <td>

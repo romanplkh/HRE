@@ -24,7 +24,11 @@ namespace HorizonRE.Models
         [NotMapped]
         public string FullName { get
             {
-                return $"{FirstName} {LastName}";
+                if (!string.IsNullOrEmpty(MiddleName))
+                {
+                   return $"{LastName} {FirstName} {MiddleName}";
+                }
+                return $"{LastName} {FirstName}";
             }
         }
 
@@ -55,6 +59,7 @@ namespace HorizonRE.Models
             ErrorMessage = "Phone has a wrong format.Format should be (XXX) XXX-XXXX")]
         public string Phone { get; set; }
 
+        [Required]
         [StringLength(50, MinimumLength = 3)]
         [EmailAddress]
         public string Email { get; set; }
@@ -66,9 +71,9 @@ namespace HorizonRE.Models
         [CustomAttribute.AgeIsValid]
         public DateTime DOB { get; set; }
 
-        [Required]
+        [NotMapped]
         public string Country { get; set; }
-        [Required]
+        [NotMapped]
         public string Province { get; set; }
 
         //foreign key to join table
