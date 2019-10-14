@@ -112,7 +112,8 @@ namespace HorizonRE.Controllers
       //POST: Edit
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public ActionResult Edit([Bind(Include = "EmployeeId,FirstName,LastName,MiddleName,SIN,StreetAddress,City,PostalCode,HomePhone,CellPhone,OfficePhone,OfficeEmail,DOB,AddedBy,HireDate, EmployeeProvinceId, CountryList, ProvinceList")] Employee employee )
+      public ActionResult Edit([Bind(Include = "EmployeeId,FirstName,LastName,MiddleName,SIN,StreetAddress,City,PostalCode,HomePhone,CellPhone,OfficePhone,OfficeEmail,DOB,AddedBy,HireDate, EmployeeProvinceId, CountryList, ProvinceList")]
+         Employee employee)
       {
          if (ModelState.IsValid)
          {
@@ -125,8 +126,18 @@ namespace HorizonRE.Controllers
          ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name");
          ViewBag.ProvinceList = new SelectList(db.Provinces, "ProvinceId", "Name");
 
-
          return View();
+      }
+
+      // POST: Pets/Delete/5
+      [HttpPost, ActionName("Delete")]
+      [ValidateAntiForgeryToken]
+      public ActionResult DeleteConfirmed(int id)
+      {
+         Employee emp = db.Employees.Find(id);
+         db.Employees.Remove(emp);
+         db.SaveChanges();
+         return RedirectToAction("Index");
       }
    }
 }

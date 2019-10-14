@@ -31,6 +31,7 @@
                 <th scope="col">@Html.DisplayNameFor(model => model.DOB)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.AddedBy)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.HireDate)</th>
+                <th scope="col">Action</th>
 
             </tr>
             </thead>
@@ -80,6 +81,17 @@
                     </td>
                     <td>
                         @e.HireDate
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("Delete", "Employee", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            @Html.Hidden("id", e.EmployeeId)
+                            <input type="submit" value="Delete" class="btn btn-danger"/>
+
+                                                                                      
+                        }
                     </td>
                 </tr>
             }
