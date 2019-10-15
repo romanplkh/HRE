@@ -46,5 +46,25 @@ $(document).ready(function() {
 				$('#toggler-icon i').addClass('fa-caret-right');
 			}
 		});
-	}
+    }
+
+
+    if ($("#sidebar").length > 0) {
+      
+        if (window.innerWidth >= 1250 || document.documentElement.clientWidth >= 1250
+            || document.body.clientWidth >= 1250) {
+            $("#sidebar").removeClass("active");
+        } else {
+            $("#sidebar").addClass("active");
+        }
+
+        window.addEventListener("resize",function () {
+            if (window.innerWidth >= 1250 || document.documentElement.clientWidth >= 1250
+                || document.body.clientWidth >= 1250) {
+                $("#sidebar").removeClass("active");
+            } else {
+                $("#sidebar").addClass("active");
+            }
+        });
+    }
 });
