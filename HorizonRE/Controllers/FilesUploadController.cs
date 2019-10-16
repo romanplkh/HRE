@@ -5,19 +5,22 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
+using HorizonRE.Models;
 
 namespace HorizonRE.Controllers
 {
     public class FilesUploadController : Controller
     {
-        // GET: FilesUpload
+       private HorizonContext db = new HorizonContext();
+       // GET: FilesUpload
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Index(HttpPostedFileBase file)
+        public ActionResult Index(HttpPostedFileBase file, ImageFile image)
         {
             try
             {
@@ -39,7 +42,21 @@ namespace HorizonRE.Controllers
                             ImageFormat.Png.Equals(img.RawFormat))
                         {
                             file.SaveAs(filePath);
+
+                            image.ImageName = fileName;
+                            image.Path = filePath;
+                            image.ImageDescription = "Description 1";
+                            image.UploadDate = DateTime.Today;
+                            image.EmployeeId = 2;
+                            image.Approved = false;
+
+
+                            db.Images.Add(image);
+                            db.SaveChanges();
+                            
                             ViewBag.Msg = "Uploaded file was saved successfully";
+
+                            
                             
                         }
                         else

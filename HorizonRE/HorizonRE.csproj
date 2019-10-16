@@ -239,6 +239,14 @@
     <Compile Include="Migrations\201910161434216_EmptyDelete.Designer.cs">
       <DependentUpon>201910161434216_EmptyDelete.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910161816287_Test1234.cs" />
+    <Compile Include="Migrations\201910161816287_Test1234.Designer.cs">
+      <DependentUpon>201910161816287_Test1234.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910161826289_AddImageClass.cs" />
+    <Compile Include="Migrations\201910161826289_AddImageClass.Designer.cs">
+      <DependentUpon>201910161826289_AddImageClass.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Country.cs" />
@@ -247,6 +255,7 @@
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\HorizonContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ImageFile.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Province.cs" />
     <Compile Include="Models\ProvinceCustomer.cs" />
@@ -469,6 +478,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910161434216_EmptyDelete.resx">
       <DependentUpon>201910161434216_EmptyDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910161816287_Test1234.resx">
+      <DependentUpon>201910161816287_Test1234.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910161826289_AddImageClass.resx">
+      <DependentUpon>201910161826289_AddImageClass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
