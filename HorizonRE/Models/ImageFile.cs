@@ -19,6 +19,11 @@ namespace HorizonRE.Models
       public string AltText { get; set; }
       public DateTime UploadDate { get; set; }
       public bool Approved { get; set; }
+
+
+
+  
       public int EmployeeId { get; set; }
+      public virtual Employee Employee { get; set; }
    }
 }

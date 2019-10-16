@@ -102,6 +102,9 @@ namespace HorizonRE.Models
       public ICollection<ProvinceEmployee> ProvinceEmployees { get; set; }
 
 
+      public virtual ICollection<ImageFile> Images { get; set; }
+
+
 
    }
 }

@@ -247,6 +247,10 @@
     <Compile Include="Migrations\201910161826289_AddImageClass.Designer.cs">
       <DependentUpon>201910161826289_AddImageClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910161842516_RemoveKeyExplicit.cs" />
+    <Compile Include="Migrations\201910161842516_RemoveKeyExplicit.Designer.cs">
+      <DependentUpon>201910161842516_RemoveKeyExplicit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Country.cs" />
@@ -484,6 +488,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910161826289_AddImageClass.resx">
       <DependentUpon>201910161826289_AddImageClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910161842516_RemoveKeyExplicit.resx">
+      <DependentUpon>201910161842516_RemoveKeyExplicit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
