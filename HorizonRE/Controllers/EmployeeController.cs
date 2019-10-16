@@ -20,18 +20,16 @@ namespace HorizonRE.Controllers
          var prov = db.Provinces.ToList();
          var coun = db.Countries.ToList();
 
+                foreach (var emp in db.Employees.ToList())
+                {
+                    var p = prov.First(el => el.ProvinceId == emp.EmployeeProvinceId).Name;
+                    var countId = prov.First(pr => pr.ProvinceId == emp.EmployeeProvinceId).CountryId;
+                    var countryName = coun.First(c => c.CountryId == countId).Name;
 
-         foreach (var emp in db.Employees.ToList())
-         {
-            var p = prov.First(el => el.ProvinceId == emp.EmployeeProvinceId).Name;
-            var countId = prov.First(pr => pr.ProvinceId == emp.EmployeeProvinceId).CountryId;
-            var countryName = coun.First(c => c.CountryId == countId).Name;
-
-            emp.Province = p;
-            emp.Country = countryName;
-         }
-
-
+                    emp.Province = p;
+                    emp.Country = countryName;
+                }
+            
          return View(db.Employees.ToList());
       }
 
