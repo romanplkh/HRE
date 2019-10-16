@@ -16,8 +16,8 @@ namespace HorizonRE.Migrations
                         CustomerId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Provinces", t => t.ProvinceId)
-                .ForeignKey("dbo.Customers", t => t.CustomerId)
+                .ForeignKey("dbo.Provinces", t => t.ProvinceId, cascadeDelete: true)
+                .ForeignKey("dbo.Customers", t => t.CustomerId, cascadeDelete: true)
                 .Index(t => t.ProvinceId)
                 .Index(t => t.CustomerId);
             

@@ -400,6 +400,7 @@
     <Content Include="Views\FilesUpload\Index.cshtml" />
     <Content Include="Views\FilesUpload\MoveFile.cshtml" />
     <Content Include="Views\FilesUpload\MoveFileDisplay.cshtml" />
+    <Content Include="Views\Employee\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
