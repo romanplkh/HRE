@@ -14,6 +14,7 @@ namespace HorizonRE.Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<ProvinceCustomer> ProvincesCustomers { get; set; }
         public  DbSet<ProvinceEmployee> ProvincesEmployees { get; set; }
+        public  DbSet<ImageFile> Images { get; set; }
 
 
 
