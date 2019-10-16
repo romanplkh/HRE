@@ -24,11 +24,14 @@ namespace HorizonRE.Controllers
       [HttpPost]
       public ActionResult Index(HttpPostedFileBase file, ImageFile image)
       {
-         try
+
+         if (ModelState.IsValid)
+         {
+             try
          {
             if (file.ContentLength > 0)
             {
-               int imgFileLimit = 1048576;
+               int imgFileLimit = 5242880;
 
                if (file.ContentLength <= imgFileLimit)
                {
@@ -43,13 +46,30 @@ namespace HorizonRE.Controllers
                       ImageFormat.Bmp.Equals(img.RawFormat) ||
                       ImageFormat.Png.Equals(img.RawFormat))
                   {
+                     if (System.IO.File.Exists(filePath))
+                     {
+                        Random rnd = new Random();
+                        string extractName = fileName.Substring(0, fileName.IndexOf("."));
+                        string fileExt = fileName.Substring(fileName.IndexOf("."));
+                        fileName = extractName + "_" + rnd.Next(1, 999999) + fileExt;
+                        filePath = Path.Combine(Server.MapPath("~/TempFiles"), fileName);
+                     }
+
+
                      file.SaveAs(filePath);
 
+
+                     string imageRelativePath = VirtualPathUtility.ToAppRelative(string.Format($@"~/Content/Files/{fileName}"));
+
+
+                     string imageDesc = image.ImageDescription;
                      image.ImageName = fileName;
-                     image.Path = filePath;
-                     image.ImageDescription = "Description 1";
+                     image.AltText = imageDesc;
+                     image.Path = imageRelativePath;
                      image.UploadDate = DateTime.Today;
-                     image.EmployeeId = 6;
+                     //@TODO: REMOVE EMPLOYEE ID 
+                     //!REMOVE
+                     image.EmployeeId = 1;
                      image.Approved = false;
 
 
@@ -81,6 +101,12 @@ namespace HorizonRE.Controllers
             ViewBag.Msg = ex.Message + " " + ex.GetType().ToString();
             return View();
          }
+         }
+         else
+         {
+            return View();
+         }
+        
       }
 
 
@@ -154,9 +180,10 @@ namespace HorizonRE.Controllers
                fileList[i++] = fileName;
             }
 
+
             //create select list form array
             SelectList list = new SelectList(fileList);
-            ViewBag.fileList = list;
+            ViewBag.fileList = fileList.Length > 0 ? list : null;
          }
          else
          {

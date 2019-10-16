@@ -1,4 +1,4 @@
-﻿
+﻿@model HorizonRE.Models.ImageFile
 @{
     ViewBag.Title = "Files Upload";
     Layout = "~/Views/Shared/_Admin.cshtml";
@@ -16,8 +16,15 @@
                 <p class="mt-3">Please select photos to upload</p>
 
                 <div class="form-group">
-                    @Html.TextBox("file", "", new { type = "file", @class = "form-control-file" })
+                    @Html.TextBox("file", "", new { type = "file", @class = "form-control-file", required=true }) 
+
+                    @Html.ValidationMessageFor(i => i.ImageName, "", new {@class="text-danger"})
                 </div>
+                <div class="form-group">
+                    @Html.TextAreaFor(i => i.ImageDescription, new {@class="form-control", style="resize:none", rows="5"})
+                    @Html.ValidationMessageFor(i => i.ImageDescription, "", new {@class="text-danger"})
+                </div>
+                
                 <button type="submit" class="btn btn-primary mb-4">Save</button>
                 <p class="mb-3 text-success @(!string.IsNullOrEmpty(ViewBag.Msg) ? "show" : "hide")">
                     @ViewBag.Msg
