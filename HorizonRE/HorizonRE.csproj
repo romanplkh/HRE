@@ -235,6 +235,10 @@
     <Compile Include="Migrations\201910132221508_AddRequiredEmailCustomer.Designer.cs">
       <DependentUpon>201910132221508_AddRequiredEmailCustomer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910161434216_EmptyDelete.cs" />
+    <Compile Include="Migrations\201910161434216_EmptyDelete.Designer.cs">
+      <DependentUpon>201910161434216_EmptyDelete.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Country.cs" />
@@ -400,6 +404,7 @@
     <Content Include="Views\FilesUpload\Index.cshtml" />
     <Content Include="Views\FilesUpload\MoveFile.cshtml" />
     <Content Include="Views\FilesUpload\MoveFileDisplay.cshtml" />
+    <Content Include="Views\Employee\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -461,6 +466,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910132221508_AddRequiredEmailCustomer.resx">
       <DependentUpon>201910132221508_AddRequiredEmailCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910161434216_EmptyDelete.resx">
+      <DependentUpon>201910161434216_EmptyDelete.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
