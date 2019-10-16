@@ -348,6 +348,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Views\Employee\Edit.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -400,7 +401,6 @@
     <Content Include="Views\FilesUpload\Index.cshtml" />
     <Content Include="Views\FilesUpload\MoveFile.cshtml" />
     <Content Include="Views\FilesUpload\MoveFileDisplay.cshtml" />
-    <Content Include="Views\Employee\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
