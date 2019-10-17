@@ -38,7 +38,7 @@ namespace HorizonRE.Controllers
       public ActionResult Add()
       {
          ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name");
-         ViewBag.ProvinceList = new SelectList(db.Provinces, "ProvinceId", "Name");
+         ViewBag.ProvinceList = new SelectList(db.Provinces.Where(p => p.CountryId == 1), "ProvinceId", "Name");
          return View();
       }
 
@@ -106,7 +106,7 @@ namespace HorizonRE.Controllers
 
          //Add country to list
          ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name", countId);
-         ViewBag.ProvinceList = new SelectList(db.Provinces, "ProvinceId", "Name", provId);
+         ViewBag.ProvinceList = new SelectList(db.Provinces.Where(p => p.CountryId == 1), "ProvinceId", "Name", provId);
          return View(e);
       }
 
@@ -140,5 +140,25 @@ namespace HorizonRE.Controllers
          db.SaveChanges();
          return RedirectToAction("Index");
       }
+
+
+
+      // GET: AddEmployee
+      [HttpGet]
+      public JsonResult  GetProvincesByCountry(int countryId)
+      {
+         var provinces = db.Provinces.Where(p => p.CountryId == countryId).Select(t=> new
+         {
+            ProvinceId = t.ProvinceId,
+            Name = t.Name
+         });
+         return Json(provinces, JsonRequestBehavior.AllowGet);
+      }
+
+     
    }
+
+   
+
+
 }
