@@ -130,7 +130,7 @@ namespace HorizonRE.Controllers
          return View();
       }
 
-      // POST: Pets/Delete/5
+      // POST: Employee/Delete/5
       [HttpPost, ActionName("Delete")]
       [ValidateAntiForgeryToken]
       public ActionResult DeleteConfirmed(int id)
@@ -143,7 +143,7 @@ namespace HorizonRE.Controllers
 
 
 
-      // GET: AddEmployee
+      // GET: Provinces in Country for AddEmployee
       [HttpGet]
       public JsonResult  GetProvincesByCountry(int countryId)
       {
