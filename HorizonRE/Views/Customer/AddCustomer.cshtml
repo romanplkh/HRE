@@ -7,7 +7,7 @@
 <div class="container mt-md-5 mt-sm-0">
     <h2 class="text-center display-4 mb-4">Add Customer</h2>
 
-    @using (Html.BeginForm("AddCustomer", "Customer", FormMethod.Post))
+    @using (Html.BeginForm("AddCustomer", "Customer", FormMethod.Post, new { id ="form"}))
     {
 
         @Html.AntiForgeryToken()
@@ -80,7 +80,7 @@
             </div>
         </div>
 
-        <button type="reset" class="btn btn-secondary ml-4 float-right">Cancel</button>
+        <button type="button" id="reset" class="btn btn-secondary ml-4 float-right">Cancel</button>
         <button type="submit" class="btn btn-primary float-right">Save</button>
 
     }
@@ -88,27 +88,29 @@
 
 </div>
 
-@*<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var elementC = document.getElementById("CountryList");
-        var elementP = document.getElementById("ProvinceList");
+<script>
+   
 
-        setText(elementC, "Country");
-        setText(elementP, "Province");
+    //document.addEventListener('DOMContentLoaded', function () {
+    //    var elementC = document.getElementById("CountryList");
+    //    var elementP = document.getElementById("ProvinceList");
 
-        elementC.addEventListener("change", function () {
-            setText(elementC, "Country");
-        });
+    //    setText(elementC, "Country");
+    //    setText(elementP, "Province");
 
-        elementP("ProvinceList").addEventListener("change", function () {
-            setText(elementP, "Province");
-        });        
-    })
+    //    elementC.addEventListener("change", function () {
+    //        setText(elementC, "Country");
+    //    });
 
-    function setText(element, id) {
+    //    elementP("ProvinceList").addEventListener("change", function () {
+    //        setText(elementP, "Province");
+    //    });        
+    //})
+
+    //function setText(element, id) {
         
-        var text = element.options[element.selectedIndex].text;
-        document.getElementById(`${id}`).value = text;
-    }
-</script>*@
+    //    var text = element.options[element.selectedIndex].text;
+    //    document.getElementById(`${id}`).value = text;
+    //}
+</script>
 
