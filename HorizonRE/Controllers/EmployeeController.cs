@@ -106,7 +106,7 @@ namespace HorizonRE.Controllers
 
          //Add country to list
          ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name", countId);
-         ViewBag.ProvinceList = new SelectList(db.Provinces.Where(p => p.CountryId == 1), "ProvinceId", "Name", provId);
+         ViewBag.ProvinceList = new SelectList(db.Provinces, "ProvinceId", "Name", provId);
          return View(e);
       }
 
