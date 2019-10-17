@@ -259,6 +259,14 @@
     <Compile Include="Migrations\201910162313435_ImageValidationAttributes.Designer.cs">
       <DependentUpon>201910162313435_ImageValidationAttributes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910170014125_FixValidationImage.cs" />
+    <Compile Include="Migrations\201910170014125_FixValidationImage.Designer.cs">
+      <DependentUpon>201910170014125_FixValidationImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910170019125_FixValidationImage2.cs" />
+    <Compile Include="Migrations\201910170019125_FixValidationImage2.Designer.cs">
+      <DependentUpon>201910170019125_FixValidationImage2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Country.cs" />
@@ -506,6 +514,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910162313435_ImageValidationAttributes.resx">
       <DependentUpon>201910162313435_ImageValidationAttributes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910170014125_FixValidationImage.resx">
+      <DependentUpon>201910170014125_FixValidationImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910170019125_FixValidationImage2.resx">
+      <DependentUpon>201910170019125_FixValidationImage2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

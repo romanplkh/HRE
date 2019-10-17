@@ -24,89 +24,89 @@ namespace HorizonRE.Controllers
       [HttpPost]
       public ActionResult Index(HttpPostedFileBase file, ImageFile image)
       {
-
          if (ModelState.IsValid)
          {
-             try
-         {
-            if (file.ContentLength > 0)
+            try
             {
-               int imgFileLimit = 5242880;
-
-               if (file.ContentLength <= imgFileLimit)
+               if (file.ContentLength > 0)
                {
-                  string fileName = Path.GetFileName(file.FileName);
-                  string filePath = Path.Combine(Server.MapPath("~/TempFiles"), fileName);
+                  int imgFileLimit = 5242880;
 
-                  //image type validation
-                  System.Drawing.Image img = System.Drawing.Image.FromStream(file.InputStream);
-
-                  if (ImageFormat.Jpeg.Equals(img.RawFormat) ||
-                      ImageFormat.Gif.Equals(img.RawFormat) ||
-                      ImageFormat.Bmp.Equals(img.RawFormat) ||
-                      ImageFormat.Png.Equals(img.RawFormat))
+                  if (file.ContentLength <= imgFileLimit)
                   {
-                     if (System.IO.File.Exists(filePath))
+                     string fileName = Path.GetFileName(file.FileName);
+                     string filePath = Path.Combine(Server.MapPath("~/TempFiles"), fileName);
+
+                     //image type validation
+                     System.Drawing.Image img = System.Drawing.Image.FromStream(file.InputStream);
+
+                     if (ImageFormat.Jpeg.Equals(img.RawFormat) ||
+                         ImageFormat.Gif.Equals(img.RawFormat) ||
+                         ImageFormat.Bmp.Equals(img.RawFormat) ||
+                         ImageFormat.Png.Equals(img.RawFormat))
                      {
-                        Random rnd = new Random();
-                        string extractName = fileName.Substring(0, fileName.IndexOf("."));
-                        string fileExt = fileName.Substring(fileName.IndexOf("."));
-                        fileName = extractName + "_" + rnd.Next(1, 999999) + fileExt;
-                        filePath = Path.Combine(Server.MapPath("~/TempFiles"), fileName);
+                        if (System.IO.File.Exists(filePath))
+                        {
+                           Random rnd = new Random();
+                           string extractName = fileName.Substring(0, fileName.IndexOf("."));
+                           string fileExt = fileName.Substring(fileName.IndexOf("."));
+                           fileName = extractName + "_" + rnd.Next(1, 999999) + fileExt;
+                           filePath = Path.Combine(Server.MapPath("~/TempFiles"), fileName);
+                        }
+
+
+                        file.SaveAs(filePath);
+
+
+                        string imageRelativePath = VirtualPathUtility.ToAppRelative(string.Format($@"~/Content/Files/{fileName}"));
+
+
+                        string imageDesc = image.ImageDescription;
+                        image.ImageName = fileName;
+                        image.AltText = imageDesc;
+                        image.Path = imageRelativePath;
+                        image.UploadDate = DateTime.Today;
+                        //@TODO: REMOVE EMPLOYEE ID 
+                        //!REMOVE
+                        image.EmployeeId = 1;
+                        image.Approved = false;
+
+
+                        db.Images.Add(image);
+                        db.SaveChanges();
+
+                        ViewBag.Msg = "Uploaded file was saved successfully";
+
+                        return View();
                      }
-
-
-                     file.SaveAs(filePath);
-
-
-                     string imageRelativePath = VirtualPathUtility.ToAppRelative(string.Format($@"~/Content/Files/{fileName}"));
-
-
-                     string imageDesc = image.ImageDescription;
-                     image.ImageName = fileName;
-                     image.AltText = imageDesc;
-                     image.Path = imageRelativePath;
-                     image.UploadDate = DateTime.Today;
-                     //@TODO: REMOVE EMPLOYEE ID 
-                     //!REMOVE
-                     image.EmployeeId = 1;
-                     image.Approved = false;
-
-
-                     db.Images.Add(image);
-                     db.SaveChanges();
-
-                     ViewBag.Msg = "Uploaded file was saved successfully";
+                     else
+                     {
+                        ViewBag.Msg = "Not a valid type of file";
+                     }
                   }
                   else
                   {
-                     ViewBag.Msg = "Not a valid type of file";
+                     ViewBag.Msg = "File size was exceeded";
                   }
                }
-               else
-               {
-                  ViewBag.Msg = "File size was exceeded";
-               }
-            }
 
-            return View();
-         }
-         catch (DbUpdateException ex)
-         {
-            ViewBag.Msg = ex.Message + " " + ex.GetType().ToString();
-            return View();
-         }
-         catch (Exception ex)
-         {
-            ViewBag.Msg = ex.Message + " " + ex.GetType().ToString();
-            return View();
-         }
+               return View();
+            }
+            catch (DbUpdateException ex)
+            {
+               ViewBag.Msg = ex.Message + " " + ex.GetType().ToString();
+               return View();
+            }
+            catch (Exception ex)
+            {
+               ViewBag.Msg = ex.Message + " " + ex.GetType().ToString();
+               return View();
+            }
          }
          else
          {
             return View();
          }
-        
       }
 
 
