@@ -446,6 +446,8 @@
     <Content Include="Views\FilesUpload\MoveFile.cshtml" />
     <Content Include="Views\FilesUpload\MoveFileDisplay.cshtml" />
     <Content Include="Views\Employee\Edit.cshtml" />
+    <Content Include="Views\Customer\_AddEditCustomer.cshtml" />
+    <Content Include="Views\Customer\EditCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

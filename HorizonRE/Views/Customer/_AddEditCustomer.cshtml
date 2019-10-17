@@ -1,0 +1,93 @@
+﻿@model HorizonRE.Models.Customer
+
+@Html.AntiForgeryToken()
+<div class="form-row">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(c => c.FirstName)
+        @Html.TextBoxFor(c => c.FirstName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.FirstName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(c => c.LastName)
+        @Html.TextBoxFor(c => c.LastName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.LastName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(c => c.MiddleName)
+        @Html.TextBoxFor(c => c.MiddleName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.MiddleName, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(c => c.DOB)
+        @Html.TextBoxFor(c => c.DOB, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.DOB, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(c => c.Email)
+        @Html.TextBoxFor(c => c.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Email, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(c => c.Phone)
+        @Html.TextBoxFor(c => c.Phone, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Phone, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-4">
+        @Html.Label("Country")
+        @Html.DropDownList("CountryList", ViewBag.CountryData as SelectList, new { @class = "form-control" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(c => c.ProvinceCustomers, "Province")
+        @Html.DropDownList("ProvincesList", ViewBag.ProvinceData as SelectList, new { @class = "form-control"})
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(c => c.City)
+        @Html.TextBoxFor(c => c.City, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.City, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(c => c.StreetAddress)
+        @Html.TextBoxFor(c => c.StreetAddress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.StreetAddress, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(c => c.PostalCode)
+        @Html.TextBoxFor(c => c.PostalCode, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.PostalCode, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<script>
+    //Change dependent provinces dropdown
+    var country = document.querySelector('#CountryList');
+
+    country.addEventListener('change',
+        () => {
+
+            var selectedCountryId = country.value;
+
+            fetch(`/customer/GetProvincesByCountry?countryId=${selectedCountryId}`).then(jsn => jsn.json()).then(
+                data => {
+                    var listProvinces = document.querySelector("#ProvincesList");
+
+                    listProvinces.innerHTML = "";
+
+                    data.forEach(el => {
+
+                        var option = document.createElement("option");
+                        option.value = el.ProvinceId;
+                        option.innerHTML = el.Name;
+                        listProvinces.appendChild(option);
+                    });
+
+                }
+            );
+
+        });
+</script>
