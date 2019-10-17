@@ -1,29 +1,40 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "MoveFile";
     Layout = "~/Views/Shared/_Admin.cshtml";
 }
 
 <div class="container mt-md-5 mt-sm-0">
     <h2 class="display-4 mb-4">Approve Photos</h2>
-    <p>Please select a photo to approve</p>
+    @if (ViewBag.fileList != null)
+    {
+        <p>Please select a photo to approve</p>
+    }
+    else
+    {
+        <p>No photos to approve</p>
+    }
     <!--TODO : NEED TO HIDE WHEN NO Photos to approve-->
 
-        @using (Html.BeginForm("MoveFile", "FilesUpload", FormMethod.Post))
-        {
-            <div class="form-row">
+    @using (Html.BeginForm("MoveFile", "FilesUpload", FormMethod.Post))
+    {
+        <div class="form-row">
+
+
+            @if (ViewBag.fileList != null)
+            {
+
                 <div class="form-group col-md-6">
                     @Html.DropDownList("fileList", ViewBag.fileList as SelectList, new { @class = "form-control" })
                 </div>
                 <div class="form-group col-md-3">
                     <input type="submit" value="Display" class="btn btn-primary" />
                 </div>
-            </div>
+            }
 
-        }
 
-        @ViewBag.Msg
+
+        </div>
+    }
+
+    @ViewBag.Msg
 </div>
-
-
-

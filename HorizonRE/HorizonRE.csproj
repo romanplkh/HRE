@@ -247,6 +247,26 @@
     <Compile Include="Migrations\201910161826289_AddImageClass.Designer.cs">
       <DependentUpon>201910161826289_AddImageClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910161842516_RemoveKeyExplicit.cs" />
+    <Compile Include="Migrations\201910161842516_RemoveKeyExplicit.Designer.cs">
+      <DependentUpon>201910161842516_RemoveKeyExplicit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910162225417_AddEmployeeSeed.cs" />
+    <Compile Include="Migrations\201910162225417_AddEmployeeSeed.Designer.cs">
+      <DependentUpon>201910162225417_AddEmployeeSeed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910162313435_ImageValidationAttributes.cs" />
+    <Compile Include="Migrations\201910162313435_ImageValidationAttributes.Designer.cs">
+      <DependentUpon>201910162313435_ImageValidationAttributes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910170014125_FixValidationImage.cs" />
+    <Compile Include="Migrations\201910170014125_FixValidationImage.Designer.cs">
+      <DependentUpon>201910170014125_FixValidationImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910170019125_FixValidationImage2.cs" />
+    <Compile Include="Migrations\201910170019125_FixValidationImage2.Designer.cs">
+      <DependentUpon>201910170019125_FixValidationImage2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Country.cs" />
@@ -485,6 +505,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910161826289_AddImageClass.resx">
       <DependentUpon>201910161826289_AddImageClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910161842516_RemoveKeyExplicit.resx">
+      <DependentUpon>201910161842516_RemoveKeyExplicit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910162225417_AddEmployeeSeed.resx">
+      <DependentUpon>201910162225417_AddEmployeeSeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910162313435_ImageValidationAttributes.resx">
+      <DependentUpon>201910162313435_ImageValidationAttributes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910170014125_FixValidationImage.resx">
+      <DependentUpon>201910170014125_FixValidationImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910170019125_FixValidationImage2.resx">
+      <DependentUpon>201910170019125_FixValidationImage2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
