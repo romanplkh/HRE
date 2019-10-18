@@ -41,12 +41,12 @@
 
     <div class="form-group col-md-4">
         @Html.Label("Country")
-        @Html.DropDownList("CountryList", ViewBag.CountryData as SelectList, new { @class = "form-control" })
+        @Html.DropDownList("CountryList", ViewBag.CountryData as SelectList, new { @class = "form-control " })
 
     </div>
     <div class="form-group col-md-4">
         @Html.Label("Province")
-        @Html.DropDownList("ProvincesList", ViewBag.ProvinceData as SelectList, new { @class = "form-control" })
+        @Html.DropDownList("ProvincesList", ViewBag.ProvinceData as SelectList, new { @class = "form-control scrollable-menu" })
     </div>
 
     <div class="form-group col-md-4">
