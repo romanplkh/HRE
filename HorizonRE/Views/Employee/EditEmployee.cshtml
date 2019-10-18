@@ -1,4 +1,5 @@
-﻿@model HorizonRE.Models.Employee
+﻿
+@model HorizonRE.Models.Employee
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Admin.cshtml";
@@ -8,7 +9,7 @@
     <i class="fas fa-arrow-left text-primary"></i> @Html.ActionLink("Back to Employees", "Index", "Employee")
     <h2 class="text-center display-4">Edit Employee</h2>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("EditEmployee", "Employee", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
 
@@ -16,7 +17,6 @@
         @Html.Partial("_AddEditEmployee")
 
 
-        <button type="submit" class="btn btn-primary float-right">Add</button>
     }
 
 

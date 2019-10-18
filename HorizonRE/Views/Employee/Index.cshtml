@@ -12,7 +12,7 @@
         <h2 class="mt-5 display-4">Employees</h2>
     </div>
     <div class="col align-self-end d-flex justify-content-end">
-        @Html.ActionLink("Add Employee", "Add", "Employee", new {@class = "btn btn-primary   mt-5 mr-sm-5"})
+        @Html.ActionLink("Add Employee", "AddEmployee", "Employee", new {@class = "btn btn-primary mt-5 mr-sm-5"})
     </div>
 
 </div>
@@ -26,9 +26,8 @@
        
         <table class="table table-striped table-hover table-responsive-md table-sm">
             <thead class="thead-dark ">
-            <tr class="align-items-center">
-                <th scope="col">@Html.DisplayNameFor(model => model.FirstName)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.LastName)</th>
+            <tr class="text-center">
+                <th scope="col">Name</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.MiddleName)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.SIN)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.Country)</th>
@@ -39,7 +38,6 @@
                 <th scope="col">@Html.DisplayNameFor(model => model.CellPhone)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.OfficePhone)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.DOB)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.AddedBy)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.HireDate)</th>
                 <th scope="col">Action</th>
 
@@ -49,12 +47,9 @@
 
             @foreach (var e in Model)
             {
-                <tr>
+                <tr class="text-center">
                     <td>
-                        @Html.ActionLink(e.FirstName, "Edit", new {id = e.EmployeeId})
-                    </td>
-                    <td>
-                        @e.LastName
+                        @Html.ActionLink($"{e.FirstName} {@e.LastName}", "EditEmployee", new {id = e.EmployeeId})
                     </td>
                     <td>
                         @e.MiddleName
@@ -84,24 +79,15 @@
                         @e.OfficePhone
                     </td>
                     <td>
-                        @e.DOB
+                        @e.DOB.ToShortDateString()
                     </td>
                     <td>
-                        @e.AddedBy
+                        @e.HireDate.ToShortDateString()
                     </td>
                     <td>
-                        @e.HireDate
-                    </td>
-                    <td>
-                        @using (Html.BeginForm("Delete", "Employee", FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
 
-                            @Html.Hidden("id", e.EmployeeId)
-                            <input type="submit" value="Delete" class="btn btn-danger"/>
-
-                                                                                      
-                        }
+                            <i class="fas fa-trash-alt text-danger btnDelete"  data-toggle="modal"  data-target="#exampleModalCenter" data-emp-id="@e.EmployeeId" style="cursor: pointer"></i>
+                        
                     </td>
                 </tr>
             }
@@ -115,3 +101,59 @@
     </a>
 
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete employee?
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm("Delete", "Employee", FormMethod.Post))
+                {
+
+                    @Html.Hidden("empId")
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-primary">Yes</button>
+
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var deleteBtn = document.querySelectorAll('.btnDelete');
+    var empId;
+
+    var getId = (employee) => {
+        empId = employee.getAttribute('data-emp-id');
+        document.querySelector('#empId').value = empId;
+    }
+
+    Array.from(deleteBtn).forEach(btn => {
+        btn.addEventListener('click', () => getId(btn));
+       
+    });
+
+
+
+
+   
+
+
+
+
+
+</script>

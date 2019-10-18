@@ -392,7 +392,6 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Views\Employee\Edit.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -438,16 +437,16 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\_Admin.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
-    <Content Include="Views\Employee\Add.cshtml" />
+    <Content Include="Views\Employee\AddEmployee.cshtml" />
     <Content Include="Views\Customer\AddCustomer.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Employee\_AddEditEmployee.cshtml" />
     <Content Include="Views\FilesUpload\Index.cshtml" />
     <Content Include="Views\FilesUpload\MoveFile.cshtml" />
     <Content Include="Views\FilesUpload\MoveFileDisplay.cshtml" />
-    <Content Include="Views\Employee\Edit.cshtml" />
     <Content Include="Views\Customer\_AddEditCustomer.cshtml" />
     <Content Include="Views\Customer\EditCustomer.cshtml" />
+    <Content Include="Views\Employee\EditEmployee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
