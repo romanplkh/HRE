@@ -96,6 +96,9 @@ namespace HorizonRE.Models
       [Display(Name = "Hire date")]
       public DateTime HireDate { get; set; }
 
+      
+      public string Password { get; set; }
+
 
 
       public int EmployeeProvinceId { get; set; }
@@ -103,6 +106,14 @@ namespace HorizonRE.Models
 
 
       public virtual ICollection<ImageFile> Images { get; set; }
+
+      
+     // public Authentication Authentication { get; set; }
+      
+      
+      public  int AccessLevelId { get; set; }
+      public virtual  AccessLevel AccessLevel { get; set; }
+
 
 
 

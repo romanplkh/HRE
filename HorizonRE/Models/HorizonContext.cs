@@ -15,6 +15,9 @@ namespace HorizonRE.Models
         public DbSet<ProvinceCustomer> ProvincesCustomers { get; set; }
         public  DbSet<ProvinceEmployee> ProvincesEmployees { get; set; }
         public  DbSet<ImageFile> Images { get; set; }
+        public  DbSet<Authentication> Auths { get; set; }
+        public  DbSet<AccessLevel> AccessLevels { get; set; }
+
 
 
 
@@ -27,6 +30,11 @@ namespace HorizonRE.Models
                .WithMany(p => p.Provinces)
                .HasForeignKey<int>(b => b.CountryId)
                .WillCascadeOnDelete(false);
+
+
+
+           
+
 
         }
 

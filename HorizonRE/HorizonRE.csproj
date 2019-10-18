@@ -277,8 +277,30 @@
     <Compile Include="Migrations\201910170019125_FixValidationImage2.Designer.cs">
       <DependentUpon>201910170019125_FixValidationImage2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910181800239_SeedAccessLevel.cs" />
+    <Compile Include="Migrations\201910181800239_SeedAccessLevel.Designer.cs">
+      <DependentUpon>201910181800239_SeedAccessLevel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910181803118_LinkEmployeeToAuth.cs" />
+    <Compile Include="Migrations\201910181803118_LinkEmployeeToAuth.Designer.cs">
+      <DependentUpon>201910181803118_LinkEmployeeToAuth.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910181809496_LinkEmployeeToAuth2.cs" />
+    <Compile Include="Migrations\201910181809496_LinkEmployeeToAuth2.Designer.cs">
+      <DependentUpon>201910181809496_LinkEmployeeToAuth2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910181820364_RemovedEmployeeAuth.cs" />
+    <Compile Include="Migrations\201910181820364_RemovedEmployeeAuth.Designer.cs">
+      <DependentUpon>201910181820364_RemovedEmployeeAuth.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910181833083_SeedEmployee3.cs" />
+    <Compile Include="Migrations\201910181833083_SeedEmployee3.Designer.cs">
+      <DependentUpon>201910181833083_SeedEmployee3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccessLevel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Authentication.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\CustomAttribute.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -531,6 +553,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910170019125_FixValidationImage2.resx">
       <DependentUpon>201910170019125_FixValidationImage2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910181800239_SeedAccessLevel.resx">
+      <DependentUpon>201910181800239_SeedAccessLevel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910181803118_LinkEmployeeToAuth.resx">
+      <DependentUpon>201910181803118_LinkEmployeeToAuth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910181809496_LinkEmployeeToAuth2.resx">
+      <DependentUpon>201910181809496_LinkEmployeeToAuth2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910181820364_RemovedEmployeeAuth.resx">
+      <DependentUpon>201910181820364_RemovedEmployeeAuth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910181833083_SeedEmployee3.resx">
+      <DependentUpon>201910181833083_SeedEmployee3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -6,6 +6,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HorizonRE.Models;
+using  System.Web.Security;
 
 namespace HorizonRE.Controllers
 {
@@ -53,16 +54,36 @@ namespace HorizonRE.Controllers
          {
             int provId = Convert.ToInt32(Request.Form["ProvincesList"]);
 
+
+
+
             employee.EmployeeProvinceId = provId;
-            db.Employees.Add(employee);
+            employee.AccessLevelId = 2;
+            employee.Password = GeneratePassword(8, 1);
+
+           //Generate username
+
+           db.Employees.Add(employee);
+
             db.SaveChanges();
 
+         
+
+
+           
 
             int empId = employee.EmployeeId;
+            
+   
+            
+
+            
             ProvinceEmployee pe = new ProvinceEmployee();
 
             pe.EmployeeId = empId;
             pe.ProvinceId = provId;
+
+        
 
             db.ProvincesEmployees.Add(pe);
 
@@ -154,8 +175,23 @@ namespace HorizonRE.Controllers
          return Json(provinces, JsonRequestBehavior.AllowGet);
       }
 
+
+      public static string GeneratePassword(int len, int spec)
+      {
+         string password = Membership.GeneratePassword(len, spec);
+
+
+         return password;
+      }
+  
+      
+
      
    }
+
+
+   
+  
 
    
 
