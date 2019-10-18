@@ -35,10 +35,10 @@ namespace HorizonRE.Controllers
 
       // GET: AddEmployee
       [HttpGet]
-      public ActionResult Add()
+      public ActionResult AddEmployee()
       {
          ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name");
-         ViewBag.ProvinceList = new SelectList(db.Provinces.Where(p => p.CountryId == 1), "ProvinceId", "Name");
+         ViewBag.ProvincesList = new SelectList(db.Provinces.Where(p => p.CountryId == 1), "ProvinceId", "Name");
          return View();
       }
 
@@ -46,10 +46,7 @@ namespace HorizonRE.Controllers
       // POST: AddEmployee
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public ActionResult Add([Bind(Include = "EmployeeId,FirstName,LastName," +
-          "MiddleName,SIN,StreetAddress,City,PostalCode,HomePhone," +
-          "CellPhone,OfficePhone,OfficeEmail,DOB,AddedBy,HireDate, " +
-          "Provinces, ProvinceEmployee, EmployeeProvinceId")]
+      public ActionResult AddEmployee([Bind(Include = "EmployeeId,FirstName,LastName, MiddleName,SIN,StreetAddress,City,PostalCode,HomePhone,CellPhone,OfficePhone,OfficeEmail,DOB,AddedBy,HireDate, ProvincesList, ProvinceEmployee, EmployeeProvinceId")]
          Employee employee)
       {
          if (ModelState.IsValid)
@@ -76,7 +73,7 @@ namespace HorizonRE.Controllers
          }
 
          ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name");
-         ViewBag.ProvinceList = new SelectList(db.Provinces, "ProvinceId", "Name");
+         ViewBag.ProvincesList = new SelectList(db.Provinces, "ProvinceId", "Name");
 
 
          return View();
@@ -84,7 +81,8 @@ namespace HorizonRE.Controllers
 
 
       // GET: Edit
-      public ActionResult Edit(int? id)
+      [HttpGet]
+      public ActionResult EditEmployee(int? id)
       {
          if (id == null)
          {
@@ -106,36 +104,37 @@ namespace HorizonRE.Controllers
 
          //Add country to list
          ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name", countId);
-         ViewBag.ProvinceList = new SelectList(db.Provinces, "ProvinceId", "Name", provId);
+         ViewBag.ProvincesList = new SelectList(db.Provinces.Where(p => p.CountryId == countId), "ProvinceId", "Name", provId);
          return View(e);
       }
 
       //POST: Edit
       [HttpPost]
       [ValidateAntiForgeryToken]
-      public ActionResult Edit([Bind(Include = "EmployeeId,FirstName,LastName,MiddleName,SIN,StreetAddress,City,PostalCode,HomePhone,CellPhone,OfficePhone,OfficeEmail,DOB,AddedBy,HireDate, EmployeeProvinceId, CountryList, ProvinceList")]
+      public ActionResult EditEmployee([Bind(Include = "EmployeeId,FirstName,LastName,MiddleName,SIN,StreetAddress,City,PostalCode,HomePhone,CellPhone,OfficePhone,OfficeEmail,DOB,AddedBy,HireDate, EmployeeProvinceId, CountryList, ProvincesList, ProvinceEmployee")]
          Employee employee)
       {
          if (ModelState.IsValid)
          {
-            employee.EmployeeProvinceId = Convert.ToInt32(Request.Form["ProvincesList"]);
+            employee.EmployeeProvinceId = Convert.ToInt32(Request.Form["ProvinceList"]);
             db.Entry(employee).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
          }
 
          ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name");
-         ViewBag.ProvinceList = new SelectList(db.Provinces, "ProvinceId", "Name");
+         ViewBag.ProvincesList = new SelectList(db.Provinces, "ProvinceId", "Name");
 
          return View();
       }
 
       // POST: Employee/Delete/5
-      [HttpPost, ActionName("Delete")]
-      [ValidateAntiForgeryToken]
-      public ActionResult DeleteConfirmed(int id)
+      [HttpPost]
+
+      public ActionResult Delete()
       {
-         Employee emp = db.Employees.Find(id);
+         int employeeId = Convert.ToInt32(Request.Form["empId"]);
+         Employee emp = db.Employees.Find(employeeId);
          db.Employees.Remove(emp);
          db.SaveChanges();
          return RedirectToAction("Index");
