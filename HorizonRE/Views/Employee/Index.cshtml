@@ -28,7 +28,6 @@
             <thead class="thead-dark ">
             <tr class="text-center">
                 <th scope="col">Name</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.MiddleName)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.SIN)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.Country)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.Province)</th>
@@ -50,9 +49,6 @@
                 <tr class="text-center">
                     <td>
                         @Html.ActionLink($"{e.FirstName} {@e.LastName}", "EditEmployee", new {id = e.EmployeeId})
-                    </td>
-                    <td>
-                        @e.MiddleName
                     </td>
                     <td>
                         @e.SIN
@@ -95,10 +91,6 @@
             </tbody>
         </table>
     </div>
-
-    <a href="#" class="float-btn">
-        <i class="fa fa-plus icon-float-btn"></i>
-    </a>
 
 </div>
 

@@ -8,6 +8,14 @@ body #body-landing {
 }
 
 
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
+
 .float-btn{
     position:fixed;
     width:60px;
@@ -176,6 +184,12 @@ input[aria-invalid="true"] {
     opacity: 1;
     transform: translate(0);
   }
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        min-height: 115vh;
+    }
 }
 
 /* @media (max-width: 692px) {
