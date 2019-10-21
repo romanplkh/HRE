@@ -181,6 +181,7 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\FilesUploadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ListingsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -297,10 +298,27 @@
     <Compile Include="Migrations\201910181833083_SeedEmployee3.Designer.cs">
       <DependentUpon>201910181833083_SeedEmployee3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910211705000_AddListing.cs" />
+    <Compile Include="Migrations\201910211705000_AddListing.Designer.cs">
+      <DependentUpon>201910211705000_AddListing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910211717206_AddCityAreaClass.cs" />
+    <Compile Include="Migrations\201910211717206_AddCityAreaClass.Designer.cs">
+      <DependentUpon>201910211717206_AddCityAreaClass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910211729503_SeedCityArea.cs" />
+    <Compile Include="Migrations\201910211729503_SeedCityArea.Designer.cs">
+      <DependentUpon>201910211729503_SeedCityArea.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910211733112_SeedCustomer.cs" />
+    <Compile Include="Migrations\201910211733112_SeedCustomer.Designer.cs">
+      <DependentUpon>201910211733112_SeedCustomer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccessLevel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Authentication.cs" />
+    <Compile Include="Models\CityArea.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\CustomAttribute.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -308,12 +326,14 @@
     <Compile Include="Models\HorizonContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ImageFile.cs" />
+    <Compile Include="Models\Listing.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Province.cs" />
     <Compile Include="Models\ProvinceCustomer.cs" />
     <Compile Include="Models\ProvinceEmployee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\ListingCustomerViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Asset\Images\horizon_logo_footer.svg" />
@@ -468,6 +488,11 @@
     <Content Include="Views\Customer\_AddEditCustomer.cshtml" />
     <Content Include="Views\Customer\EditCustomer.cshtml" />
     <Content Include="Views\Employee\EditEmployee.cshtml" />
+    <Content Include="Views\Listings\Create.cshtml" />
+    <Content Include="Views\Listings\Delete.cshtml" />
+    <Content Include="Views\Listings\Details.cshtml" />
+    <Content Include="Views\Listings\Edit.cshtml" />
+    <Content Include="Views\Listings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -568,6 +593,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910181833083_SeedEmployee3.resx">
       <DependentUpon>201910181833083_SeedEmployee3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910211705000_AddListing.resx">
+      <DependentUpon>201910211705000_AddListing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910211717206_AddCityAreaClass.resx">
+      <DependentUpon>201910211717206_AddCityAreaClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910211729503_SeedCityArea.resx">
+      <DependentUpon>201910211729503_SeedCityArea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910211733112_SeedCustomer.resx">
+      <DependentUpon>201910211733112_SeedCustomer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
