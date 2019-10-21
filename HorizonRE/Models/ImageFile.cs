@@ -25,7 +25,6 @@ namespace HorizonRE.Models
       
       [DataType(DataType.DateTime)]
       public DateTime UploadDate { get; set; }
-      
       public bool Approved { get; set; }
 
 
@@ -33,5 +32,9 @@ namespace HorizonRE.Models
   
       public int EmployeeId { get; set; }
       public virtual Employee Employee { get; set; }
+
+
+      public int ListingId { get; set; }
+      public Listing Listing { get; set; }
    }
 }

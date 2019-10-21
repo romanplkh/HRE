@@ -80,5 +80,8 @@ namespace HorizonRE.Models
 
         public int CustomerProvinceId { get; set; }
         public ICollection<ProvinceCustomer> ProvinceCustomers { get; set; }
+
+
+        public virtual ICollection<Listing> Listings { get; set; }
     }
 }

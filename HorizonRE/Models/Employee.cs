@@ -115,6 +115,9 @@ namespace HorizonRE.Models
       public virtual  AccessLevel AccessLevel { get; set; }
 
 
+      public virtual ICollection<Listing> Listings { get; set; }
+
+
 
 
    }

@@ -1,0 +1,69 @@
+﻿@model IEnumerable<HorizonRE.Models.Listing>
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<h2>Index</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        @using (Html.BeginForm("Index", "Listing", FormMethod.Get))
+        {
+
+            <div class="input-group w-50">
+     
+                @Html.TextBox("SearchCustomer", null, new {@class="form-control", placeholder="Search Customer"} )
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-primary">Search</button>
+                </div>
+            </div>
+   
+        }
+        
+        
+        <table id="customers" class="table table-bordered table-hover mb-5">
+            <thead class="thead-dark">
+            <tr>
+                <th class="lead">Customer Name</th>
+                <th class="lead">Phone</th>
+                <th class="lead">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var prop in Model)
+            {
+                <tr>
+                    <td>
+                        @using (@Html.BeginForm("Details", "Listings", FormMethod.Get))
+                        {
+
+                            <button type="submit" class="btn btn-link lead">@prop.Customer.FullName</button>
+                            @Html.Hidden("CustomerId", @prop.CustomerId);
+
+                        }
+
+                       
+                    </td>
+                    <td> @prop.Customer.Phone</td>
+                    <td class="text-center">@Html.ActionLink("Add Listing", "Create", "Listings", new {@class="btn btn-success btn-sm"})</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-6">
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
