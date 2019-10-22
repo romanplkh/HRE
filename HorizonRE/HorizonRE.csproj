@@ -314,6 +314,10 @@
     <Compile Include="Migrations\201910211733112_SeedCustomer.Designer.cs">
       <DependentUpon>201910211733112_SeedCustomer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910221504393_AddNullableListingIdImages.cs" />
+    <Compile Include="Migrations\201910221504393_AddNullableListingIdImages.Designer.cs">
+      <DependentUpon>201910221504393_AddNullableListingIdImages.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccessLevel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -605,6 +609,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910211733112_SeedCustomer.resx">
       <DependentUpon>201910211733112_SeedCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910221504393_AddNullableListingIdImages.resx">
+      <DependentUpon>201910221504393_AddNullableListingIdImages.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
