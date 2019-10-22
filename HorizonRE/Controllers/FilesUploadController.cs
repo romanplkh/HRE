@@ -71,6 +71,7 @@ namespace HorizonRE.Controllers
                         //!REMOVE
                         image.EmployeeId = 1;
                         image.Approved = false;
+                        image.ListingId = null;
 
 
                         db.Images.Add(image);
@@ -83,11 +84,13 @@ namespace HorizonRE.Controllers
                      else
                      {
                         ViewBag.Msg = "Not a valid type of file";
+                         return View();
                      }
                   }
                   else
                   {
                      ViewBag.Msg = "File size was exceeded";
+                      return View();
                   }
                }
 

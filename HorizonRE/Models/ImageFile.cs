@@ -34,7 +34,7 @@ namespace HorizonRE.Models
       public virtual Employee Employee { get; set; }
 
 
-      public int ListingId { get; set; }
+      public int? ListingId { get; set; }
       public Listing Listing { get; set; }
    }
 }
