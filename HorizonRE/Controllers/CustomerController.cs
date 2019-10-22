@@ -137,8 +137,7 @@ namespace HorizonRE.Controllers
         }
 
         // POST: delete customer record
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]       
         public ActionResult Delete()
         {
             int customerId = Convert.ToInt32(Request.Form["customerId"]);
