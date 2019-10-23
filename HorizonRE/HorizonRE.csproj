@@ -182,6 +182,7 @@
     <Compile Include="Controllers\FilesUploadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListingsController.cs" />
+    <Compile Include="Controllers\ListingsManagementController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -415,6 +416,7 @@
     <Content Include="Content\Fonts\webfonts\fa-solid-900.woff" />
     <Content Include="Content\Fonts\webfonts\fa-solid-900.woff2" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\InputSpinner.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -492,10 +494,11 @@
     <Content Include="Views\Customer\_AddEditCustomer.cshtml" />
     <Content Include="Views\Customer\EditCustomer.cshtml" />
     <Content Include="Views\Employee\EditEmployee.cshtml" />
-    <Content Include="Views\Listings\Create.cshtml" />
-    <Content Include="Views\Listings\Delete.cshtml" />
-    <Content Include="Views\Listings\Details.cshtml" />
-    <Content Include="Views\Listings\Edit.cshtml" />
+    <Content Include="Views\ListingsManagement\Create.cshtml" />
+    <Content Include="Views\ListingsManagement\Delete.cshtml" />
+    <Content Include="Views\ListingsManagement\Details.cshtml" />
+    <Content Include="Views\ListingsManagement\Edit.cshtml" />
+    <Content Include="Views\ListingsManagement\Index.cshtml" />
     <Content Include="Views\Listings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -30,7 +30,7 @@ namespace HorizonRE
             "~/Scripts/owl.carousel.min.js"));
 
          bundles.Add(new ScriptBundle("~/bundles/slick").Include(
-            "~/Scripts/slick.js"));
+            "~/Scripts/slick.js", "~/Scripts/InputSpinner.js"));
 
          bundles.Add(new ScriptBundle("~/bundles/app").Include(
             "~/Scripts/app.js"));
