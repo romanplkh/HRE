@@ -59,7 +59,7 @@ namespace HorizonRE.Controllers
                         file.SaveAs(filePath);
 
 
-                        string imageRelativePath = VirtualPathUtility.ToAppRelative(string.Format($@"~/Content/Files/{fileName}"));
+                        string imageRelativePath = VirtualPathUtility.ToAppRelative(string.Format($@"/Content/Files/{fileName}"));
 
 
                         string imageDesc = image.ImageDescription;

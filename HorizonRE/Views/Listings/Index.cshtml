@@ -78,17 +78,20 @@
 
         <div class="col-md-8 col-lg-10 justify-content-center ">
             
-            @foreach(var l in Model){ 
+            @foreach(var l in Model)
+            {
+
+                var image = l.Images.First(i => i.ListingId == l.ListingId);
 
                 <div class="card mb-3 mx-auto" style="max-width: 900px;">
                     <div class="row no-gutters">
                         <div class="col-md-4">
-                            <img src="~/Content/Asset/Images/house2.jpg" class="card-img img-thumbnail" alt="...">
+                            <img src="@image.Path" class="card-img img-thumbnail" alt="...">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h3 class="card-title">@l.ListingId </h3>
-                                <p class="card-text font-weight-bold text-success"> @l.Price</p>
+                                <h3 class="card-title"> Listing Number:  @l.ListingId </h3>
+                               <h4 class="card-text font-weight-bold text-success"> @l.Price.ToString("C0")</h4>
                                 <p><span class="font-weight-bold">Agent Name:</span> @l.Employee.FirstName @l.Employee.LastName</p>
                                 <div class="row justify-content-end">
                                     @Html.ActionLink("Details", "Details", "Listings", new {@class = "btn btn-cta  mr-3 text-white"})
