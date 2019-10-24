@@ -37,7 +37,11 @@ namespace HorizonRE
 
          bundles.Add(new StyleBundle("~/Content/css").Include(
             "~/Content/CSS/bundle.css"));
-         bundles.Add(new StyleBundle("~/Content/fonts").Include(
+
+         bundles.Add(new StyleBundle("~/Content/PagedList").Include(
+             "~/Content/PagedList.css"));
+
+            bundles.Add(new StyleBundle("~/Content/fonts").Include(
             "~/Content/Fonts/webfonts/all.css"));
 
 //         bundles.Add(new StyleBundle("~/Content/css").Include(

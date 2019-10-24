@@ -1,16 +1,16 @@
-﻿
-@model IEnumerable<HorizonRE.Models.Listing>
+﻿@using System.Web.UI.WebControls
+@model PagedList.IPagedList<HorizonRE.Models.Listing>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Listings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*LISTINGS*@
 
-<div class="container-fluid  mx-lg-5 px-lg-5">
+<div class="container-fluid  ">
     <h1 class="display-4 text-center my-5">LISTINGS</h1>
     <div class="row">
-        <div class="col-md-4 col-lg-2 p-2 border border-light mb-5">
+        <div class="col-md-4 col-lg-3 p-2 border border-light mb-5 pl-5">
             @using (@Html.BeginForm("Search", "Listings", FormMethod.Get))
             {
                 <h3>Location</h3>
@@ -76,64 +76,78 @@
 
         </div>
 
-        <div class="col-md-8 col-lg-10 justify-content-center ">
-            
-            @foreach(var l in Model)
-            {
+        <div class="col-md-8 col-lg-9 justify-content-center ">
 
+            @foreach (var l in Model)
+            {
                 var image = l.Images.First(i => i.ListingId == l.ListingId);
 
-                <div class="card mb-3 mx-auto" style="max-width: 900px;">
+
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 ">
+
+                        <img src="@image.Path" class="img-thumbnail" style="width: 100% !important; height: 250px !important" alt="@image.AltText">
+
+                    </div>
+                    <div class="col-lg-8 col-md-6">
+                        <div class="card mb-3 h-100">
+
+                            <div class="card-body">
+                                <h3 class="card-title"> <i class="fas fa-home"></i> Listing ID: @l.ListingId </h3>
+                                <h4 class="card-text font-weight-bold text-success">
+                                    <i class="fas fa-dollar-sign"></i> @l.Price.ToString("N0")</h4>
+                                <p>
+                                    <span class="font-weight-bold"> <i class="fas fa-user-tie"></i> Agent:</span> @l.Employee.FirstName @l.Employee.LastName</p>
+                              
+                              
+                                    <a href="/" class="btn btn-cta mr-3 text-white" style="position: absolute; bottom: 10px; right: 10px"> <i class="fas fa-info-circle"></i> Details</a>
+                           
+                          
+
+                            
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+            @*<div class="card mb-3 mx-auto" style="max-width: 900px;">
                     <div class="row no-gutters">
                         <div class="col-md-4">
-                            <img src="@image.Path" class="card-img img-thumbnail" alt="...">
+                            <img src="~/Content/Asset/Images/house2.jpg" class="card-img" alt="...">
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h3 class="card-title"> Listing Number:  @l.ListingId </h3>
-                               <h4 class="card-text font-weight-bold text-success"> @l.Price.ToString("C0")</h4>
-                                <p><span class="font-weight-bold">Agent Name:</span> @l.Employee.FirstName @l.Employee.LastName</p>
+                                <h3 class="card-title">House 2 </h3>
+                                <p class="card-text font-weight-bold text-success"> $125,000</p>
+                                <p><span class="font-weight-bold">Agent Name:</span> John Doe</p>
                                 <div class="row justify-content-end">
                                     @Html.ActionLink("Details", "Details", "Listings", new { id = l.ListingId }, new {@class = "btn btn-cta  mr-3 text-white"})
                                 </div>
-
                             </div>
+
 
                         </div>
                     </div>
+                </div>*@
+
+
+            <div class="container">
+                <div class="row justify-content-start">
+
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new {page = page}))
                 </div>
-
-
-
-
-                
-            }
-
-            
-            @*<div class="card mb-3 mx-auto" style="max-width: 900px;">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img src="~/Content/Asset/Images/house2.jpg" class="card-img" alt="...">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h3 class="card-title">House 2 </h3>
-                            <p class="card-text font-weight-bold text-success"> $125,000</p>
-                            <p><span class="font-weight-bold">Agent Name:</span> John Doe</p>
-                            <div class="row justify-content-end">
-                                @Html.ActionLink("Details", "Details", "Listings", new {@class = "btn btn-cta  mr-3 text-white"})
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>*@
-
+            </div>
 
         </div>
+
     </div>
+
 </div>
+
 
 <script src="~/Scripts/jquery-3.4.1.js"></script>
 <script src="~/Scripts/InputSpinner.js"></script>
