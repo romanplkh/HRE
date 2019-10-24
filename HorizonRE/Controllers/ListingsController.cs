@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using HorizonRE.Models;
+using PagedList;
 
 namespace HorizonRE.Controllers
 {
@@ -14,7 +15,7 @@ namespace HorizonRE.Controllers
         private HorizonContext db = new HorizonContext();
         // GET: Listings
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
 
 
@@ -26,8 +27,11 @@ namespace HorizonRE.Controllers
             ViewBag.ProvincesList = new SelectList(db.Provinces.ToList(), "ProvinceId", "Name");
 
 
+
+            int pageSize = 1;
+            int pageNumber = (page ?? 1);
             
-            return View(listings);
+            return View(listings.ToPagedList(pageNumber, pageSize));
 
         }
     }
