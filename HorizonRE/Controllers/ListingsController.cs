@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HorizonRE.Models;
@@ -29,6 +30,25 @@ namespace HorizonRE.Controllers
             
             return View(listings);
 
+        }
+
+        //GET: listing/details/id
+        
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var listings = db.Listings.Include(img => img.Images).Include(area => area.CityArea).ToList();
+
+            var listing = listings.Find(l => l.ListingId == id);
+
+            if (listing == null)
+            {
+                return HttpNotFound();
+            }
+            return View(listing);
         }
     }
 }

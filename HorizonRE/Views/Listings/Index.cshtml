@@ -94,7 +94,7 @@
                                <h4 class="card-text font-weight-bold text-success"> @l.Price.ToString("C0")</h4>
                                 <p><span class="font-weight-bold">Agent Name:</span> @l.Employee.FirstName @l.Employee.LastName</p>
                                 <div class="row justify-content-end">
-                                    @Html.ActionLink("Details", "Details", "Listings", new {@class = "btn btn-cta  mr-3 text-white"})
+                                    @Html.ActionLink("Details", "Details", "Listings", new { id = l.ListingId }, new {@class = "btn btn-cta  mr-3 text-white"})
                                 </div>
 
                             </div>

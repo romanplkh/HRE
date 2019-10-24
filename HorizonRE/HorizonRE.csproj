@@ -319,6 +319,10 @@
     <Compile Include="Migrations\201910221504393_AddNullableListingIdImages.Designer.cs">
       <DependentUpon>201910221504393_AddNullableListingIdImages.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910241400380_SeedListing.cs" />
+    <Compile Include="Migrations\201910241400380_SeedListing.Designer.cs">
+      <DependentUpon>201910241400380_SeedListing.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccessLevel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -501,6 +505,7 @@
     <Content Include="Views\ListingsManagement\Edit.cshtml" />
     <Content Include="Views\ListingsManagement\Index.cshtml" />
     <Content Include="Views\Listings\Index.cshtml" />
+    <Content Include="Views\Listings\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -615,6 +620,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910221504393_AddNullableListingIdImages.resx">
       <DependentUpon>201910221504393_AddNullableListingIdImages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910241400380_SeedListing.resx">
+      <DependentUpon>201910241400380_SeedListing.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
