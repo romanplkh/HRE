@@ -1,0 +1,31 @@
+﻿@model HorizonRE.Models.Appointment
+
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <h1 class="display-4 text-center mt-5">Schedule Appointment</h1>
+    </div>
+
+
+    @using (@Html.BeginForm("GetCustomer", "Appointment", FormMethod.Post))
+    {
+        <div class="input-group mb-3 w-50">
+            <input type="text" class="form-control" name="email" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Button</button>
+            </div>
+        </div>
+    }
+
+    @if (@Model != null)
+    {
+        <p>@Model.Customer.FirstName</p>
+    }
+
+
+
+</div>
