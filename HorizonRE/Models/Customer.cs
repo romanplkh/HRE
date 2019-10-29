@@ -83,5 +83,6 @@ namespace HorizonRE.Models
 
 
         public virtual ICollection<Listing> Listings { get; set; }
+        public virtual ICollection<Appointment> Appointments { get; set; }
     }
 }

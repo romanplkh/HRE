@@ -82,39 +82,81 @@
             {
                 var image = l.Images.First(i => i.ListingId == l.ListingId);
 
+                <div class="card mb-3">
+                    <div class="row no-gutters">
+                        
+                        <div class="col-auto">
+                            <img src="@image.Path" class="img-fluid" style="width: 250px !important; height: 250px !important" alt="@image.AltText">
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <div class="row">
+                                        <div class="col">
+                                            @l.StreetAddress, @l.City
+                                        </div>
+                                        <div class="col d-flex justify-content-end">
+                                            <span class="badge badge-cta text-white">@l.Price.ToString("C0")</span>
+                                        </div>
+                                    </div>
 
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 ">
-
-                        <img src="@image.Path" class="img-thumbnail" style="width: 100% !important; height: 250px !important" alt="@image.AltText">
+                                </div>
+                                <p class="text-muted small">@l.City | @l.ListingStartDate.ToShortDateString()</p>
+                       
+                                    <p>
+                                        Nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel placerat suscipit, orci nisl iaculis eros, a tincidunt nisi odio.
+                                    </p>
+                                    <p>
+                                        @l.Area sq.ft
+                                    </p>
+                                    <p class="mb-0">
+                                        <span class="font-weight-bold">Agent:</span> @l.Employee.FirstName @l.Employee.LastName
+                                    </p>
+                               
+                            </div>
+                        </div>
 
                     </div>
-                    <div class="col-lg-8 col-md-6">
-                        <div class="card mb-3 h-100">
 
-                            <div class="card-body">
-                                <h3 class="card-title"> <i class="fas fa-home"></i> Listing ID: @l.ListingId </h3>
-                                <h4 class="card-text font-weight-bold text-success">
-                                    <i class="fas fa-dollar-sign"></i> @l.Price.ToString("N0")</h4>
-                                <p>
-                                    <span class="font-weight-bold"> <i class="fas fa-user-tie"></i> Agent:</span> @l.Employee.FirstName @l.Employee.LastName</p>
-                              
-                              
-                                    <a href="/" class="btn btn-cta mr-3 text-white" style="position: absolute; bottom: 10px; right: 10px"> <i class="fas fa-info-circle"></i> Details</a>
+                    </div>
+
+
+                    @*<div class="row">
+                        <div class="col-lg-4 col-md-6 pr-0 ">
+
                            
-                          
-
-                            
-
-                            </div>
 
                         </div>
-                    </div>
-                </div>
-            }
+                        <div class="col-lg-8 col-md-6 pl-0 ">
+                            <a href="/Listings/Details/@l.ListingId" class="card-link text-dark">
+                                <div class="card mb-3 h-100 border-left-0">
+
+                                    <div class="card-body">
+                                        <h3 class="card-title"> @l.StreetAddress, @l.City </h3>
+                                        <p class="text-muted small">@l.City | @l.ListingStartDate.ToShortDateString()</p>
+                                        <h3 class="card-text">
+                                            <span class="badge badge-cta text-white" style="position: absolute; top: 20px; right: 20px">@l.Price.ToString("C0")</span>
+                                        </h3>
+                                        <p>
+                                            Nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel placerat suscipit, orci nisl iaculis eros, a tincidunt nisi odio.
+                                        </p>
+                                        <p>
+                                            @l.Area sq.ft
+                                        </p>
+                                        <p class="mb-0">
+                                            <span class="font-weight-bold">Agent:</span> @l.Employee.FirstName @l.Employee.LastName
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>*@
+                    }
 
 
-            @*<div class="card mb-3 mx-auto" style="max-width: 900px;">
+                    @*<div class="card mb-3 mx-auto" style="max-width: 900px;">
                     <div class="row no-gutters">
                         <div class="col-md-4">
                             <img src="~/Content/Asset/Images/house2.jpg" class="card-img" alt="...">
@@ -135,16 +177,16 @@
                 </div>*@
 
 
-            <div class="container">
-                <div class="row justify-content-start">
+                    <div class="container">
+                        <div class="row justify-content-start">
 
-                    @Html.PagedListPager(Model, page => Url.Action("Index", new {page = page}))
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new {page = page}))
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
-
-        </div>
-
-    </div>
 
 </div>
 

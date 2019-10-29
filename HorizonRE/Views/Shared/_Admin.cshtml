@@ -62,7 +62,7 @@
                         <li>
                             @Html.ActionLink("Add Employee", "AddEmployee", "Employee")
                         </li>
-                       
+
                     </ul>
                 </li>
                 <li>
@@ -79,7 +79,7 @@
                         </li>
                         <li>
                             @Html.ActionLink("Add Customer", "AddCustomer", "Customer")
-                        </li>                       
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -95,10 +95,25 @@
                             <a href="#">Add Listing</a>
                         </li>
                         <li>
-                            <a href="#">Edit Listing</a>
+                            <a href="#">View Listing</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#appointmentsSub"
+                       data-toggle="collapse"
+                       aria-expanded="false"
+                       class="dropdown-toggle">
+                        <i class="fas fa-calendar-alt"></i>
+                        Appointments
+                    </a>
+                    <ul class="collapse list-unstyled" id="appointmentsSub">
+                        <li>
+                            @Html.ActionLink("Schedule Appointment", "Add", "Appointments")
                         </li>
                         <li>
-                            <a href="#">Archive Listing</a>
+                            @Html.ActionLink("Change Appointment", "Edit", "Appointments")
+
                         </li>
                     </ul>
                 </li>
@@ -117,7 +132,7 @@
                         <li>
                             @Html.ActionLink("Approve Photos", "MoveFile", "FilesUpload")
 
-                        </li>                      
+                        </li>
                     </ul>
                 </li>
                 <li>
