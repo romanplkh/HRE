@@ -38,7 +38,10 @@ namespace HorizonRE.Models
       [NotMapped] 
       public string Province { get; set; }
 
-      [Required(ErrorMessage = "Street address is required")]
+        [NotMapped]
+        public string FullName { get => $"{FirstName} {LastName}"; }
+
+        [Required(ErrorMessage = "Street address is required")]
       [Display(Name = "Street address" )]
       [StringLength(100, MinimumLength = 3)]
       public string StreetAddress { get; set; }
