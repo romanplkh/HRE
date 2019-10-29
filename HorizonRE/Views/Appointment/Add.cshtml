@@ -1,4 +1,4 @@
-﻿@model HorizonRE.Models.Appointment
+﻿@model HorizonRE.ViewModel.CustomerListing
 
 @{
     ViewBag.Title = "Add";
@@ -14,17 +14,123 @@
     @using (@Html.BeginForm("GetCustomer", "Appointment", FormMethod.Post))
     {
         <div class="input-group mb-3 w-50">
-            <input type="text" class="form-control" name="email" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <input type="text" class="form-control" name="email"
+                   placeholder="Enter customer's email"
+                   aria-label="Enter customer's email" aria-describedby="button-addon2">
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Button</button>
             </div>
         </div>
+
+
+
+        if (@Model.Customer != null)
+        {
+            @Html.Hidden("emailHidden", Model.Customer.Email)
+            @Html.Hidden("customer", Model.Customer)
+
+            <div class="row my-5 justify-content-around">
+                <div class="col-md-5">
+                    <h2>Customer Information</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">
+                                @Model.Customer.FullName
+                            </div>
+                            <div class="card-text">
+                                <ul class="list-unstyled">
+                                    <li>@Model.Customer.Phone</li>
+                                    <li>@Model.Customer.Email</li>
+                                    <li>@Model.Customer.StreetAddress</li>
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <h2 class="mt-5">Seach listing</h2>
+                    <div class="card border-0">
+
+                        <div class="input-group">
+                            <input class="form-control" type="text" name="listingId" />
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="submit">Find</button>
+                            </div>
+                        </div>
+
+
+
+                        @if (@Model.Listing != null)
+                        {
+                            <div class="card mt-4">
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        Listing #@Model.Listing.ListingId
+                                    </div>
+                                    <div class="card-text">
+                                        <p>Address: @Model.Listing.StreetAddress @Model.Listing.City</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+                </div>
+
+
+               
+                @if (Model.Listing != null)
+                {
+                    <div class="col-md-5">
+                        <h2>Appointment Information</h2>
+
+                        <div class="card border-0">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Appointment.StartDate)
+                                @Html.TextBoxFor(m => m.Appointment.StartDate, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Appointment.EndDate)
+                                @Html.TextBoxFor(m => m.Appointment.EndDate, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Agents")
+                                @Html.DropDownList("AgentsList", null, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Appointment.Comment)
+                                @Html.TextAreaFor(m => m.Appointment.Comment, new { @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Listing Id")
+                                @Html.TextBoxFor(m => m.Appointment.ListingId, new { @class = "form-control" })
+                            </div>
+
+
+                            <input type="submit" value="Submit" class="btn btn-primary float-right" />
+                        </div>
+                        
+
+                       
+
+
+                    </div>
+                }
+
+
+            </div>
+
+
+
+        }
     }
 
-    @if (@Model != null)
-    {
-        <p>@Model.Customer.FirstName</p>
-    }
+
+
 
 
 
