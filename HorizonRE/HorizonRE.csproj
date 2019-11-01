@@ -334,6 +334,30 @@
     <Compile Include="Migrations\201910251448367_AddAppointmentModel.Designer.cs">
       <DependentUpon>201910251448367_AddAppointmentModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911011518526_RemovedFkApp.cs" />
+    <Compile Include="Migrations\201911011518526_RemovedFkApp.Designer.cs">
+      <DependentUpon>201911011518526_RemovedFkApp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911011610091_RetrunedIdToAppointment.cs" />
+    <Compile Include="Migrations\201911011610091_RetrunedIdToAppointment.Designer.cs">
+      <DependentUpon>201911011610091_RetrunedIdToAppointment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911011623224_RemovedEntityAppointment.cs" />
+    <Compile Include="Migrations\201911011623224_RemovedEntityAppointment.Designer.cs">
+      <DependentUpon>201911011623224_RemovedEntityAppointment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911012151166_AddDAttributesrequiredAppointment.cs" />
+    <Compile Include="Migrations\201911012151166_AddDAttributesrequiredAppointment.Designer.cs">
+      <DependentUpon>201911012151166_AddDAttributesrequiredAppointment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911012214246_AddDAttributesrequiredAppointment2.cs" />
+    <Compile Include="Migrations\201911012214246_AddDAttributesrequiredAppointment2.Designer.cs">
+      <DependentUpon>201911012214246_AddDAttributesrequiredAppointment2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911012233277_ReturnedNavAttributesAppointment.cs" />
+    <Compile Include="Migrations\201911012233277_ReturnedNavAttributesAppointment.Designer.cs">
+      <DependentUpon>201911012233277_ReturnedNavAttributesAppointment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccessLevel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -521,6 +545,7 @@
     <Content Include="Views\Listings\Index.cshtml" />
     <Content Include="Views\Listings\Details.cshtml" />
     <Content Include="Views\Appointment\Add.cshtml" />
+    <Content Include="Views\Appointment\Schedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -641,6 +666,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910251448367_AddAppointmentModel.resx">
       <DependentUpon>201910251448367_AddAppointmentModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911011518526_RemovedFkApp.resx">
+      <DependentUpon>201911011518526_RemovedFkApp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911011610091_RetrunedIdToAppointment.resx">
+      <DependentUpon>201911011610091_RetrunedIdToAppointment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911011623224_RemovedEntityAppointment.resx">
+      <DependentUpon>201911011623224_RemovedEntityAppointment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911012151166_AddDAttributesrequiredAppointment.resx">
+      <DependentUpon>201911012151166_AddDAttributesrequiredAppointment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911012214246_AddDAttributesrequiredAppointment2.resx">
+      <DependentUpon>201911012214246_AddDAttributesrequiredAppointment2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911012233277_ReturnedNavAttributesAppointment.resx">
+      <DependentUpon>201911012233277_ReturnedNavAttributesAppointment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
