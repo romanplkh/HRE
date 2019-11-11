@@ -26,7 +26,8 @@ namespace HorizonRE.Controllers
 
 
         [HttpPost]
-        public ActionResult Add(Appointment app = null, string email = "", string listingId = "")
+        [ValidateAntiForgeryToken]
+        public ActionResult Add([Bind(Include = "Id,StartDate, EndDate, Comment, ListingId, CustomerId, EmployeeId, email, listingId, Customer, Listing, CurrentListing,EmailCurrent, Error")] Appointment app = null, string email = "", string listingId = "")
         {
 
             //DROPDOWN
@@ -48,16 +49,16 @@ namespace HorizonRE.Controllers
                 {
 
                     ViewBag.Error = "Customer with this email does not exist.";
-                    
+
                 }
-        
+
                 currEmail = email;
 
                 ViewBag.Customer = customer;
-              
-            }
-            
 
+            }
+
+            ViewBag.EmailCurrent = currEmail;
 
 
 
@@ -101,25 +102,24 @@ namespace HorizonRE.Controllers
                     app.CustomerId = customer.CustomerId;
 
 
-                    app.StartDate = app.StartDate.AddMinutes(-15);
-                    app.EndDate = app.EndDate.AddMinutes(15);
 
 
-                    if(!ValidateAppointment(app.StartDate, app.EndDate))
+                    if (/*app != null &&*/ ModelState.IsValid)
                     {
 
-                        if (/*app != null &&*/ ModelState.IsValid)
-                        {
 
-                            db.Appointments.Add(app);
-                            db.SaveChanges();
+                        app.StartDate = app.StartDate.AddMinutes(-15);
+                        app.EndDate = app.EndDate.AddMinutes(15);
 
-                            return RedirectToAction("Add");
-                        }
+                        ValidateAppointment(app, listing, currentListing, currEmail, customer);
+
+
 
                     }
 
-                 
+
+
+
 
 
 
@@ -128,60 +128,125 @@ namespace HorizonRE.Controllers
             }
 
 
-            ViewBag.EmailCurrent = currEmail;
+
             return View("Add");
         }
 
 
-        private bool ValidateAppointment(DateTime start, DateTime end, int customerId)
+        private ActionResult ValidateAppointment(Appointment appointment, Listing listing, string currentListing, string currEmail, Customer customer)
         {
 
 
+            bool isValid = true;
 
-            if(start.Date != end.Date)
+
+            bool appSameExist = db.Appointments.Where(
+              app => (app.CustomerId == appointment.CustomerId) && (app.ListingId == appointment.ListingId)
+              && (app.StartDate == appointment.StartDate) && (app.EndDate == appointment.EndDate)
+              ).Count() > 0;
+
+            bool agentHasAntoherAppointment = db.Appointments.Where(app => app.EmployeeId == appointment.EmployeeId && appointment.StartDate < app.EndDate && appointment.EndDate > app.StartDate && app.CustomerId != appointment.CustomerId).Count() > 0;
+
+
+            bool anotherAgentHasAppointmentForThisProperty = db.Appointments.Where(app => app.ListingId == appointment.ListingId && appointment.StartDate < app.EndDate && appointment.EndDate > app.StartDate && app.EmployeeId != appointment.EmployeeId).Count() > 0;
+
+            //if (appointment.StartDate.Date != appointment.EndDate.Date)
+            //{
+            //    ViewBag.Error = "Showing can start and end only in same day";
+            //    isValid = false;
+            //}
+            //else
+
+
+            if (appointment.StartDate.TimeOfDay == appointment.EndDate.TimeOfDay)
             {
-                ViewBag.Error = "Showing can start and end only in same day";
-                return false;
+                ViewBag.Error = "Showing cannot start and end in same time";
+                isValid = false;
             }
+            else
 
 
 
-            if(start.Date > end.Date)
+            if (appointment.StartDate.Date > appointment.EndDate.Date)
             {
                 ViewBag.Error = "Showing start date cannot be greater than end date";
-                return false;
+                isValid = false;
             }
-
-            if(start.Date < DateTime.Now.Date)
+            else
+            if (appointment.StartDate.Date < DateTime.Now.Date)
             {
                 ViewBag.Error = "Showing start date cannot be in the past";
-                return false;
+                isValid = false;
             }
+            else
 
 
 
-            if(start.Hour > end.Hour)
+            if (appointment.StartDate.Hour > appointment.EndDate.Hour)
             {
                 ViewBag.Error = "Showing start time cannot be greater than end time";
-                return false;
+                isValid = false;
             }
+            else
 
 
-            if (start.Hour < 8 || start.Hour > 16 && end.Hour > 17)
+            if (appointment.StartDate.Hour < 8 || appointment.StartDate.Hour > 16 && appointment.EndDate.Hour > 17)
             {
                 ViewBag.Error = "Showing can only happen between 8AM and 5PM";
-                return false;
+                isValid = false;
+            }
+            else
+
+            if (appSameExist)
+            {
+                ViewBag.Error = "Showing with this customer already exist";
+                isValid = false;
+            }
+            else
+
+            if (agentHasAntoherAppointment)
+            {
+                ViewBag.Error = "Agent already has a showing between selected period of time";
+                isValid = false;
+            }
+            else
+
+            if (anotherAgentHasAppointmentForThisProperty)
+            {
+                ViewBag.Error = "Another agent already has a showing for this property between selected period of time";
+                isValid = false;
             }
 
 
-            bool anotherAgent = db.Appointments.Where(
-                app => app.CustomerId == customerId 
-                && app.StartDate == start && app.EndDate == end
-                ).Count() > 0;
+
+            if (isValid)
+            {
+                db.Appointments.Add(appointment);
+                db.SaveChanges();
+                ViewBag.Msg = "Appointment successfully added";
+
+                ViewBag.EmailCurrent = "";
+                ViewBag.Listing = null;
+                ViewBag.CurrentListing = null;
+                ViewBag.Customer = null;
+                currEmail = "";
+                currentListing = "";
+                return RedirectToAction("Add", "Appointment");
+            }
 
 
 
-            return true;
+            ViewBag.EmailCurrent = currEmail;
+            ViewBag.Listing = listing;
+            ViewBag.CurrentListing = currentListing;
+            ViewBag.Customer = customer;
+
+
+
+            return View("Add");
+
+
+
         }
 
         public Listing GetListing(int listingId)
