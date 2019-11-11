@@ -7,7 +7,13 @@
 
 <div class="container mt-5">
     <div class="row">
-        <h3 class="display-4 ml-3 mb-3">Property #@Model.ListingId</h3>
+        <div class="col-12">
+            <h3 class="display-4 ml-3 mb-3">Property #@Model.ListingId</h3>
+        </div>
+        <div class="col-12">
+            <p class="ml-3">@Model.StreetAddress @Model.City</p>
+        </div>
+        
     </div>
     <div class="row">
         <div class="col-md-8">
@@ -25,7 +31,7 @@
                     </div>
                 }
             </div>
-        </div>
+                    </div>
 
         <div class="col-md-4">
             <div class="card mb-3">
@@ -93,17 +99,13 @@
 
 @section scripts {
 
-    <script>
-    
-            //$(document).ready(function() {
-            //    $(".owl-carousel").owlCarousel();
-            //});
+    <script>    
 
             $('.owl-carousel').owlCarousel({
                 loop: true,
                 margin: 20,
                 autoplay: true,
-                autoplayTimeout: 1000
+                autoplayTimeout: 4000
             });
 
 
