@@ -17,48 +17,48 @@
 
 
                 <div class="form-group">
-                    @Html.Label("Country", new {@class = "font-weight-bold"})
-                    @Html.DropDownList("CountryList", null, new {@class = "form-control "})
+                    @Html.Label("Country", new { @class = "font-weight-bold" })
+                    @Html.DropDownList("CountryList", null, new { @class = "form-control " })
 
                 </div>
                 <div class="form-group">
-                    @Html.Label("Province", new {@class = "font-weight-bold"})
-                    @Html.DropDownList("ProvincesList", null, new {@class = "form-control scrollable-menu"})
+                    @Html.Label("Province", new { @class = "font-weight-bold" })
+                    @Html.DropDownList("ProvincesList", null, new { @class = "form-control scrollable-menu" })
                 </div>
 
                 <div class="form-group">
-                    @Html.Label("City", new {@class = "font-weight-bold"})
-                    @Html.TextBox("City", "", new {@class = "form-control"})
+                    @Html.Label("City", new { @class = "font-weight-bold" })
+                    @Html.TextBox("City", "", new { @class = "form-control" })
                 </div>
 
-                <hr/>
+                <hr />
 
                 <h3>Parameters</h3>
                 <div class="form-group">
                     <label class="font-weight-bold">Bedrooms</label>
-                    <input type="number" name="bedrooms" value="0" min="0" max="5" step="1"/>
+                    <input type="number" name="bedrooms" value="0" min="0" max="5" step="1" />
                 </div>
 
                 <div class="form-group">
                     <label class="font-weight-bold">Bathrooms</label>
-                    <input type="number" name="bathrooms" value="0" min="0" max="5" step="1"/>
+                    <input type="number" name="bathrooms" value="0" min="0" max="5" step="1" />
                 </div>
 
                 <div class="form-group">
                     <label class="font-weight-bold">Bedrooms</label>
-                    <input type="number" value="0" min="0" max="5" step="1"/>
+                    <input type="number" value="0" min="0" max="5" step="1" />
                 </div>
 
-                <hr/>
+                <hr />
 
                 <div class="form-group">
                     <div class="form-row align-items-center">
-                        @Html.Label("Price", new {@class = "font-weight-bold p-0 m-0"})
+                        @Html.Label("Price", new { @class = "font-weight-bold p-0 m-0" })
                         <div class="col">
-                            @Html.TextBox("City", "", new {@class = "form-control", placeholder = "From"})
+                            @Html.TextBox("City", "", new { @class = "form-control", placeholder = "From" })
                         </div>
                         <div class="col">
-                            @Html.TextBox("City", "", new {@class = "form-control", placeholder = "To"})
+                            @Html.TextBox("City", "", new { @class = "form-control", placeholder = "To" })
                         </div>
 
                     </div>
@@ -81,28 +81,28 @@
             @foreach (var l in Model)
             {
                 var image = l.Images.First(i => i.ListingId == l.ListingId);
+                <a href="/Listings/Details/@l.ListingId" class="card-link text-dark">
+                    <div class="card mb-3">
+                        <div class="row no-gutters">
 
-                <div class="card mb-3">
-                    <div class="row no-gutters">
-                        
-                        <div class="col-auto">
-                            <img src="@image.Path" class="img-fluid" style="width: 250px !important; height: 250px !important" alt="@image.AltText">
-                        </div>
-                        <div class="col">
-                            <div class="card-body">
-                                <div class="card-title">
-                                    <div class="row">
-                                        <div class="col">
-                                            @l.StreetAddress, @l.City
+                            <div class="col-auto">
+                                <img src="@image.Path" class="img-fluid" style="width: 250px !important; height: 250px !important" alt="@image.AltText">
+                            </div>
+                            <div class="col">
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <div class="row">
+                                            <div class="col">
+                                                @l.StreetAddress, @l.City
+                                            </div>
+                                            <div class="col d-flex justify-content-end">
+                                                <span class="badge badge-cta text-white">@l.Price.ToString("C0")</span>
+                                            </div>
                                         </div>
-                                        <div class="col d-flex justify-content-end">
-                                            <span class="badge badge-cta text-white">@l.Price.ToString("C0")</span>
-                                        </div>
+
                                     </div>
+                                    <p class="text-muted small">@l.City | @l.ListingStartDate.ToShortDateString()</p>
 
-                                </div>
-                                <p class="text-muted small">@l.City | @l.ListingStartDate.ToShortDateString()</p>
-                       
                                     <p>
                                         Nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel placerat suscipit, orci nisl iaculis eros, a tincidunt nisi odio.
                                     </p>
@@ -112,19 +112,19 @@
                                     <p class="mb-0">
                                         <span class="font-weight-bold">Agent:</span> @l.Employee.FirstName @l.Employee.LastName
                                     </p>
-                               
+
+                                </div>
                             </div>
+
                         </div>
 
                     </div>
 
-                    </div>
-
-
-                    @*<div class="row">
+                </a>
+                @*<div class="row">
                         <div class="col-lg-4 col-md-6 pr-0 ">
 
-                           
+
 
                         </div>
                         <div class="col-lg-8 col-md-6 pl-0 ">
@@ -153,10 +153,10 @@
 
                         </div>
                     </div>*@
-                    }
+            }
 
 
-                    @*<div class="card mb-3 mx-auto" style="max-width: 900px;">
+            @*<div class="card mb-3 mx-auto" style="max-width: 900px;">
                     <div class="row no-gutters">
                         <div class="col-md-4">
                             <img src="~/Content/Asset/Images/house2.jpg" class="card-img" alt="...">
@@ -177,16 +177,16 @@
                 </div>*@
 
 
-                    <div class="container">
-                        <div class="row justify-content-start">
+            <div class="container">
+                <div class="row justify-content-start">
 
-                            @Html.PagedListPager(Model, page => Url.Action("Index", new {page = page}))
-                        </div>
-                    </div>
-
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
                 </div>
-
             </div>
+
+        </div>
+
+    </div>
 
 </div>
 

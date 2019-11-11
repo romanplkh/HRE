@@ -29,7 +29,7 @@ namespace HorizonRE.Controllers
 
 
 
-            int pageSize = 1;
+            int pageSize = 5;
             int pageNumber = (page ?? 1);
             
             return View(listings.ToPagedList(pageNumber, pageSize));
