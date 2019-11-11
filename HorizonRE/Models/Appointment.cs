@@ -10,21 +10,22 @@ namespace HorizonRE.Models
     {
 
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please provide start date and time")]
+        [DataType(DataType.DateTime)]
         public DateTime StartDate { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please provide end date and time")]
+        [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please provide a comment")]
         public string Comment { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please provide a listing number")]
         public int ListingId { get; set; }
-  
-
+ 
         public int CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
-
+    
         public int EmployeeId { get; set; }
         public virtual Employee Employee { get; set; }
 
