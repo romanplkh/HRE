@@ -7,12 +7,20 @@
 
 <div class="container mt-md-5 mt-sm-0">
     <i class="fas fa-arrow-left text-primary"></i>
-    @Html.ActionLink("Back to Appointments", "Index", "Appoinmtent")
+    @Html.ActionLink("Back to Appointments", "Index", "Appointment")
     <h2 class="text-center display-4">Edit Appointment</h2>
     @using (Html.BeginForm("Edit", "Appointment", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.Id)
+
+        if (!string.IsNullOrEmpty(ViewBag.Msg))
+        {
+           
+                    <div class="alert alert-danger" role="alert">
+                            @ViewBag.Msg
+                     </div>       
+        }
 
         <div class="col-md-5">
             <div class="form-group">
@@ -29,24 +37,24 @@
                 @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
-                    @Html.Label("Agent")
-                    @Html.DropDownList("AgentsList", ViewBag.AgentsList as SelectList, new { @class = "form-control" })
-                </div>
-                <div class="form-group">
-                    @Html.Label("Customer")
-                    @Html.DropDownList("CustomersList", ViewBag.CustomersList as SelectList, new { @class = "form-control" })
-                </div>
+                @Html.Label("Agent")
+                @Html.DropDownList("EmployeeId", null, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Customer")
+                @Html.DropDownList("CustomerId", null, new { @class = "form-control" })
+            </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Comment)
-                    @Html.TextAreaFor(m => m.Comment, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Comment, "", new { @class = "text-danger" })
-                </div>
-                <div class="form-group">
-                    @Html.Label("Listing number")
-                    @Html.TextBoxFor(m => m.ListingId, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.ListingId, "", new { @class = "text-danger" })
-                </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Comment)
+                @Html.TextAreaFor(m => m.Comment, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Comment, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.Label("Listing number")
+                @Html.TextBoxFor(m => m.ListingId, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ListingId, "", new { @class = "text-danger" })
+            </div>
 
             <input type="submit" value="Save" class="btn btn-primary" />
         </div>

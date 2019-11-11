@@ -22,7 +22,7 @@
         {
             <div class="form-inline mb-3">
 
-                @Html.TextBox("SearchString", null, new { @class = "form-control w-45 mr-4",
+                @Html.TextBox("lname", null, new { @class = "form-control w-45 mr-4",
                                 placeholder = "Enter agent's last name"})
 
                 @Html.TextBox("date", null,  String.Format("{0:d}", Model.ToString()),
@@ -46,10 +46,10 @@
                             <tr>
                                 <th class="lead">Customer</th>
                                 <th class="lead">Agent</th>
-                                <th class="lead">Start date</th>
-                                <th class="lead">End date</th>
+                                <th class="lead">Start</th>
+                                <th class="lead">End</th>
                                 <th class="lead">Comment</th>
-                                <th class="lead">Listing</th>
+                                <th class="lead">Listing #</th>
                                 <th></th>
                             </tr>
                         </thead>

@@ -6,7 +6,6 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/fonts")
 </head>
 <body>
@@ -113,7 +112,7 @@
                             @Html.ActionLink("Schedule Appointment", "Add", "Appointment")
                         </li>
                         <li>
-                            @Html.ActionLink("Change Appointment", "Edit", "Appointment")
+                            @Html.ActionLink("Change Appointment", "Index", "Appointment")
 
                         </li>
                     </ul>
@@ -167,8 +166,7 @@
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item mt-4">
                                 <span class="font-weight-bold">broker@horizon.ca</span>
-                            </li>
-                            <hr />
+                            </li>                          
                             <li class="nav-item">
                                 <a href="#" class="nav-link text-dark font-weight-bold">Add Agent</a>
                             </li>
@@ -209,7 +207,7 @@
     @Scripts.Render("~/bundles/slick")
     @Scripts.Render("~/bundles/app")
     <script src="~/Scripts/moment.js"></script>
-    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+
 
 
 

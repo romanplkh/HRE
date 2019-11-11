@@ -79,7 +79,7 @@ namespace HorizonRE.Controllers
                         db.Appointments.Add(app);
                         db.SaveChanges();
 
-                        return RedirectToAction("Add"); 
+                        return RedirectToAction("Add");
                     }
 
 
@@ -102,7 +102,7 @@ namespace HorizonRE.Controllers
 
 
         [HttpGet]
-        public ActionResult Index(string searchString, string date, int? page)
+        public ActionResult Index(string lname, string date, int? page)
         {
 
             //Search appointments
@@ -110,21 +110,21 @@ namespace HorizonRE.Controllers
                           .OrderBy(a => a.StartDate).AsQueryable();
 
 
-            if (!string.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(lname))
             {
                 appList = appList.Where(s => s.Employee.LastName.ToLower()
-                          .Contains(searchString.ToLower()));
+                          .Contains(lname.ToLower()));
             }
             if (!string.IsNullOrEmpty(date))
             {
                 DateTime searchDate = DateTime.Parse(date);
                 appList = appList.Where(s => s.StartDate.Date == searchDate);
             }
-            if(!string.IsNullOrEmpty(searchString) && !string.IsNullOrEmpty(date))
+            if (!string.IsNullOrEmpty(lname) && !string.IsNullOrEmpty(date))
             {
                 DateTime searchDate = DateTime.Parse(date);
                 appList = appList.Where(s => s.Employee.LastName.ToLower()
-                          .Contains(searchString.ToLower()) && s.StartDate.Date == searchDate);
+                          .Contains(lname.ToLower()) && s.StartDate.Date == searchDate);
 
             }
 
@@ -148,11 +148,9 @@ namespace HorizonRE.Controllers
                 return HttpNotFound();
             }
 
-            int agentId = app.EmployeeId;
-            int customerId = app.CustomerId;
 
-            ViewBag.AgentsList = new SelectList(db.Employees.Where(e => e.EmployeeId == agentId), "EmployeeId", "FullName", agentId);
-            ViewBag.CustomersList = new SelectList(db.Customers.Where(c => c.CustomerId == customerId), "CustomerId", "FullName", customerId);
+            ViewBag.EmployeeId = new SelectList(db.Employees, "EmployeeId", "FullName", app.EmployeeId);
+            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FullName", app.CustomerId);
 
             return View(app);
         }
@@ -163,29 +161,69 @@ namespace HorizonRE.Controllers
         public ActionResult Edit([Bind(Include = "Id, StartDate, EndDate, ListingId, Comment, " +
             "CustomerId, EmployeeId")] Appointment app)
         {
-            //CHECK if there is time intersections
 
 
             if (ModelState.IsValid)
             {
-                
-                app.CustomerId = Convert.ToInt32(Request.Form["CustomersList"]);
-                app.EmployeeId = Convert.ToInt32(Request.Form["AgentsList"]);
-
                 app.StartDate = app.StartDate.AddMinutes(-15);
 
                 app.EndDate = app.EndDate.AddMinutes(15);
 
-                db.Entry(app).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                string errorMsg = CanAppBeScheduled(app);
+
+                if (!string.IsNullOrEmpty(errorMsg))
+                {
+                    ViewBag.Msg = errorMsg;
+                }
+                else
+                {
+                    db.Entry(app).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                
             }
 
-            ViewBag.AgentsList = new SelectList(db.Employees, "EmployeeId", "FullName");
-            ViewBag.CustomersList = new SelectList(db.Customers,"CustomerId", "FullName");
+            ViewBag.EmployeeId = new SelectList(db.Employees, "EmployeeId", "FullName", app.EmployeeId);
+            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FullName", app.CustomerId);
+
 
 
             return View();
+        }
+
+        //check for intersections
+        private string CanAppBeScheduled(Appointment app)
+        {
+            string msg = string.Empty;
+
+           //listing showing is booked for specified time
+            var appInDB = db.Appointments.AsNoTracking().Where(a => a.ListingId == app.ListingId &&
+                            a.Id != app.Id &&
+                            (a.StartDate > app.StartDate && a.EndDate > app.EndDate) || 
+                            (a.StartDate < app.StartDate && a.EndDate > app.EndDate)).FirstOrDefault();
+
+            //agent has another app an that time
+            var appInDbAgent = db.Appointments.AsNoTracking().Where(a => a.EmployeeId == app.EmployeeId &&
+                            a.Id != app.Id &&
+                            (a.StartDate > app.StartDate && a.EndDate > app.EndDate) ||
+                            (a.StartDate < app.StartDate && a.EndDate > app.EndDate)).FirstOrDefault();
+
+            if(appInDB != null)
+            {
+                return msg = "Sorry, another appointment is scheduled for this listing at " +
+                    "that time";
+                
+            }
+            else if(appInDbAgent != null)
+            {
+                return msg = "Sorry, another appointment is scheduled with this agent at" +
+                   "that time";
+            }
+
+            return msg;
+
         }
 
     }
