@@ -6,6 +6,7 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/fonts")
 </head>
 <body>
@@ -187,10 +188,10 @@
 
             <div class="container-fluid">
                 @RenderBody()
-                
+
                 @*<a href="#" class="float-btn">
-                    <i class="fa fa-plus icon-float-btn"></i>
-                </a>*@
+                        <i class="fa fa-plus icon-float-btn"></i>
+                    </a>*@
             </div>
 
 
@@ -201,12 +202,15 @@
 
 
     @Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/popper")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/owl")
     @Scripts.Render("~/bundles/slick")
     @Scripts.Render("~/bundles/app")
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+
 
 
     @*@RenderSection("scripts", required: false)*@

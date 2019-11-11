@@ -7,6 +7,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using System.Net;
 
 namespace HorizonRE.Controllers
 {
@@ -96,6 +98,57 @@ namespace HorizonRE.Controllers
         public Listing GetListing(int listingId)
         {
             return db.Listings.Where(l => l.ListingId == listingId).Single();
+        }
+
+
+        [HttpGet]
+        public ActionResult Index(string searchString, string date, int? page)
+        {
+
+            //Search appointments
+            var appList = db.Appointments.Include("Employee").ToList()
+                          .OrderBy(a => a.StartDate).AsQueryable();
+
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                appList = appList.Where(s => s.Employee.LastName.ToLower()
+                          .Contains(searchString.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(date))
+            {
+                DateTime searchDate = DateTime.Parse(date);
+                appList = appList.Where(s => s.StartDate.Date == searchDate);
+            }
+            if(!string.IsNullOrEmpty(searchString) && !string.IsNullOrEmpty(date))
+            {
+                DateTime searchDate = DateTime.Parse(date);
+                appList = appList.Where(s => s.Employee.LastName.ToLower()
+                          .Contains(searchString.ToLower()) && s.StartDate.Date == searchDate);
+
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(appList.ToPagedList(pageNumber, pageSize));
+        }
+
+        // GET: edit appointment
+        [HttpGet]
+        public ActionResult Edit(int? Id)
+        {
+            if (Id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Appointment app = db.Appointments.Find(Id);
+            if (app == null)
+            {
+                return HttpNotFound();
+            }
+         
+            return View(app);
         }
 
     }

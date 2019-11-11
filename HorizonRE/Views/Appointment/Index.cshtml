@@ -1,0 +1,87 @@
+﻿@model PagedList.IPagedList<HorizonRE.Models.Appointment>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Update Showing";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="container mt-md-5 mt-sm-0">
+    <div class="row">
+        <div class="col-sm-8 col-lg-10">
+            <h2 class="display-4 mb-4">Showings</h2>
+        </div>
+    </div>
+
+    @*SEARCH FORM*@
+
+    <div class="row ml-2">
+
+        @using (Html.BeginForm("Index", "Appointment", FormMethod.Get))
+        {
+            <div class="form-inline mb-3">
+
+                @Html.TextBox("SearchString", null, new { @class = "form-control w-45 mr-4",
+                                placeholder = "Enter agent's last name"})
+
+                @Html.TextBox("date", null,  String.Format("{0:d}", Model.ToString()),
+                                new { @class = "form-control mr-4", type = "date" })
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        }
+    </div>
+
+    @if(@Model.PageCount == 0){
+     <p class="mt-4 mb-3" style="font-size: 2em;">No appointments found</p>
+    }else {
+
+
+    <div class="row mt-3 mb-3">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <table id="appointments" class="table table-bordered table-hover mb-5">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th class="lead">Customer</th>
+                                <th class="lead">Agent</th>
+                                <th class="lead">Start date</th>
+                                <th class="lead">End date</th>
+                                <th class="lead">Comment</th>
+                                <th class="lead">Listing</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td> @item.Customer.FirstName @item.Customer.LastName</td>
+                                    <td> @item.Employee.FirstName @item.Employee.LastName</td>
+                                    <td> @Html.DisplayFor(modelItem => item.StartDate)</td>
+                                    <td> @Html.DisplayFor(modelItem => item.EndDate)</td>
+                                    <td> @Html.DisplayFor(modelItem => item.Comment)</td>
+                                    <td> @Html.DisplayFor(modelItem => item.ListingId)</td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    }
+
+</div>
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page }))
+
