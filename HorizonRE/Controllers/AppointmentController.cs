@@ -147,8 +147,45 @@ namespace HorizonRE.Controllers
             {
                 return HttpNotFound();
             }
-         
+
+            int agentId = app.EmployeeId;
+            int customerId = app.CustomerId;
+
+            ViewBag.AgentsList = new SelectList(db.Employees.Where(e => e.EmployeeId == agentId), "EmployeeId", "FullName", agentId);
+            ViewBag.CustomersList = new SelectList(db.Customers.Where(c => c.CustomerId == customerId), "CustomerId", "FullName", customerId);
+
             return View(app);
+        }
+
+        //POST: edit appointment
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id, StartDate, EndDate, ListingId, Comment, " +
+            "CustomerId, EmployeeId")] Appointment app)
+        {
+            //CHECK if there is time intersections
+
+
+            if (ModelState.IsValid)
+            {
+                
+                app.CustomerId = Convert.ToInt32(Request.Form["CustomersList"]);
+                app.EmployeeId = Convert.ToInt32(Request.Form["AgentsList"]);
+
+                app.StartDate = app.StartDate.AddMinutes(-15);
+
+                app.EndDate = app.EndDate.AddMinutes(15);
+
+                db.Entry(app).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.AgentsList = new SelectList(db.Employees, "EmployeeId", "FullName");
+            ViewBag.CustomersList = new SelectList(db.Customers,"CustomerId", "FullName");
+
+
+            return View();
         }
 
     }
