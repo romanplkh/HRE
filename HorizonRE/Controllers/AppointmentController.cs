@@ -1,14 +1,14 @@
 ﻿using HorizonRE.Models;
 using HorizonRE.ViewModel;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using PagedList;
-using System.Net;
 
 namespace HorizonRE.Controllers
 {
@@ -42,17 +42,44 @@ namespace HorizonRE.Controllers
 
             if (!string.IsNullOrEmpty(email))
             {
-                customer = db.Customers.Where(cx => cx.Email.ToLower() == email.ToLower()).Single();
+                customer = db.Customers.Where(cx => cx.Email.ToLower() == email.ToLower()).SingleOrDefault();
+
+                if (customer == null)
+                {
+
+                    ViewBag.Error = "Customer with this email does not exist.";
+                    
+                }
+        
                 currEmail = email;
 
-
+                ViewBag.Customer = customer;
+              
             }
+            
+
+
+
 
             if (!string.IsNullOrEmpty(listingId))
             {
 
+                if (!int.TryParse(listingId, out int listId))
+                {
+                    ViewBag.Error = "Listing with this id does not exist";
+                    ViewBag.Customer = customer;
+                    return View("Add");
+                }
+
                 int lisId = Convert.ToInt32(listingId);
-                listing = db.Listings.Where(l => l.ListingId == lisId).Single();
+                listing = db.Listings.Where(l => l.ListingId == lisId).SingleOrDefault();
+
+                if (listing == null)
+                {
+                    ViewBag.Error = "Listing with this id does not exist";
+                    ViewBag.Customer = customer;
+                    return View("Add");
+                }
                 currentListing = listingId;
 
             }
@@ -73,14 +100,27 @@ namespace HorizonRE.Controllers
 
                     app.CustomerId = customer.CustomerId;
 
-                    if (app != null && ModelState.IsValid)
+
+                    app.StartDate = app.StartDate.AddMinutes(-15);
+                    app.EndDate = app.EndDate.AddMinutes(15);
+
+
+                    if(!ValidateAppointment(app.StartDate, app.EndDate))
                     {
 
-                        db.Appointments.Add(app);
-                        db.SaveChanges();
+                        if (/*app != null &&*/ ModelState.IsValid)
+                        {
 
-                        return RedirectToAction("Add"); 
+                            db.Appointments.Add(app);
+                            db.SaveChanges();
+
+                            return RedirectToAction("Add");
+                        }
+
                     }
+
+                 
+
 
 
                 }
@@ -93,7 +133,56 @@ namespace HorizonRE.Controllers
         }
 
 
+        private bool ValidateAppointment(DateTime start, DateTime end, int customerId)
+        {
 
+
+
+            if(start.Date != end.Date)
+            {
+                ViewBag.Error = "Showing can start and end only in same day";
+                return false;
+            }
+
+
+
+            if(start.Date > end.Date)
+            {
+                ViewBag.Error = "Showing start date cannot be greater than end date";
+                return false;
+            }
+
+            if(start.Date < DateTime.Now.Date)
+            {
+                ViewBag.Error = "Showing start date cannot be in the past";
+                return false;
+            }
+
+
+
+            if(start.Hour > end.Hour)
+            {
+                ViewBag.Error = "Showing start time cannot be greater than end time";
+                return false;
+            }
+
+
+            if (start.Hour < 8 || start.Hour > 16 && end.Hour > 17)
+            {
+                ViewBag.Error = "Showing can only happen between 8AM and 5PM";
+                return false;
+            }
+
+
+            bool anotherAgent = db.Appointments.Where(
+                app => app.CustomerId == customerId 
+                && app.StartDate == start && app.EndDate == end
+                ).Count() > 0;
+
+
+
+            return true;
+        }
 
         public Listing GetListing(int listingId)
         {
@@ -120,7 +209,7 @@ namespace HorizonRE.Controllers
                 DateTime searchDate = DateTime.Parse(date);
                 appList = appList.Where(s => s.StartDate.Date == searchDate);
             }
-            if(!string.IsNullOrEmpty(searchString) && !string.IsNullOrEmpty(date))
+            if (!string.IsNullOrEmpty(searchString) && !string.IsNullOrEmpty(date))
             {
                 DateTime searchDate = DateTime.Parse(date);
                 appList = appList.Where(s => s.Employee.LastName.ToLower()
@@ -168,7 +257,7 @@ namespace HorizonRE.Controllers
 
             if (ModelState.IsValid)
             {
-                
+
                 app.CustomerId = Convert.ToInt32(Request.Form["CustomersList"]);
                 app.EmployeeId = Convert.ToInt32(Request.Form["AgentsList"]);
 
@@ -182,7 +271,7 @@ namespace HorizonRE.Controllers
             }
 
             ViewBag.AgentsList = new SelectList(db.Employees, "EmployeeId", "FullName");
-            ViewBag.CustomersList = new SelectList(db.Customers,"CustomerId", "FullName");
+            ViewBag.CustomersList = new SelectList(db.Customers, "CustomerId", "FullName");
 
 
             return View();
