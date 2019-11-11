@@ -11,8 +11,10 @@ namespace HorizonRE.Models
 
         public int Id { get; set; }
         [Required]
+        [DataType(DataType.DateTime)]
         public DateTime StartDate { get; set; }
         [Required]
+        [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
 
         [Required]
