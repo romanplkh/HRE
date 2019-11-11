@@ -1,12 +1,12 @@
-﻿using System;
+﻿using HorizonRE.Models;
+using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using HorizonRE.Models;
-using PagedList;
 
 namespace HorizonRE.Controllers
 {
@@ -16,28 +16,69 @@ namespace HorizonRE.Controllers
         private HorizonContext db = new HorizonContext();
         // GET: Listings
         [HttpGet]
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, string citySearch = null, int? CountryList = null, int? ProvincesList = null, string bedrooms = null, int? bathrooms = null, decimal? priceFrom = null, decimal? priceTo = null, bool priceOrder = false)
         {
 
+            var listingsFound = db.Listings.AsQueryable();
 
-            var listings = db.Listings.Include(i => i.Images).ToList();
-            
+            string countrySearch = null;
+            string provSearch = null;
+
+            if (CountryList != null && ProvincesList != null)
+            {
+
+                countrySearch = db.Countries.Where(c => c.CountryId == CountryList).FirstOrDefault().Name;
+                provSearch = db.Provinces.Where(c => c.ProvinceId == ProvincesList).FirstOrDefault().Name;
+
+            }
 
 
-            ViewBag.CountryList = new SelectList(db.Countries.ToList(), "CountryId","Name" );
+            if (countrySearch != null) listingsFound = listingsFound.Where(l => l.Country.Contains(countrySearch));
+            if (provSearch != null) listingsFound = listingsFound.Where(l => l.Province.Contains(provSearch));
+            if (!string.IsNullOrEmpty(citySearch)) listingsFound = listingsFound.Where(l => l.City.ToLower().Contains(citySearch.ToLower()));
+
+          
+
+            if (bedrooms != "0") listingsFound = listingsFound.Where(l => l.Bedrooms.Contains(bedrooms));
+            if (bathrooms != 0) listingsFound = listingsFound.Where(l => l.Bathrooms >= bathrooms);
+            if (priceFrom != null) listingsFound = listingsFound.Where(l => l.Price >= priceFrom);
+            if (priceTo != null) listingsFound = listingsFound.Where(l => l.Price <= priceTo);
+
+
+
+            listingsFound = listingsFound.Include(i => i.Images).OrderBy(o => o.Price);
+
+
+
+            if (priceOrder == true)
+            {
+                listingsFound = listingsFound.Include(i => i.Images).OrderByDescending(o => o.Price);
+            }
+
+
+
+
+
+            ViewBag.CountryList = new SelectList(db.Countries.ToList(), "CountryId", "Name");
             ViewBag.ProvincesList = new SelectList(db.Provinces.ToList(), "ProvinceId", "Name");
 
 
 
             int pageSize = 5;
             int pageNumber = (page ?? 1);
-            
-            return View(listings.ToPagedList(pageNumber, pageSize));
+
+
+            var listListing = listingsFound.ToList();
+
+            return View(listListing.ToPagedList(pageNumber, pageSize));
 
         }
 
+
+
+
         //GET: listing/details/id
-        
+
         public ActionResult Details(int? id)
         {
             if (id == null)
