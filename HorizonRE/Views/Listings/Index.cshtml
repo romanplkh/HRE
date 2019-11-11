@@ -7,18 +7,18 @@
 }
 
 
-<div class="container-fluid  ">
+<div class="container-fluid">
     <h1 class="display-4 text-center my-5">LISTINGS</h1>
     <div class="row">
         <div class="col-md-4 col-lg-3 p-2 border border-light mb-5 pl-5">
-            @using (@Html.BeginForm("Search", "Listings", FormMethod.Get))
+            @using (@Html.BeginForm("Index", "Listings", FormMethod.Get))
             {
                 <h3>Location</h3>
 
 
                 <div class="form-group">
                     @Html.Label("Country", new { @class = "font-weight-bold" })
-                    @Html.DropDownList("CountryList", null, new { @class = "form-control " })
+                    @Html.DropDownList("CountryList", null, new { @class = "form-control" })
 
                 </div>
                 <div class="form-group">
@@ -28,7 +28,7 @@
 
                 <div class="form-group">
                     @Html.Label("City", new { @class = "font-weight-bold" })
-                    @Html.TextBox("City", "", new { @class = "form-control" })
+                    @Html.TextBox("citySearch", "", new { @class = "form-control" })
                 </div>
 
                 <hr />
@@ -44,10 +44,7 @@
                     <input type="number" name="bathrooms" value="0" min="0" max="5" step="1" />
                 </div>
 
-                <div class="form-group">
-                    <label class="font-weight-bold">Bedrooms</label>
-                    <input type="number" value="0" min="0" max="5" step="1" />
-                </div>
+
 
                 <hr />
 
@@ -55,19 +52,18 @@
                     <div class="form-row align-items-center">
                         @Html.Label("Price", new { @class = "font-weight-bold p-0 m-0" })
                         <div class="col">
-                            @Html.TextBox("City", "", new { @class = "form-control", placeholder = "From" })
+                            @Html.TextBox("priceFrom", "", new { @class = "form-control", placeholder = "From" })
                         </div>
                         <div class="col">
-                            @Html.TextBox("City", "", new { @class = "form-control", placeholder = "To" })
+                            @Html.TextBox("priceTo", "", new { @class = "form-control", placeholder = "To" })
                         </div>
 
                     </div>
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" name="priceOrder" id="priceOrder" class="custom-control-input">
-                        <label class="custom-control-label" for="priceOrder">Price High-to-Low</label>
+                        <input type="checkbox" name="priceOrder" value="true" class="custom-control-input" id="price">
+                        <input type="hidden" value="false" name="priceOrder" />
+                        <label class="custom-control-label" for="price">Price High-to-Low</label>
                     </div>
-
-
                 </div>
 
                 <button type="submit" class="btn btn-outline-cta btn-block">Find</button>
@@ -80,7 +76,9 @@
 
             @foreach (var l in Model)
             {
-                var image = l.Images.First(i => i.ListingId == l.ListingId);
+                var image = l.Images.FirstOrDefault(i => i.ListingId == l.ListingId);
+
+
                 <a href="/Listings/Details/@l.ListingId" class="card-link text-dark">
                     <div class="card mb-3">
                         <div class="row no-gutters">
