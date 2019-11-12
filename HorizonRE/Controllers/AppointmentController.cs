@@ -18,8 +18,14 @@ namespace HorizonRE.Controllers
         HorizonContext db = new HorizonContext();
         // GET: Appointment
         [HttpGet]
-        public ActionResult Add()
+        public ActionResult Add(bool success=false)
         {
+
+
+            if(success == true)
+            {
+                ViewBag.Msg = "Appointment Added";
+            }
 
             return View();
         }
@@ -111,7 +117,7 @@ namespace HorizonRE.Controllers
                         app.StartDate = app.StartDate.AddMinutes(-15);
                         app.EndDate = app.EndDate.AddMinutes(15);
 
-                        ValidateAppointment(app, listing, currentListing, currEmail, customer);
+                        return ValidateAppointment(app, listing, currentListing, currEmail, customer);
 
 
 
@@ -231,7 +237,7 @@ namespace HorizonRE.Controllers
                 ViewBag.Customer = null;
                 currEmail = "";
                 currentListing = "";
-                return RedirectToAction("Add", "Appointment");
+                return RedirectToAction("Add", "Appointment", new { success = true});
             }
 
 
