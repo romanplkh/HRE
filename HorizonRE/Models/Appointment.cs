@@ -17,7 +17,7 @@ namespace HorizonRE.Models
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
 
-        [Required(ErrorMessage = "Please provide a comment")]
+        
         public string Comment { get; set; }
 
         [Required(ErrorMessage = "Please provide a listing number")]
