@@ -1,6 +1,7 @@
 ﻿using HorizonRE.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Drawing.Imaging;
 using System.IO;
@@ -135,10 +136,31 @@ namespace HorizonRE.Controllers
         {
             if (!string.IsNullOrEmpty(fileToApprove) && approve == "Yes")
             {
-                string sourceFile = Server.MapPath("~/TempFiles/" + fileToApprove);
-                string destinationFile = Server.MapPath("~/Content/Files/") + fileToApprove;
+                string sourceFile = Server.MapPath("/TempFiles/" + fileToApprove);
+                string destinationFile = Server.MapPath("/Content/Files/") + fileToApprove;
+
+
                 if (!System.IO.File.Exists(destinationFile))
                 {
+
+                    //1. Get file record from db
+
+                    ImageFile img = db.Images.Where(im => im.ImageName == fileToApprove).SingleOrDefault();
+
+
+                    if (img != null)
+                    {
+                        //2. Set approved to true 
+                        img.Approved = true;
+
+                        db.Entry(img).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+
+
+
+
+
                     System.IO.File.Move(sourceFile, destinationFile);
                     ViewBag.Msg = "File has been approved";
                 }
