@@ -362,6 +362,10 @@
     <Compile Include="Migrations\201911110054346_AddDateTypeAppTable.Designer.cs">
       <DependentUpon>201911110054346_AddDateTypeAppTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911121537373_RemovedRequiredCommentApp.cs" />
+    <Compile Include="Migrations\201911121537373_RemovedRequiredCommentApp.Designer.cs">
+      <DependentUpon>201911121537373_RemovedRequiredCommentApp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccessLevel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -697,6 +701,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911110054346_AddDateTypeAppTable.resx">
       <DependentUpon>201911110054346_AddDateTypeAppTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911121537373_RemovedRequiredCommentApp.resx">
+      <DependentUpon>201911121537373_RemovedRequiredCommentApp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

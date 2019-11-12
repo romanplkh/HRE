@@ -28,7 +28,7 @@
 
                 <div class="form-group">
                     @Html.Label("City", new { @class = "font-weight-bold" })
-                    @Html.TextBox("citySearch", "", new { @class = "form-control" })
+                    @Html.TextBox("citySearch", ViewBag.CurrentCity as string, new { @class = "form-control" })
                 </div>
 
                 <hr />
@@ -178,7 +178,7 @@
             <div class="container">
                 <div class="row justify-content-start">
 
-                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page, citySearch = ViewBag.CurrentCity, CountryList = ViewBag.CurrentCountry, ProvincesList = ViewBag.CurrentProvince }))
                 </div>
             </div>
 
