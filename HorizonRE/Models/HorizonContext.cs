@@ -13,13 +13,14 @@ namespace HorizonRE.Models
         public DbSet<Province> Provinces { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<ProvinceCustomer> ProvincesCustomers { get; set; }
-        public  DbSet<ProvinceEmployee> ProvincesEmployees { get; set; }
-        public  DbSet<ImageFile> Images { get; set; }
-        public  DbSet<Authentication> Auths { get; set; }
-        public  DbSet<AccessLevel> AccessLevels { get; set; }
-        public  DbSet<Listing> Listings { get; set; }
-        public  DbSet<CityArea> CityAreas { get; set; }
-        public  DbSet<Appointment> Appointments { get; set; }
+        public DbSet<ProvinceEmployee> ProvincesEmployees { get; set; }
+        public DbSet<ImageFile> Images { get; set; }
+        public DbSet<Authentication> Auths { get; set; }
+        public DbSet<AccessLevel> AccessLevels { get; set; }
+        public DbSet<Listing> Listings { get; set; }
+        public DbSet<CityArea> CityAreas { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Feature> Features { get; set; }
 
 
 
@@ -36,8 +37,16 @@ namespace HorizonRE.Models
                .WillCascadeOnDelete(false);
 
 
+            modelBuilder.Entity<Listing>()
+           .HasMany(c => c.Features)
+           .WithMany(a => a.Listings)
+           .Map(m =>
+           {
+               m.ToTable("ListingFeature");
+               m.MapLeftKey("ListingId");
+               m.MapRightKey("FeatureId");
+           });
 
-           
 
 
         }

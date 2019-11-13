@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -9,16 +10,19 @@ namespace HorizonRE.Models
     public class Listing
     {
         public int ListingId { get; set; }
+        [Display(Name = "Street Address")]
         public string StreetAddress { get; set; }
         public string City { get; set; }
         public string Province { get; set; }
         public string Country { get; set; }
+        [Display(Name = "Postal Code")]
         public string PostalCode { get; set; }
         public string Area { get; set; }
         public string Bedrooms { get; set; }
         public double Bathrooms { get; set; }
         public decimal Price { get; set; }
         public bool ContractSigned { get; set; }
+        [Display(Name = "Contract Start")]
         public DateTime ListingStartDate { get; set; }
         public DateTime ListingEndDate { get; set; }
 
@@ -32,14 +36,16 @@ namespace HorizonRE.Models
 
 
 
-      
+
         public virtual ICollection<ImageFile> Images { get; set; }
 
 
+        [Display(Name = "City Area")]
         public int AreaId { get; set; }
         public CityArea CityArea { get; set; }
 
 
+        public virtual ICollection<Feature> Features { get; set; }
 
     }
 }
