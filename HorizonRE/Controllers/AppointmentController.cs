@@ -303,11 +303,13 @@ namespace HorizonRE.Controllers
             }
 
             Appointment app = db.Appointments.Find(Id);
+
             if (app == null)
             {
                 return HttpNotFound();
             }
-
+            app.StartDate = app.StartDate.AddMinutes(15);
+            app.EndDate = app.EndDate.AddMinutes(-15);
 
             ViewBag.EmployeeId = new SelectList(db.Employees, "EmployeeId", "FullName", app.EmployeeId);
             ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FullName", app.CustomerId);
