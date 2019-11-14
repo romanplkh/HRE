@@ -370,6 +370,14 @@
     <Compile Include="Migrations\201911131820368_AddFeatureModel.Designer.cs">
       <DependentUpon>201911131820368_AddFeatureModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911141529288_AddStatusListing.cs" />
+    <Compile Include="Migrations\201911141529288_AddStatusListing.Designer.cs">
+      <DependentUpon>201911141529288_AddStatusListing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911141531206_AddStatusListingRequired.cs" />
+    <Compile Include="Migrations\201911141531206_AddStatusListingRequired.Designer.cs">
+      <DependentUpon>201911141531206_AddStatusListingRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccessLevel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -715,6 +723,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911131820368_AddFeatureModel.resx">
       <DependentUpon>201911131820368_AddFeatureModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911141529288_AddStatusListing.resx">
+      <DependentUpon>201911141529288_AddStatusListing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911141531206_AddStatusListingRequired.resx">
+      <DependentUpon>201911141531206_AddStatusListingRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

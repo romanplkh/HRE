@@ -11,6 +11,7 @@ namespace HorizonRE.ViewModel
         public IEnumerable<Listing> Listings { get; set; }
         public IEnumerable<Customer> Customers { get; set; }
         public IEnumerable<Employee> Agents { get; set; }
+        public HttpPostedFileBase[] Files { get; set; }
 
     }
 }

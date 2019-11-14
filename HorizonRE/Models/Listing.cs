@@ -7,6 +7,15 @@ using System.Web;
 
 namespace HorizonRE.Models
 {
+
+    //public enum ListingStatus
+    //{
+    //    Available,
+    //    NotAvaiable,
+    //    Expired,
+    //    Sold
+    //}
+
     public class Listing
     {
         public int ListingId { get; set; }
@@ -21,10 +30,13 @@ namespace HorizonRE.Models
         public string Bedrooms { get; set; }
         public double Bathrooms { get; set; }
         public decimal Price { get; set; }
+        [Display(Name ="Contract Signed")]
         public bool ContractSigned { get; set; }
         [Display(Name = "Contract Start")]
         public DateTime ListingStartDate { get; set; }
         public DateTime ListingEndDate { get; set; }
+        [Required]
+        public string Status { get; set; }
 
 
 
