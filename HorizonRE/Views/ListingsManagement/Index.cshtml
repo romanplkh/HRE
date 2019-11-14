@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HorizonRE.Models.Listing>
+﻿@model  HorizonRE.ViewModel.ListingCustomerAgentView
 
 
 @{
@@ -8,54 +8,130 @@
 
 <h2>Index</h2>
 
-<div class="row">
-    <div class="col-md-6">
-        @using (Html.BeginForm("", "", FormMethod.Get))
-        {
-
-            <div class="input-group w-50">
-     
-                @Html.TextBox("SearchCustomer", null, new {@class="form-control", placeholder="Search Customer"} )
-                <div class="input-group-append">
-                    <button type="button" class="btn btn-outline-primary">Search</button>
-                </div>
-            </div>
-   
-        }
-        
-        
-        <table id="customers" class="table table-bordered table-hover mb-5">
-            <thead class="thead-dark">
-            <tr>
-                <th class="lead">Customer Name</th>
-                <th class="lead">Phone</th>
-                <th class="lead">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var prop in Model)
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            @using (Html.BeginForm("", "", FormMethod.Get))
             {
-                <tr>
-                    <td>
-                        @using (@Html.BeginForm("Details", "Listings", FormMethod.Get))
+
+                <div class="input-group w-50">
+
+                    @Html.TextBox("SearchCustomer", null, new { @class = "form-control", placeholder = "Search Customer" })
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-primary">Search</button>
+                    </div>
+                </div>
+
+            }
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table id="customers" class="table table-bordered table-hover mb-5">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="lead">Customer Name</th>
+                        <th class="lead">Phone</th>
+                        <th class="lead">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var customer in Model.Customers)
+                    {
+
+                        string selectedRow = "";
+
+                        if (customer.CustomerId == ViewBag.SelectedCustomer)
                         {
-
-                            <button type="submit" class="btn btn-link lead">@prop.Customer.FullName</button>
-                            @Html.Hidden("CustomerId", @prop.CustomerId);
-
+                            selectedRow = "alert-info";
                         }
 
-                       
-                    </td>
-                    <td> @prop.Customer.Phone</td>
-                    <td class="text-center">@Html.ActionLink("Add Listing", "Create", "Listings", new {@class="btn btn-success btn-sm"})</td>
-                </tr>
+                        <tr class="@selectedRow">
+
+                            <td>
+
+                                @Html.ActionLink($"{customer.FullName}", "Index", new { customerId = customer.CustomerId })
+                            </td>
+                            <td> @customer.Phone</td>
+                            <td class="text-center">@Html.ActionLink("Add Listing", "Create", "ListingsManagement", new { custId = customer.CustomerId } , new { @class = "btn btn-success btn-sm" })</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+            @if (Model.Listings != null && Model.Listings.Count() > 0)
+            {
+                <h3> Customer Listings </h3>
+
+                <table class="table">
+                    <tr>
+                        <th>
+                            Listing Id
+                        </th>
+                        <th>
+                            Contract Start
+                        </th>
+                        <th>
+                            Contract End
+                        </th>
+                        <th>
+                            Address
+                        </th>
+                        <th>
+                            Agent
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                    @foreach (var listing in Model.Listings)
+                    {
+                        <tr>
+                            <td>
+                                @listing.ListingId
+                            </td>
+                            <td>
+                                @listing.ListingStartDate
+                            </td>
+                            <td>
+                                @listing.ListingEndDate
+                            </td>
+                            <td>
+                                @listing.StreetAddress, @listing.City
+                            </td>
+                            <td>
+                                @listing.Employee.FullName
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = listing.ListingId })
+                            </td>
+
+                        </tr>
+
+                    }
+
+                </table>
+
+
             }
-            </tbody>
-        </table>
+
+
+
+            @if (ViewBag.ShowMsg = true && ViewBag.SelectedCustomer != null && Model.Listings.Count() == 0)
+            {
+
+                <div class="alert alert-primary" role="alert">
+                    No listings found
+                </div>
+
+            }
+        </div>
     </div>
 
-    <div class="col-md-6">
-
-    </div>
 </div>
+
+
+

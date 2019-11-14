@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HorizonRE.Models;
+using HorizonRE.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -6,7 +8,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using HorizonRE.Models;
 
 namespace HorizonRE.Controllers
 {
@@ -15,10 +16,45 @@ namespace HorizonRE.Controllers
         private HorizonContext db = new HorizonContext();
 
         // GET: ListingsManagement
-        public ActionResult Index()
+        public ActionResult Index(int? customerId)
         {
-            var listings = db.Listings.Include(l => l.CityArea).Include(l => l.Customer).Include(l => l.Employee);
-            return View(listings.ToList());
+            //var listings = db.Listings.Include(l => l.CityArea).Include(l => l.Customer).Include(l => l.Employee);
+
+            var viewModel = new ListingCustomerAgentView();
+
+            viewModel.Customers = db.Customers;//.Include(l => l.Listings);
+
+
+            if (customerId != null)
+            {
+                ViewBag.SelectedCustomer = customerId.Value;
+
+                viewModel.Listings = db.Listings.Include(l => l.Employee);
+
+
+                viewModel.Listings = viewModel.Customers.Where(c => c.CustomerId == customerId.Value).Single().Listings;
+
+
+                if (viewModel.Listings.Count() == 0)
+                {
+                    ViewBag.ShowMsg = true;
+                }
+
+            }
+
+            if (customerId == null)
+            {
+                ViewBag.ShowMsg = false;
+            }
+
+            //!When customer is retrieved retrieve all his listings 
+            //viewModel.Listings = viewModel.Customers.Where(c => c.CustomerId == customerId.Value).Single().Listings;
+
+
+            //viewModel
+
+
+            return View(viewModel);
         }
 
         // GET: ListingsManagement/Details/5
@@ -37,12 +73,68 @@ namespace HorizonRE.Controllers
         }
 
         // GET: ListingsManagement/Create
-        public ActionResult Create()
+        public ActionResult Create(int? custId)
         {
-            ViewBag.AreaId = new SelectList(db.CityAreas, "AreaId", "Name");
-            ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FirstName");
-            ViewBag.EmployeeId = new SelectList(db.Employees, "EmployeeId", "FirstName");
+
+
+
+            if (custId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+
+            var listing = new Listing();
+            listing.Features = new List<Feature>();
+
+
+            //GET FEATURES 
+
+            PopualteFeatures(listing);
+
+
+
+            ViewBag.CityAreas = new SelectList(db.CityAreas, "AreaId", "Name");
+
+            //ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FirstName");
+            ViewBag.Employees = new SelectList(db.Employees, "EmployeeId", "FirstName");
             return View();
+        }
+
+
+        private void PopualteFeatures(Listing listing)
+        {
+
+
+            var allFeattures = db.Features;
+
+
+            //GET ALL FEATURES THAT ASSOSIATED WITH THE CURRENT LISTING
+            var listingFeatures = new HashSet<int>(listing.Features.Select(f => f.Id));
+
+            //!INIT LIST OF VIEWMODEL TO POPULATE PROPETIES
+            var viewModel = new List<AssociatedFeatures>();
+
+
+            foreach (var feature in allFeattures)
+            {
+                viewModel.Add(new AssociatedFeatures()
+                {
+                    FeatureId = feature.Id,
+                    Title = feature.Name,
+                    Available = listingFeatures.Contains(feature.Id)
+                });
+            }
+
+
+            ViewBag.Features = viewModel;
+
+
+
+
+
+
+
         }
 
         // POST: ListingsManagement/Create
