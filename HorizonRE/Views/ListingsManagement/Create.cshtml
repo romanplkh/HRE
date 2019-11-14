@@ -7,7 +7,12 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm())
+@if(ViewBag.Error != null)
+{
+    <h1>ERRORR FSDFDSFSDFDS</h1>
+}
+
+@using (Html.BeginForm("Create", "ListingsManagement", FormMethod.Post, new  { enctype = "multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
 
@@ -57,16 +62,28 @@
         @Html.LabelFor(m => m.Price)
         @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
     </div>
-    <div class="form-group">
-
-
-        <input type="checkbox" class="form-check-input" name="ContractSigned" value="@Model.ContractSigned" />
-        @Html.LabelFor(m => m.ContractSigned, new { @class = "form-check-label" })
-    </div>
 
     <div class="form-group">
         @Html.LabelFor(m => m.Employee)
         @Html.DropDownListFor(m => m.Employee, ViewBag.Employees as SelectList, new { @class = "form-control" })
+    </div>
+
+    <div class="form-check">
+        @Html.CheckBoxFor(m => m.ContractSigned, new { @class = "form-check-input" })
+        @Html.LabelFor(m => m.ContractSigned, new { @class = "form-check-label mb-4" })
+    </div>
+
+
+
+
+
+
+
+
+
+    <div class="form-group">
+
+        @Html.TextBox("Images", "", new { @class = "form-control mb-4", type = "file", multiple = "multiple", id="files" })
     </div>
 
 
@@ -109,10 +126,22 @@
 
 
 
-
+    <input type="submit" value="Submit" class="btn btn-success btn-lg" />
 
 }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+
+<script>
+
+    let files = document.querySelector('#files');
+
+    let filePath = window.location;
+
+    console.log(filePath)
+
+
+</script>
