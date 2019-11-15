@@ -11,16 +11,52 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using HorizonRE.Models;
+using System.Net.Mail;
+using System.Collections.Concurrent;
+using System.Text;
 
 namespace HorizonRE
 {
     public class EmailService : IIdentityMessageService
-    {
+    {        
+
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
+
             return Task.FromResult(0);
+            //var client = GetOrCreateSmtpClient();
+            //try
+            //{
+            //    MailMessage mailMessage = new MailMessage();
+
+            //    mailMessage.To.Add(new MailAddress(message.Destination));
+            //    mailMessage.Subject = message.Subject;
+            //    mailMessage.Body = message.Body;
+
+            //    mailMessage.BodyEncoding = Encoding.UTF8;
+            //    mailMessage.SubjectEncoding = Encoding.UTF8;
+            //    mailMessage.IsBodyHtml = true;
+
+            //    // there can only ever be one-1 concurrent call to SendMailAsync
+            //    await client.SendMailAsync(mailMessage);
+            //}
+            //finally
+            //{
+            //    _clients.Enqueue(client);
+            //}
         }
+        //private SmtpClient GetOrCreateSmtpClient()
+        //{
+        //    SmtpClient client = null;
+        //    if (_clients.TryDequeue(out client))
+        //    {
+        //        return client;
+        //    }
+
+        //    client = new SmtpClient();
+        //    return client;
+        //}
     }
 
     public class SmsService : IIdentityMessageService
@@ -38,6 +74,7 @@ namespace HorizonRE
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
             : base(store)
         {
+            
         }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
