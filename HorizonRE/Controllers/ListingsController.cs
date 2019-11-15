@@ -16,10 +16,10 @@ namespace HorizonRE.Controllers
         private HorizonContext db = new HorizonContext();
         // GET: Listings
         [HttpGet]
-        public ActionResult Index(int? page, string currentCity, int? currentProvince, int? currentCountry, string citySearch = null, int? CountryList = null, int? ProvincesList = null, string bedrooms = null, int? bathrooms = null, decimal? priceFrom = null, decimal? priceTo = null, bool priceOrder = false)
+        public ActionResult Index(int? page, string currentCity, int? currentProvince, int? currentCountry, int? currentBedroom, int? currentBathrooms, string citySearch = null, decimal? currentPriceFrom = null, decimal? currentPriceTo = null, bool? currentPriceOrder = null, int? CountryList = null, int? ProvincesList = null, int? bedrooms = null, int? bathrooms = null, decimal? priceFrom = null, decimal? priceTo = null, bool? priceOrder = null)
         {
 
-            var listingsFound = db.Listings.AsQueryable();
+            var listingsFound = db.Listings.Where(l => l.Status == "Active").AsQueryable();
 
             string countrySearch = null;
             string provSearch = null;
@@ -28,8 +28,8 @@ namespace HorizonRE.Controllers
             {
 
                 //countrySearch = db.Countries.Where(c => c.CountryId == CountryList).FirstOrDefault().Name;
-               // provSearch = db.Provinces.Where(c => c.ProvinceId == ProvincesList).FirstOrDefault().Name;
-               //page = 1;
+                // provSearch = db.Provinces.Where(c => c.ProvinceId == ProvincesList).FirstOrDefault().Name;
+                //page = 1;
 
             }
             else
@@ -40,17 +40,42 @@ namespace HorizonRE.Controllers
 
 
 
-            if (citySearch !=null)
+            if (citySearch != null)
             {
 
                 //page =1
-               
+
             }
             else
             {
                 citySearch = currentCity;
             }
 
+            if (bedrooms == null || bedrooms == 0)
+            {
+                bedrooms = currentBedroom;
+            }
+
+            if (bathrooms == null || bathrooms == 0)
+            {
+                bathrooms = currentBathrooms;
+            }
+
+            if(priceFrom == null)
+            {
+                priceFrom = currentPriceFrom; 
+            }
+
+
+            if (priceTo == null)
+            {
+                priceTo = currentPriceTo;
+            }
+
+            if(priceOrder == null)
+            {
+                priceOrder = currentPriceOrder;
+            }
 
             if (!string.IsNullOrEmpty(citySearch))
             {
@@ -69,13 +94,13 @@ namespace HorizonRE.Controllers
             if (provSearch != null) listingsFound = listingsFound.Where(l => l.Province.Contains(provSearch));
 
 
-            string bedroomsSaved = "";
+            int ? bedroomsSaved = null;
 
-            if (bedrooms != null && bedrooms != "0")
+            if (bedrooms != null && bedrooms != 0)
             {
 
-                bedroomsSaved = bedrooms;
-                listingsFound = listingsFound.Where(l => l.Bedrooms.Contains(bedrooms));
+               
+                listingsFound = listingsFound.Where(l => l.Bedrooms >=bedrooms);
 
 
             }
@@ -102,13 +127,17 @@ namespace HorizonRE.Controllers
             ViewBag.CurrentProvince = ProvincesList;
             ViewBag.CurrentCountry = CountryList;
             ViewBag.CurrentCity = citySearch;
-            ViewBag.Bedrooms = bedroomsSaved;
+            ViewBag.CurrentBedrooms = bedrooms;
+            ViewBag.CurrentBathrooms = bathrooms;
+            ViewBag.CurrentPriceFrom = priceFrom;
+            ViewBag.CurrentPriceTo = priceTo;
+            ViewBag.CurrentOrder = priceOrder;
             ViewBag.CountryList = new SelectList(db.Countries.ToList(), "CountryId", "Name", CountryList != null ? CountryList : 1);
             ViewBag.ProvincesList = new SelectList(db.Provinces.ToList(), "ProvinceId", "Name", ProvincesList != null ? ProvincesList : 4);
 
 
 
-            int pageSize = 1;
+            int pageSize = 2;
             int pageNumber = (page ?? 1);
 
 

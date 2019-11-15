@@ -78,8 +78,6 @@ namespace HorizonRE.Controllers
         public ActionResult Create(int? custId)
         {
 
-
-
             if (custId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -92,15 +90,18 @@ namespace HorizonRE.Controllers
 
             //GET FEATURES 
 
+            ViewBag.CityAreas = new SelectList(db.CityAreas, "AreaId", "Name");
+
+            //ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FirstName");
+            ViewBag.Employees = new SelectList(db.Employees, "EmployeeId", "FirstName");
+
+            ViewBag.SelectedCustomer = custId;
+
             PopualteFeatures(listing);
 
 
 
 
-            ViewBag.CityAreas = new SelectList(db.CityAreas, "AreaId", "Name");
-
-            //ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FirstName");
-            ViewBag.Employees = new SelectList(db.Employees, "EmployeeId", "FirstName");
             return View();
         }
 
@@ -108,29 +109,47 @@ namespace HorizonRE.Controllers
 
         // GET: ListingsManagement/Create
         [HttpPost]
-        public ActionResult Create(Listing listing, HttpPostedFileBase[] Images)
+        public ActionResult Create(Listing listing, HttpPostedFileBase[] selectedImages, string[] selectedFeature, string SelectedCustomer)
         {
 
 
 
-            if (Images.Count() > 7)
+
+            int customerId = int.Parse(SelectedCustomer);
+
+
+            listing.CustomerId = customerId;
+
+
+            if (selectedImages.Count() > 7)
             {
 
                 ViewBag.Error = "You can only select no more than 7 images for a property";
 
                 ViewBag.CityAreas = new SelectList(db.CityAreas, "AreaId", "Name");
 
-                //ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FirstName");
                 ViewBag.Employees = new SelectList(db.Employees, "EmployeeId", "FirstName");
                 PopualteFeatures(listing);
                 return View();
             }
 
 
+
+
+            if (!listing.ContractSigned)
+            { 
+                listing.EmployeeId = null;
+            }
+
+
+
+
+
+     
             List<string> validImages = new List<string>();
             if (ModelState.IsValid)
             {   //iterating through multiple file collection   
-                foreach (HttpPostedFileBase file in Images)
+                foreach (HttpPostedFileBase file in selectedImages)
                 {
                     //Checking file is available to save.  
                     if (file != null)
@@ -150,22 +169,74 @@ namespace HorizonRE.Controllers
 
                 }
 
+                if (selectedFeature != null)
+                {
+                    listing.Features = new List<Feature>();
+
+                    foreach (var feat in selectedFeature)
+                    {
+
+                        var featureToAdd = db.Features.Find(int.Parse(feat));
+
+                        listing.Features.Add(featureToAdd);
+
+
+                    }
+                }
+
 
                 if (validImages.Count > 0)
                 {
 
+
+
+                    //If contract is not signed
+                    if (listing.ContractSigned)
+                    {
+
+                        listing.ListingStartDate = DateTime.Now;
+                        listing.ListingEndDate = DateTime.Now.AddMonths(3);
+                        listing.Status = "Active";
+                    }
+
+
+
+                    db.Listings.Add(listing);
+                    db.SaveChanges();
+
+
+                    //get id of listing, to associate it with images
+
+                    int id = listing.ListingId;
+
+                    validImages.ForEach(img =>
+                    {
+
+                        ImageFile imageToUpdate = db.Images.Where(im => im.ImageName.ToLower().Contains(img.ToLower())).FirstOrDefault();
+                        imageToUpdate.ListingId = id;
+
+                        db.Images.Attach(imageToUpdate);
+
+                        db.Entry(imageToUpdate).Property(i => i.ListingId).IsModified = true;
+
+                        // db.Entry(customer).State = EntityState.Modified;
+                        db.SaveChanges();
+                    });
+
+                    return RedirectToAction("Index");
                 }
             }
 
 
+            PopualteFeatures(listing);
+            ViewBag.CityAreas = new SelectList(db.CityAreas, "AreaId", "Name", listing.AreaId);
 
-            ViewBag.CityAreas = new SelectList(db.CityAreas, "AreaId", "Name");
-
-            //ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FirstName");
-            ViewBag.Employees = new SelectList(db.Employees, "EmployeeId", "FirstName");
+            ViewBag.Employees = new SelectList(db.Employees, "EmployeeId", "FullName", listing.EmployeeId);
 
 
-            return View();
+           
+
+            return View(listing);
         }
 
 
@@ -174,7 +245,7 @@ namespace HorizonRE.Controllers
 
 
             var allFeattures = db.Features;
-            var listingFeatures = db.Features.Select(f=> f.Id).ToHashSet();
+            var listingFeatures = db.Features.Select(f => f.Id).ToHashSet();
 
             //GET ALL FEATURES THAT ASSOSIATED WITH THE CURRENT LISTING
 
@@ -182,7 +253,7 @@ namespace HorizonRE.Controllers
             {
                 listingFeatures = new HashSet<int>(listing.Features.Select(f => f.Id));
             }
-           
+
 
             //!INIT LIST OF VIEWMODEL TO POPULATE PROPETIES
             var viewModel = new List<AssociatedFeatures>();

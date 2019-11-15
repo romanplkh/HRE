@@ -27,8 +27,8 @@ namespace HorizonRE.Models
         [Display(Name = "Postal Code")]
         public string PostalCode { get; set; }
         public string Area { get; set; }
-        public string Bedrooms { get; set; }
-        public double Bathrooms { get; set; }
+        public int Bedrooms { get; set; }
+        public int Bathrooms { get; set; }
         public decimal Price { get; set; }
         [Display(Name ="Contract Signed")]
         public bool ContractSigned { get; set; }
@@ -43,7 +43,7 @@ namespace HorizonRE.Models
         public int CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
 
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
         public virtual Employee Employee { get; set; }
 
 

@@ -378,6 +378,14 @@
     <Compile Include="Migrations\201911141531206_AddStatusListingRequired.Designer.cs">
       <DependentUpon>201911141531206_AddStatusListingRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911151405465_AddNullablePropertyEmployeeId.cs" />
+    <Compile Include="Migrations\201911151405465_AddNullablePropertyEmployeeId.Designer.cs">
+      <DependentUpon>201911151405465_AddNullablePropertyEmployeeId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911151851241_ChangedPropertiesTypeOnListing.cs" />
+    <Compile Include="Migrations\201911151851241_ChangedPropertiesTypeOnListing.Designer.cs">
+      <DependentUpon>201911151851241_ChangedPropertiesTypeOnListing.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccessLevel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -729,6 +737,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911141531206_AddStatusListingRequired.resx">
       <DependentUpon>201911141531206_AddStatusListingRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911151405465_AddNullablePropertyEmployeeId.resx">
+      <DependentUpon>201911151405465_AddNullablePropertyEmployeeId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911151851241_ChangedPropertiesTypeOnListing.resx">
+      <DependentUpon>201911151851241_ChangedPropertiesTypeOnListing.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
