@@ -110,7 +110,7 @@ namespace HorizonRE.Controllers
 
 
 
-                    if (/*app != null &&*/ ModelState.IsValid)
+                    if (app != null && ModelState.IsValid)
                     {
 
 
