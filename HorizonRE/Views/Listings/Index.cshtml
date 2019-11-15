@@ -36,12 +36,14 @@
                 <h3>Parameters</h3>
                 <div class="form-group">
                     <label class="font-weight-bold">Bedrooms</label>
-                    <input type="number" name="bedrooms" value="0" min="0" max="5" step="1" />
+
+                    @Html.TextBox("bedrooms", ViewBag.CurrentBedrooms as string, new { @class = "form-control", type="number", value = "0", min = "0", max = "5", step = "1" })
+                    @*<input type="number" name="bedrooms" value="0" min="0" max="5" step="1" />*@
                 </div>
 
                 <div class="form-group">
                     <label class="font-weight-bold">Bathrooms</label>
-                    <input type="number" name="bathrooms" value="0" min="0" max="5" step="1" />
+                    @Html.TextBox("bathrooms", ViewBag.CurrentBathrooms as string, new { @class = "form-control", type = "number", value = "0", min = "0", max = "5", step = "1" })
                 </div>
 
 
@@ -52,16 +54,16 @@
                     <div class="form-row align-items-center">
                         @Html.Label("Price", new { @class = "font-weight-bold p-0 m-0" })
                         <div class="col">
-                            @Html.TextBox("priceFrom", "", new { @class = "form-control", placeholder = "From" })
+                            @Html.TextBox("priceFrom", ViewBag.CurrentPriceFrom as string, new { @class = "form-control", placeholder = "From" })
                         </div>
                         <div class="col">
-                            @Html.TextBox("priceTo", "", new { @class = "form-control", placeholder = "To" })
+                            @Html.TextBox("priceTo", ViewBag.CurrentPriceTo as string, new { @class = "form-control", placeholder = "To" })
                         </div>
 
                     </div>
                     <div class="custom-control custom-switch">
                         <input type="checkbox" name="priceOrder" value="true" class="custom-control-input" id="price">
-                        <input type="hidden" value="false" name="priceOrder" />
+                        <input type="hidden" value="@ViewBag.CurrentOrder" name="priceOrder" />
                         <label class="custom-control-label" for="price">Price High-to-Low</label>
                     </div>
                 </div>
@@ -178,7 +180,7 @@
             <div class="container">
                 <div class="row justify-content-start">
 
-                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page, citySearch = ViewBag.CurrentCity, CountryList = ViewBag.CurrentCountry, ProvincesList = ViewBag.CurrentProvince }))
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page, citySearch = ViewBag.CurrentCity, CountryList = ViewBag.CurrentCountry, ProvincesList = ViewBag.CurrentProvince, bedrooms = ViewBag.CurrentBedrooms, bathrooms=ViewBag.CurrentBathrooms, priceFrom = ViewBag.CurrentPriceFrom, priceTo = ViewBag.CurrentPriceTo, priceOrder = ViewBag.CurrentOrder }))
                 </div>
             </div>
 

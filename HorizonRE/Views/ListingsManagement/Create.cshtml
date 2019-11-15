@@ -14,7 +14,7 @@
 
 @using (Html.BeginForm("Create", "ListingsManagement", FormMethod.Post, new  { enctype = "multipart/form-data"}))
 {
-    @Html.AntiForgeryToken()
+    
 
     <div class="form-group">
 
@@ -39,7 +39,7 @@
     <div class="form-group">
 
         @Html.LabelFor(m => m.CityArea)
-        @Html.DropDownListFor(m => m.CityArea, ViewBag.CityAreas as SelectList, new { @class = "form-control" })
+        @Html.DropDownListFor(m=> m.AreaId, ViewBag.CityAreas as SelectList  , new { @class = "form-control" })
     </div>
     <div class="form-group">
 
@@ -65,7 +65,7 @@
 
     <div class="form-group">
         @Html.LabelFor(m => m.Employee)
-        @Html.DropDownListFor(m => m.Employee, ViewBag.Employees as SelectList, new { @class = "form-control" })
+        @Html.DropDownListFor(m => m.EmployeeId, ViewBag.Employees as SelectList, new { @class = "form-control" })
     </div>
 
     <div class="form-check">
@@ -73,17 +73,15 @@
         @Html.LabelFor(m => m.ContractSigned, new { @class = "form-check-label mb-4" })
     </div>
 
+    @Html.Hidden("Status", "Not active" )
 
-
-
-
-
+    @Html.Hidden("SelectedCustomer", ViewBag.SelectedCustomer as string)
 
 
 
     <div class="form-group">
 
-        @Html.TextBox("Images", "", new { @class = "form-control mb-4", type = "file", multiple = "multiple", id="files" })
+        @Html.TextBox("selectedImages", "", new { @class = "form-control mb-4", type = "file", multiple = "multiple", id="files" })
     </div>
 
 
@@ -95,27 +93,33 @@
                 features = ViewBag.Features;
 
 
-            int count = 0;
-            //FINISH
+            if (features != null)
+            {
+                int count = 0;
+                //FINISH
 
-            <div class="row justify-content-center">
+                <div class="row justify-content-center">
 
-                @foreach (var f in features)
-                {
-
-
-
-
-                    count++;
+                    @foreach (var f in features)
+                    {
 
 
-                    <div class="form-check mr-5 w-25 mb-3">
-                        <input type="checkbox" class="form-check-input" value="@f.Available" />
-                        <label class="form-check-label">@f.Title</label>
-                    </div>
-                }
 
-            </div>
+
+                        count++;
+
+
+                        <div class="form-check mr-5 w-25 mb-3">
+                            <input type="checkbox" class="form-check-input" name="selectedFeature" value="@f.FeatureId" />
+                            <label class="form-check-label">@f.Title</label>
+                        </div>
+                    }
+
+                </div>
+            }
+
+
+
 
 
 
