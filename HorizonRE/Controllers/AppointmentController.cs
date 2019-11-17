@@ -1,7 +1,4 @@
-﻿using HorizonRE.Models;
-using HorizonRE.ViewModel;
-using PagedList;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
@@ -9,6 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using HorizonRE.Models;
+using HorizonRE.ViewModel;
+using PagedList;
 
 namespace HorizonRE.Controllers
 {
@@ -18,9 +18,9 @@ namespace HorizonRE.Controllers
         HorizonContext db = new HorizonContext();
         // GET: Appointment
         [HttpGet]
-        public ActionResult Add(bool success=false)
+        public ActionResult Add(bool success = false)
         {
-            if(success == true)
+            if (success == true)
             {
                 ViewBag.Msg = "Appointment Added";
             }
@@ -53,6 +53,7 @@ namespace HorizonRE.Controllers
                 {
 
                     ViewBag.Error = "Customer with this email does not exist.";
+                    return View("Add");
 
                 }
 
@@ -91,29 +92,28 @@ namespace HorizonRE.Controllers
 
 
             //Create appointment for specified customer and listing
-            if (customer != null)
+            if (customer != null && listing != null)
             {
                 ViewBag.Customer = customer;
 
-                if (listingId != null)
+
+                ViewBag.Listing = listing;
+                ViewBag.CurrentListing = currentListing;
+
+                app.CustomerId = customer.CustomerId;
+
+
+                if (app.EmployeeId != 0 && ModelState.IsValid)
                 {
-                    ViewBag.Listing = listing;
-                    ViewBag.CurrentListing = currentListing;
 
-                    app.CustomerId = customer.CustomerId;
+                    app.StartDate = app.StartDate.AddMinutes(-15);
+                    app.EndDate = app.EndDate.AddMinutes(15);
 
-
-                    if (app != null && ModelState.IsValid)
-                    {
-
-                        app.StartDate = app.StartDate.AddMinutes(-15);
-                        app.EndDate = app.EndDate.AddMinutes(15);
-
-                        return ValidateAppointment(app, listing, currentListing, currEmail, customer);
-
-                    }
+                    return ValidateAppointment(app, listing, currentListing, currEmail, customer);
 
                 }
+
+                return View("Add");
 
             }
 
@@ -214,7 +214,7 @@ namespace HorizonRE.Controllers
                 ViewBag.Customer = null;
                 currEmail = "";
                 currentListing = "";
-                return RedirectToAction("Add", "Appointment", new { success = true});
+                return RedirectToAction("Add", "Appointment", new { success = true });
             }
 
 
@@ -317,7 +317,7 @@ namespace HorizonRE.Controllers
                     return RedirectToAction("Index");
                 }
 
-                
+
             }
 
             ViewBag.EmployeeId = new SelectList(db.Employees, "EmployeeId", "FullName", app.EmployeeId);
@@ -333,10 +333,10 @@ namespace HorizonRE.Controllers
         {
             string msg = string.Empty;
 
-           //listing showing is booked for specified time
+            //listing showing is booked for specified time
             var appInDB = db.Appointments.AsNoTracking().Where(a => a.ListingId == app.ListingId &&
                             a.Id != app.Id &&
-                            (a.StartDate > app.StartDate && a.EndDate > app.EndDate) || 
+                            (a.StartDate > app.StartDate && a.EndDate > app.EndDate) ||
                             (a.StartDate < app.StartDate && a.EndDate > app.EndDate)).FirstOrDefault();
 
             //agent has another app an that time
@@ -345,13 +345,13 @@ namespace HorizonRE.Controllers
                             (a.StartDate > app.StartDate && a.EndDate > app.EndDate) ||
                             (a.StartDate < app.StartDate && a.EndDate > app.EndDate)).FirstOrDefault();
 
-            if(appInDB != null)
+            if (appInDB != null)
             {
                 return msg = "Sorry, another appointment is scheduled for this listing at " +
                     "that time";
-                
+
             }
-            else if(appInDbAgent != null)
+            else if (appInDbAgent != null)
             {
                 return msg = "Sorry, another appointment is scheduled with this agent at" +
                    "that time";

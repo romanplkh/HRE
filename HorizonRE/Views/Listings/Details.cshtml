@@ -18,7 +18,23 @@
     <div class="row">
         <div class="col-md-8">
             <div class="main-thumbnail mb-3">
-                @{ var mainThumb = Model.Images.First(i => i.ListingId == Model.ListingId); }
+                @{
+
+
+                    HorizonRE.Models.ImageFile mainThumb;
+                    if (Model.Images.Count > 0)
+                    {
+                        mainThumb = Model.Images.First(i => i.ListingId == Model.ListingId);
+                    }
+                    else
+                    {
+                        mainThumb = new HorizonRE.Models.ImageFile();
+                        mainThumb.Path = "/Content/Files/NoImage.png";
+                    }
+
+
+
+                    }
                 <img src="@mainThumb.Path" alt="" class="img-thumbnail w-80"/>
             </div>
             <div class="owl-carousel owl-theme">
