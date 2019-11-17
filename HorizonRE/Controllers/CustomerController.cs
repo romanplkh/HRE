@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web; 
-using System.Web.Mvc;
-using HorizonRE.Models;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
-using Microsoft.AspNet.Identity.Owin;
-using System.Web.Security;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
+using HorizonRE.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace HorizonRE.Controllers
 {
@@ -101,17 +103,38 @@ namespace HorizonRE.Controllers
 
         private async Task CreateAuthRecordAsync(Customer customer)
         {
-            var user = new ApplicationUser
-            { UserName = customer.Email, Email = customer.Email };
+
+            //!CREATE  OBJECT USER
+            var user = new ApplicationUser { UserName = customer.Email, Email = customer.Email };
+
+
+            //!SAVE OBJECT USER IN TABLE USERS
             var result = await UserManager.CreateAsync(user, customer.Password);
             //assign Customer role
             if (result.Succeeded)
             {
-                var newCustomer = UserManager.FindByName(user.UserName);
-                var roleResult = UserManager.AddToRole(newCustomer.Id, "Customer");
+
+                //!GET CURRENT USER CREATED
+                var createdCustomer = UserManager.FindByName(user.UserName);
+                //!ADD ROLE TO CUSTOMER
+                var roleResult = UserManager.AddToRole(createdCustomer.Id, "Customer");
+
+
+                string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a> <br/> You must click 'Forget password' and select your password. <br/> Kind regards, <br/ > Horizon Real Estate");
+
+
             }
 
+
+
         }
+
+
+
+
+
 
         // GET: Provinces in Country for AddCustomer
         [HttpGet]
@@ -119,8 +142,8 @@ namespace HorizonRE.Controllers
         {
             var provinces = db.Provinces.Where(p => p.CountryId == countryId).Select(t => new
             {
-               t.ProvinceId,
-               t.Name
+                t.ProvinceId,
+                t.Name
             });
             return Json(provinces, JsonRequestBehavior.AllowGet);
         }
@@ -174,7 +197,7 @@ namespace HorizonRE.Controllers
         }
 
         // POST: delete customer record
-        [HttpPost]       
+        [HttpPost]
         public ActionResult Delete()
         {
             int customerId = Convert.ToInt32(Request.Form["customerId"]);
