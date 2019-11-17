@@ -186,6 +186,10 @@ namespace HorizonRE.Controllers
                         listing.ListingEndDate = DateTime.Now.AddMonths(3);
                         listing.Status = "Active";
                     }
+                    else
+                    {
+                        listing.Status = "No contract";
+                    }
 
                     db.Listings.Add(listing);
                     db.SaveChanges();

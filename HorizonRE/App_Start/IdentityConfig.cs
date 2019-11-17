@@ -1,62 +1,56 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using HorizonRE.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using HorizonRE.Models;
-using System.Net.Mail;
-using System.Collections.Concurrent;
-using System.Text;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace HorizonRE
 {
     public class EmailService : IIdentityMessageService
-    {        
+    {
 
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
 
-            return Task.FromResult(0);
-            //var client = GetOrCreateSmtpClient();
-            //try
-            //{
-            //    MailMessage mailMessage = new MailMessage();
-
-            //    mailMessage.To.Add(new MailAddress(message.Destination));
-            //    mailMessage.Subject = message.Subject;
-            //    mailMessage.Body = message.Body;
-
-            //    mailMessage.BodyEncoding = Encoding.UTF8;
-            //    mailMessage.SubjectEncoding = Encoding.UTF8;
-            //    mailMessage.IsBodyHtml = true;
-
-            //    // there can only ever be one-1 concurrent call to SendMailAsync
-            //    await client.SendMailAsync(mailMessage);
-            //}
-            //finally
-            //{
-            //    _clients.Enqueue(client);
-            //}
+            return configSendGridasync(message);
         }
-        //private SmtpClient GetOrCreateSmtpClient()
-        //{
-        //    SmtpClient client = null;
-        //    if (_clients.TryDequeue(out client))
-        //    {
-        //        return client;
-        //    }
 
-        //    client = new SmtpClient();
-        //    return client;
-        //}
+        private async Task configSendGridasync(IdentityMessage message)
+        {
+            var myMessage = new SendGridMessage();
+            var client = new SendGridClient(ConfigurationManager.AppSettings["EmailSender"]);
+            myMessage.AddTo(message.Destination);
+
+            var to = new EmailAddress(message.Destination, "C");
+            myMessage.From = new EmailAddress(
+                                "admin@hre.com", "Admin");
+            myMessage.Subject = message.Subject;
+            myMessage.PlainTextContent = message.Body;
+            myMessage.HtmlContent = message.Body;
+
+
+            var msg = MailHelper.CreateSingleEmail(myMessage.From, to, myMessage.Subject, myMessage.PlainTextContent, myMessage.HtmlContent);
+            var response = await client.SendEmailAsync(msg);
+
+        }
+
+
+
     }
 
     public class SmsService : IIdentityMessageService
@@ -74,10 +68,10 @@ namespace HorizonRE
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
             : base(store)
         {
-            
+
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // Configure validation logic for usernames
@@ -118,8 +112,11 @@ namespace HorizonRE
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
-                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider =
+                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"))
+                    {
+                        TokenLifespan = TimeSpan.FromHours(3)
+                    };
             }
             return manager;
         }
