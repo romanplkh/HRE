@@ -26,7 +26,7 @@
                 {
                     <div class="item mx-2">
                         <div class="card">
-                            <img class="card-img-top" src="@img.Path" alt=""/>
+                            <img class="card-img-top" src="@img.Path" alt="" style="height:150px"/>
                         </div>
                     </div>
                 }
@@ -60,11 +60,11 @@
                     </div>
                     <h4 class="font-weight-bold text-center">Amenities</h4>
                     <div class="row d-flex flex-wrap ml-2">
-                        <p class="w-50"> Oil heat</p>
-                        <p class="w-50"> Pool</p>
-                        <p class="w-50"> Near the school</p>
-                        <p class="w-50"> Near the museum</p>
-                    </div>
+                        @foreach (var feature in Model.Features)
+                        {
+                            <p class="w-50">@feature.Name</p>
+                        }                          
+                     </div>
                 </div>
             </div>
 

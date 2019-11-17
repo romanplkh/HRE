@@ -7,9 +7,9 @@ namespace HorizonRE.Migrations
     {
         public override void Up()
         {
-           Sql("INSERT INTO AccessLevels VALUES('Broker')");
-           Sql("INSERT INTO AccessLevels VALUES('Agent')");
-           Sql("INSERT INTO AccessLevels VALUES('Office Manager')");
+          // Sql("INSERT INTO AccessLevels VALUES('Broker')");
+          // Sql("INSERT INTO AccessLevels VALUES('Agent')");
+           //Sql("INSERT INTO AccessLevels VALUES('Office Manager')");
         }
         
         public override void Down()

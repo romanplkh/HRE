@@ -20,8 +20,6 @@ namespace HorizonRE.Controllers
         [HttpGet]
         public ActionResult Add(bool success=false)
         {
-
-
             if(success == true)
             {
                 ViewBag.Msg = "Appointment Added";
@@ -46,7 +44,7 @@ namespace HorizonRE.Controllers
             string currEmail = "";
             string currentListing = "";
 
-
+            //seach customer by email
             if (!string.IsNullOrEmpty(email))
             {
                 customer = db.Customers.Where(cx => cx.Email.ToLower() == email.ToLower()).SingleOrDefault();
@@ -67,7 +65,7 @@ namespace HorizonRE.Controllers
             ViewBag.EmailCurrent = currEmail;
 
 
-
+            //search listing by Id
             if (!string.IsNullOrEmpty(listingId))
             {
 
@@ -92,10 +90,7 @@ namespace HorizonRE.Controllers
             }
 
 
-
-
-
-
+            //Create appointment for specified customer and listing
             if (customer != null)
             {
                 ViewBag.Customer = customer;
@@ -108,32 +103,19 @@ namespace HorizonRE.Controllers
                     app.CustomerId = customer.CustomerId;
 
 
-
-
                     if (app != null && ModelState.IsValid)
                     {
-
 
                         app.StartDate = app.StartDate.AddMinutes(-15);
                         app.EndDate = app.EndDate.AddMinutes(15);
 
                         return ValidateAppointment(app, listing, currentListing, currEmail, customer);
 
-
-
                     }
-
-
-
-
-
-
 
                 }
 
             }
-
-
 
             return View("Add");
         }
@@ -142,9 +124,7 @@ namespace HorizonRE.Controllers
         private ActionResult ValidateAppointment(Appointment appointment, Listing listing, string currentListing, string currEmail, Customer customer)
         {
 
-
             bool isValid = true;
-
 
             bool appSameExist = db.Appointments.Where(
               app => (app.CustomerId == appointment.CustomerId) && (app.ListingId == appointment.ListingId)
@@ -172,7 +152,6 @@ namespace HorizonRE.Controllers
             else
 
 
-
             if (appointment.StartDate.Date > appointment.EndDate.Date)
             {
                 ViewBag.Error = "Showing start date cannot be greater than end date";
@@ -185,7 +164,6 @@ namespace HorizonRE.Controllers
                 isValid = false;
             }
             else
-
 
 
             if (appointment.StartDate.Hour > appointment.EndDate.Hour)
@@ -224,7 +202,6 @@ namespace HorizonRE.Controllers
             }
 
 
-
             if (isValid)
             {
                 db.Appointments.Add(appointment);
@@ -241,17 +218,13 @@ namespace HorizonRE.Controllers
             }
 
 
-
             ViewBag.EmailCurrent = currEmail;
             ViewBag.Listing = listing;
             ViewBag.CurrentListing = currentListing;
             ViewBag.Customer = customer;
 
 
-
             return View("Add");
-
-
 
         }
 

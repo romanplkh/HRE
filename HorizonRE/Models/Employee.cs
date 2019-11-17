@@ -38,10 +38,10 @@ namespace HorizonRE.Models
       [NotMapped] 
       public string Province { get; set; }
 
-        [NotMapped]
-        public string FullName { get => $"{FirstName} {LastName}"; }
+      [NotMapped]
+      public string FullName { get => $"{FirstName} {LastName}"; }
 
-        [Required(ErrorMessage = "Street address is required")]
+      [Required(ErrorMessage = "Street address is required")]
       [Display(Name = "Street address" )]
       [StringLength(100, MinimumLength = 3)]
       public string StreetAddress { get; set; }
@@ -109,14 +109,6 @@ namespace HorizonRE.Models
 
 
       public virtual ICollection<ImageFile> Images { get; set; }
-
-      
-     // public Authentication Authentication { get; set; }
-      
-      
-      public  int AccessLevelId { get; set; }
-      public virtual  AccessLevel AccessLevel { get; set; }
-
 
       public virtual ICollection<Listing> Listings { get; set; }
       public virtual ICollection<Appointment> Appointments { get; set; }

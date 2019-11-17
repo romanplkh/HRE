@@ -13,12 +13,11 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace HorizonRE.Controllers
 {
-    // [Authorize]
+   
     public class EmployeeController : Controller
     {
         private HorizonContext db = new HorizonContext();
 
-        private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
         // GET: AllEmployees
@@ -68,10 +67,13 @@ namespace HorizonRE.Controllers
 
                 employee.EmployeeProvinceId = provId;
                 //get currently logged user from Identity
-                //employee.AddedBy = User.Identity.GetUserId();
+                string currentUser = User.Identity.GetUserName();
+                var addedBy = db.Employees.Where(e => e.OfficeEmail.Contains(currentUser)).FirstOrDefault();
 
-                //WE do not need access level anymore
-                employee.AccessLevelId = 2;
+                //Need this for the 1st user. 
+                employee.AddedBy = 1;
+                //employee.AddedBy = addedBy.EmployeeId;
+
                 employee.Password = GeneratePassword(8, 1);
 
                 db.Employees.Add(employee);
@@ -88,38 +90,7 @@ namespace HorizonRE.Controllers
                 db.SaveChanges();
 
                 //create new employee auth record
-                var user = new ApplicationUser
-                { UserName = employee.OfficeEmail, Email = employee.OfficeEmail };
-                var result = await UserManager.CreateAsync(user, employee.Password);
-                //assign AGENT role
-                if (result.Succeeded)
-                {
-                    var newAgent = UserManager.FindByName(user.UserName);
-                    var roleResult = UserManager.AddToRole(newAgent.Id, "Agent");
-
-                    //send email
-                   // var subject = "Account created";
-                   // var body = "Your account was sucessfully created. " +
-                      //  $"Please log in using following email {newAgent.UserName} " +
-                      //  $"and password {newAgent.PasswordHash}";
-                    //var user = await UserManager.FindByEmailAsync("xxx@gmail.com");
-                   // await UserManager.SendEmailAsync(newAgent.Id, subject, body);
-
-
-                    //string code = await UserManager.GenerateEmailConfirmationTokenAsync(newAgent.Id);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = newAgent.Id, code = code }, protocol: Request.Url.Scheme);
-                    //await UserManager.SendEmailAsync(newAgent.Id, "Horizon Agent Account",
-                    //    "Your account was sucessfully created. " +
-                    //    $"Please log in using following email {newAgent.UserName} " +
-                    //    $"and password {newAgent.PasswordHash}");
-
-                    //UserManager.EmailService = new EmailService();
-                    //await UserManager.SendEmailAsync(newAgent.Id, "Horizon Agent Account", 
-                    //    "Your account was sucessfully created. " +
-                    //    $"Please log in using following email {newAgent.UserName} " +
-                    //    $"and password {newAgent.PasswordHash}");
-                }
-                
+                await CreateAuthRecordAsync(employee);                
 
                 return RedirectToAction("Index");
             }
@@ -142,6 +113,42 @@ namespace HorizonRE.Controllers
             {
                 _userManager = value;
             }
+        }
+
+        private async Task CreateAuthRecordAsync(Employee employee)
+        {
+            var user = new ApplicationUser
+            { UserName = employee.OfficeEmail, Email = employee.OfficeEmail };
+            var result = await UserManager.CreateAsync(user, employee.Password);
+            //assign Agent role
+            if (result.Succeeded)
+            {
+                var newAgent = UserManager.FindByName(user.UserName);
+                var roleResult = UserManager.AddToRole(newAgent.Id, "Agent");
+
+                //send email
+                // var subject = "Account created";
+                // var body = "Your account was sucessfully created. " +
+                //  $"Please log in using following email {newAgent.UserName} " +
+                //  $"and password {newAgent.PasswordHash}";
+                //var user = await UserManager.FindByEmailAsync("xxx@gmail.com");
+                // await UserManager.SendEmailAsync(newAgent.Id, subject, body);
+
+
+                //string code = await UserManager.GenerateEmailConfirmationTokenAsync(newAgent.Id);
+                //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = newAgent.Id, code = code }, protocol: Request.Url.Scheme);
+                //await UserManager.SendEmailAsync(newAgent.Id, "Horizon Agent Account",
+                //    "Your account was sucessfully created. " +
+                //    $"Please log in using following email {newAgent.UserName} " +
+                //    $"and password {newAgent.PasswordHash}");
+
+                //UserManager.EmailService = new EmailService();
+                //await UserManager.SendEmailAsync(newAgent.Id, "Horizon Agent Account", 
+                //    "Your account was sucessfully created. " +
+                //    $"Please log in using following email {newAgent.UserName} " +
+                //    $"and password {newAgent.PasswordHash}");
+            }
+
         }
 
 

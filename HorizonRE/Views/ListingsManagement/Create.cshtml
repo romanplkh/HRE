@@ -9,7 +9,7 @@
 
 @if(ViewBag.Error != null)
 {
-    <h1>ERRORR FSDFDSFSDFDS</h1>
+<h1>@ViewBag.Error</h1>
 }
 
 @using (Html.BeginForm("Create", "ListingsManagement", FormMethod.Post, new  { enctype = "multipart/form-data"}))
@@ -102,12 +102,7 @@
 
                     @foreach (var f in features)
                     {
-
-
-
-
                         count++;
-
 
                         <div class="form-check mr-5 w-25 mb-3">
                             <input type="checkbox" class="form-check-input" name="selectedFeature" value="@f.FeatureId" />
@@ -117,13 +112,6 @@
 
                 </div>
             }
-
-
-
-
-
-
-
 
         }
     </div>
