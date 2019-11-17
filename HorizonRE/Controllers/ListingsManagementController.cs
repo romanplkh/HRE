@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace HorizonRE.Controllers
 {
@@ -111,15 +112,9 @@ namespace HorizonRE.Controllers
         [HttpPost]
         public ActionResult Create(Listing listing, HttpPostedFileBase[] selectedImages, string[] selectedFeature, string SelectedCustomer)
         {
-
-
-
-
             int customerId = int.Parse(SelectedCustomer);
 
-
             listing.CustomerId = customerId;
-
 
             if (selectedImages.Count() > 7)
             {
@@ -134,15 +129,10 @@ namespace HorizonRE.Controllers
             }
 
 
-
-
             if (!listing.ContractSigned)
             { 
                 listing.EmployeeId = null;
             }
-
-
-
 
 
      
@@ -188,8 +178,6 @@ namespace HorizonRE.Controllers
                 if (validImages.Count > 0)
                 {
 
-
-
                     //If contract is not signed
                     if (listing.ContractSigned)
                     {
@@ -199,14 +187,11 @@ namespace HorizonRE.Controllers
                         listing.Status = "Active";
                     }
 
-
-
                     db.Listings.Add(listing);
                     db.SaveChanges();
 
 
                     //get id of listing, to associate it with images
-
                     int id = listing.ListingId;
 
                     validImages.ForEach(img =>
@@ -233,16 +218,12 @@ namespace HorizonRE.Controllers
 
             ViewBag.Employees = new SelectList(db.Employees, "EmployeeId", "FullName", listing.EmployeeId);
 
-
-           
-
             return View(listing);
         }
 
 
         private void PopualteFeatures(Listing listing)
         {
-
 
             var allFeattures = db.Features;
             var listingFeatures = db.Features.Select(f => f.Id).ToHashSet();
@@ -271,34 +252,49 @@ namespace HorizonRE.Controllers
 
 
             ViewBag.Features = viewModel;
+        }
 
 
 
+        [HttpGet]
+        public ActionResult CreateReport(string date, int? page)
+        {
+            var listings = db.Listings.ToList();
+           
+
+            if (!string.IsNullOrEmpty(date))
+            {
+                //search all listings from start date till today
+                DateTime start = DateTime.Parse(date);
+                listings = listings.Where(l => l.ListingStartDate.Date >= start.Date
+                           && l.ListingStartDate.Date <= DateTime.Now.Date).ToList();
 
 
+                var groupedListings = listings
+               .GroupBy(l => l.Status, (key, listing) => new ListingReportViewModel
+               {
+                   Status = key,
+                   listing = listing
+               })
+               .OrderByDescending(l => l.Status)
+               .ToList();
+
+                ViewBag.Report = groupedListings;
+ 
+            }
+            else
+            {
+                ViewBag.Error = "Please select start date to generate report";
+            }
+
+            return View();
 
 
         }
 
-        //// POST: ListingsManagement/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "ListingId,StreetAddress,City,Province,Country,PostalCode,Area,Bedrooms,Bathrooms,Price,ContractSigned,ListingStartDate,ListingEndDate,CustomerId,EmployeeId,AreaId")] Listing listing)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Listings.Add(listing);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
 
-        //    ViewBag.AreaId = new SelectList(db.CityAreas, "AreaId", "Name", listing.AreaId);
-        //    ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FirstName", listing.CustomerId);
-        //    ViewBag.EmployeeId = new SelectList(db.Employees, "EmployeeId", "FirstName", listing.EmployeeId);
-        //    return View(listing);
-        //}
+
+        //------THIS PART IS NOT IMPLEMENTED ON UI-------
 
         // GET: ListingsManagement/Edit/5
         public ActionResult Edit(int? id)

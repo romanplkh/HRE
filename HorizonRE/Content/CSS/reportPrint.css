@@ -1,0 +1,12 @@
+﻿   nav#sidebar.active{
+       display: none!important;
+   }
+   .navbar, .form-inline, #print {
+       display: none;
+   }
+
+    #start-date {
+    display:block!important;
+    }
+
+

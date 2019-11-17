@@ -6,12 +6,18 @@ using System.Web.Mvc;
 using HorizonRE.Models;
 using System.Data.Entity;
 using System.Net;
+using Microsoft.AspNet.Identity.Owin;
+using System.Web.Security;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
 namespace HorizonRE.Controllers
 {
     public class CustomerController : Controller
     {
         private HorizonContext db = new HorizonContext();
+        private ApplicationUserManager _userManager;
+
         // GET: all customers and related data
         [HttpGet]
         public ActionResult Index()
@@ -35,7 +41,7 @@ namespace HorizonRE.Controllers
 
         }
 
-        // GET: countries and provinces(Canadian by default) for form
+        // GET: countries and provinces(Canadian by default) from form
         [HttpGet]
         public ActionResult AddCustomer()
         {
@@ -47,7 +53,7 @@ namespace HorizonRE.Controllers
         //POST: add new customer
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddCustomer([Bind(Include = "CustomerId,FirstName, LastName, MiddleName, " +
+        public async Task<ActionResult> AddCustomer([Bind(Include = "CustomerId,FirstName, LastName, MiddleName, " +
             "StreetAddress, City, PostalCode, Phone, Email, DOB, ProvincesList," +
             "ProvinceCustomer, CustomerProvinceId")] Customer customer
             )
@@ -56,6 +62,7 @@ namespace HorizonRE.Controllers
             {
                 int provId = Convert.ToInt32(Request.Form["ProvincesList"]);
                 customer.CustomerProvinceId = provId;
+                customer.Password = GeneratePassword(8, 1);
                 db.Customers.Add(customer);
                 db.SaveChanges();
 
@@ -69,11 +76,41 @@ namespace HorizonRE.Controllers
 
                 db.SaveChanges();
 
+                //create customer login
+                await CreateAuthRecordAsync(customer);
+
                 return RedirectToAction("Index");
             }
             ViewData["CountryList"] = new SelectList(db.Countries, "CountryId", "Name");
             ViewData["ProvincesList"] = new SelectList(db.Provinces.Where(c => c.CountryId == 1), "ProvinceId", "Name");
             return View();
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext()
+                    .GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        private async Task CreateAuthRecordAsync(Customer customer)
+        {
+            var user = new ApplicationUser
+            { UserName = customer.Email, Email = customer.Email };
+            var result = await UserManager.CreateAsync(user, customer.Password);
+            //assign Customer role
+            if (result.Succeeded)
+            {
+                var newCustomer = UserManager.FindByName(user.UserName);
+                var roleResult = UserManager.AddToRole(newCustomer.Id, "Customer");
+            }
+
         }
 
         // GET: Provinces in Country for AddCustomer
@@ -148,7 +185,14 @@ namespace HorizonRE.Controllers
             return RedirectToAction("Index");
         }
 
+        public static string GeneratePassword(int len, int spec)
+        {
+            string password = Membership.GeneratePassword(len, spec);
 
-        
+            return password;
+        }
+
+
+
     }
 }

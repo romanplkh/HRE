@@ -386,11 +386,25 @@
     <Compile Include="Migrations\201911151851241_ChangedPropertiesTypeOnListing.Designer.cs">
       <DependentUpon>201911151851241_ChangedPropertiesTypeOnListing.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911162109090_RemovedAccessLevelEmployee.cs" />
+    <Compile Include="Migrations\201911162109090_RemovedAccessLevelEmployee.Designer.cs">
+      <DependentUpon>201911162109090_RemovedAccessLevelEmployee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911162121291_SeedAuthRoles.cs" />
+    <Compile Include="Migrations\201911162121291_SeedAuthRoles.Designer.cs">
+      <DependentUpon>201911162121291_SeedAuthRoles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911162124394_DeleteAuthTableAccessLevelTable.cs" />
+    <Compile Include="Migrations\201911162124394_DeleteAuthTableAccessLevelTable.Designer.cs">
+      <DependentUpon>201911162124394_DeleteAuthTableAccessLevelTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911162149262_AddPasswordCustomerTable.cs" />
+    <Compile Include="Migrations\201911162149262_AddPasswordCustomerTable.Designer.cs">
+      <DependentUpon>201911162149262_AddPasswordCustomerTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccessLevel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Appointment.cs" />
-    <Compile Include="Models\Authentication.cs" />
     <Compile Include="Models\CityArea.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\CustomAttribute.cs" />
@@ -412,6 +426,7 @@
     <Compile Include="ViewModel\CustomerListing.cs" />
     <Compile Include="ViewModel\ListingCustomerAgentView.cs" />
     <Compile Include="ViewModel\ListingCustomerViewModel.cs" />
+    <Compile Include="ViewModel\ListingReportViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Asset\Images\horizon_logo_footer.svg" />
@@ -442,6 +457,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CSS\bundle.css" />
+    <Content Include="Content\CSS\reportPrint.css" />
     <Content Include="Content\Files\download.jpg" />
     <Content Include="Content\Fonts\slick.svg" />
     <Content Include="Content\Fonts\webfonts\all.css" />
@@ -584,6 +600,7 @@
     <Content Include="Views\Appointment\Index.cshtml" />
     <Content Include="Views\Appointment\Edit.cshtml" />
     <Content Include="Views\ListingsManagement\Create.cshtml" />
+    <Content Include="Views\ListingsManagement\CreateReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -743,6 +760,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911151851241_ChangedPropertiesTypeOnListing.resx">
       <DependentUpon>201911151851241_ChangedPropertiesTypeOnListing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911162109090_RemovedAccessLevelEmployee.resx">
+      <DependentUpon>201911162109090_RemovedAccessLevelEmployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911162121291_SeedAuthRoles.resx">
+      <DependentUpon>201911162121291_SeedAuthRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911162124394_DeleteAuthTableAccessLevelTable.resx">
+      <DependentUpon>201911162124394_DeleteAuthTableAccessLevelTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911162149262_AddPasswordCustomerTable.resx">
+      <DependentUpon>201911162149262_AddPasswordCustomerTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

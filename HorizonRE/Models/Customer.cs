@@ -76,6 +76,8 @@ namespace HorizonRE.Models
         [NotMapped]
         public string Province { get; set; }
 
+        public string Password { get; set; }
+
         //foreign key to join table
 
         public int CustomerProvinceId { get; set; }

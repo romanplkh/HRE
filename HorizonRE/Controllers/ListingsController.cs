@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace HorizonRE.Controllers
 {
+    [AllowAnonymous]
     public class ListingsController : Controller
     {
 
