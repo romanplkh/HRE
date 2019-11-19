@@ -40,6 +40,8 @@ namespace HorizonRE.Models
 
         public bool RenewNotificationSent { get; set; } = false;
 
+        public string RenewDenialReason { get; set; }
+
 
 
         public int CustomerId { get; set; }

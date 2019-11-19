@@ -312,7 +312,7 @@ namespace HorizonRE.Controllers
         }
 
 
-    
+
 
         public ApplicationUserManager UserManager
         {
@@ -334,7 +334,7 @@ namespace HorizonRE.Controllers
 
             DateTime deadline = DateTime.Now.AddDays(7);
 
-            var listings = db.Listings.Where(l => l.ListingEndDate <= deadline  && l.RenewNotificationSent == false).ToList();
+            var listings = db.Listings.Where(l => l.ListingEndDate <= deadline && l.RenewNotificationSent == false).ToList();
 
 
             if (listings.Count == 0)
@@ -343,7 +343,7 @@ namespace HorizonRE.Controllers
             }
 
 
-          
+
 
             foreach (Listing lis in listings)
             {
@@ -351,7 +351,7 @@ namespace HorizonRE.Controllers
                 var customerToSend = UserManager.FindByName(lis.Customer.Email);
 
 
-                if(customerToSend != null)
+                if (customerToSend != null)
                 {
                     string msg = $"Dear {lis.Customer.FullName}, <br/> <br/> Your contract for listing # {lis.ListingId} is about to expire on {lis.ListingEndDate.ToShortDateString()} <br/> Please click  <a href='https://localhost:44343/ListingsManagement/CustomerRenewContract/?customerId={lis.CustomerId}'>this link</a>  to renew contract. <br/> You will be required to login to your account. <br/><br/>" +
                    $"Kind regards, <br/>" +
@@ -360,7 +360,7 @@ namespace HorizonRE.Controllers
                     await UserManager.SendEmailAsync(customerToSend.Id, "Renew Contract", msg);
                 }
 
-               
+
             }
 
 
@@ -377,41 +377,73 @@ namespace HorizonRE.Controllers
         public ActionResult CustomerRenewContract(int? customerId)
         {
 
-            if(customerId == null)
+            if (customerId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             DateTime deadline = DateTime.Now.AddDays(7);
-            var listings = db.Listings.Where(l => l.CustomerId == customerId && l.Status == "Active" && l.ListingEndDate <= deadline).ToList();
+            var listings = db.Listings.Where(l => l.CustomerId == customerId && l.Status == "Active" && l.ListingEndDate <= deadline && l.RenewDenialReason == "").ToList();
 
-
-
-            if(listings.Count == 0)
+            if (listings.Count == 0)
             {
                 ViewBag.Message = "No contracts to renew";
 
                 return View();
             }
 
-
-
-
-
-
-
-
             return View(listings);
-            
+
         }
 
 
         [HttpPost]
         //[Authorize(Roles = RoleName.CUSTOMER)]
-        public ActionResult CustomerRenewContract(string[] property)
+        public ActionResult CustomerRenewContract(List<Listing> list /* string[] DenialReason*/)
         {
 
+            foreach (Listing l in list)
+            {
 
+
+                if (l.RenewDenialReason != null)
+                {
+                    //Listing scheduled to delete
+
+                    db.Listings.Attach(l);
+                    db.Entry(l).Property(x => x.RenewDenialReason).IsModified = true;
+                    db.Configuration.ValidateOnSaveEnabled = false;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    //Renew contract + add amount of days left
+                    var listingToUpdate = db.Listings.Where(lis => lis.ListingId == l.ListingId).FirstOrDefault();
+
+
+                    if (listingToUpdate == null)
+                    {
+
+                        //Add error
+                        return View();
+                    }
+
+
+                    DateTime endDateListing = listingToUpdate.ListingEndDate;
+
+                    endDateListing = endDateListing.AddDays(endDateListing.Subtract(DateTime.Now).Days).AddMonths(3);
+                    listingToUpdate.ListingEndDate = endDateListing;
+                    db.Listings.Attach(listingToUpdate);
+                    db.Entry(listingToUpdate).Property(x => x.ListingEndDate).IsModified = true;
+                    db.Configuration.ValidateOnSaveEnabled = false;
+                    db.SaveChanges();
+                }
+
+
+            }
+
+
+            ViewBag.Message = "Your changes were saved";
 
             return View();
 
