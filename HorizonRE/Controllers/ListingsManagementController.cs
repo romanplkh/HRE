@@ -1,14 +1,17 @@
-﻿using HorizonRE.Models;
-using HorizonRE.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using HorizonRE.Models;
+using HorizonRE.ViewModel;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using PagedList;
 
 namespace HorizonRE.Controllers
@@ -16,6 +19,7 @@ namespace HorizonRE.Controllers
     public class ListingsManagementController : Controller
     {
         private HorizonContext db = new HorizonContext();
+        private ApplicationUserManager _userManager;
 
         // GET: ListingsManagement
         public ActionResult Index(int? customerId)
@@ -130,12 +134,12 @@ namespace HorizonRE.Controllers
 
 
             if (!listing.ContractSigned)
-            { 
+            {
                 listing.EmployeeId = null;
             }
 
 
-     
+
             List<string> validImages = new List<string>();
             if (ModelState.IsValid)
             {   //iterating through multiple file collection   
@@ -264,7 +268,7 @@ namespace HorizonRE.Controllers
         public ActionResult CreateReport(string date, int? page)
         {
             var listings = db.Listings.ToList();
-           
+
 
             if (!string.IsNullOrEmpty(date))
             {
@@ -284,7 +288,7 @@ namespace HorizonRE.Controllers
                .ToList();
 
                 ViewBag.Report = groupedListings;
- 
+
             }
             else
             {
@@ -295,6 +299,125 @@ namespace HorizonRE.Controllers
 
 
         }
+
+
+
+        [HttpGet]
+        public ActionResult RenewContract()
+        {
+
+
+
+            return View();
+        }
+
+
+    
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RenewContract(int? id = null)
+        {
+
+
+
+            DateTime deadline = DateTime.Now.AddDays(7);
+
+            var listings = db.Listings.Where(l => l.ListingEndDate <= deadline  && l.RenewNotificationSent == false).ToList();
+
+
+            if (listings.Count == 0)
+            {
+                return View();
+            }
+
+
+          
+
+            foreach (Listing lis in listings)
+            {
+
+                var customerToSend = UserManager.FindByName(lis.Customer.Email);
+
+
+                if(customerToSend != null)
+                {
+                    string msg = $"Dear {lis.Customer.FullName}, <br/> <br/> Your contract for listing # {lis.ListingId} is about to expire on {lis.ListingEndDate.ToShortDateString()} <br/> Please click  <a href='https://localhost:44343/ListingsManagement/CustomerRenewContract/?customerId={lis.CustomerId}'>this link</a>  to renew contract. <br/> You will be required to login to your account. <br/><br/>" +
+                   $"Kind regards, <br/>" +
+                   $"{lis.Employee.FullName}";
+
+                    await UserManager.SendEmailAsync(customerToSend.Id, "Renew Contract", msg);
+                }
+
+               
+            }
+
+
+
+            //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a> <br/> You must click 'Forget password' and select your password. <br/> Kind regards, <br/ > Horizon Real Estate");
+
+
+            return View();
+        }
+
+
+        [HttpGet]
+        //[Authorize(Roles = RoleName.CUSTOMER)]
+        public ActionResult CustomerRenewContract(int? customerId)
+        {
+
+            if(customerId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            DateTime deadline = DateTime.Now.AddDays(7);
+            var listings = db.Listings.Where(l => l.CustomerId == customerId && l.Status == "Active" && l.ListingEndDate <= deadline).ToList();
+
+
+
+            if(listings.Count == 0)
+            {
+                ViewBag.Message = "No contracts to renew";
+
+                return View();
+            }
+
+
+
+
+
+
+
+
+            return View(listings);
+            
+        }
+
+
+        [HttpPost]
+        //[Authorize(Roles = RoleName.CUSTOMER)]
+        public ActionResult CustomerRenewContract(string[] property)
+        {
+
+
+
+            return View();
+
+        }
+
+
 
 
 

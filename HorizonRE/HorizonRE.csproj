@@ -443,6 +443,10 @@
     <Compile Include="Migrations\201911171851433_IncreasedImageNameLength.Designer.cs">
       <DependentUpon>201911171851433_IncreasedImageNameLength.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911181811535_AddNotificationFlagToListing.cs" />
+    <Compile Include="Migrations\201911181811535_AddNotificationFlagToListing.Designer.cs">
+      <DependentUpon>201911181811535_AddNotificationFlagToListing.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Appointment.cs" />
@@ -643,6 +647,8 @@
     <Content Include="Views\Appointment\Edit.cshtml" />
     <Content Include="Views\ListingsManagement\Create.cshtml" />
     <Content Include="Views\ListingsManagement\CreateReport.cshtml" />
+    <Content Include="Views\ListingsManagement\RenewContract.cshtml" />
+    <Content Include="Views\ListingsManagement\CustomerRenewContract.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -817,6 +823,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911171851433_IncreasedImageNameLength.resx">
       <DependentUpon>201911171851433_IncreasedImageNameLength.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911181811535_AddNotificationFlagToListing.resx">
+      <DependentUpon>201911181811535_AddNotificationFlagToListing.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

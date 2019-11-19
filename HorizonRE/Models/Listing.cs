@@ -30,13 +30,15 @@ namespace HorizonRE.Models
         public int Bedrooms { get; set; }
         public int Bathrooms { get; set; }
         public decimal Price { get; set; }
-        [Display(Name ="Contract Signed")]
+        [Display(Name = "Contract Signed")]
         public bool ContractSigned { get; set; }
         [Display(Name = "Contract Start")]
         public DateTime ListingStartDate { get; set; }
         public DateTime ListingEndDate { get; set; }
         [Required]
         public string Status { get; set; }
+
+        public bool RenewNotificationSent { get; set; } = false;
 
 
 
