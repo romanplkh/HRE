@@ -27,13 +27,13 @@
 
                 @Html.TextBox("date", null,  String.Format("{0:d}", Model.ToString()),
                                 new { @class = "form-control mr-4", type = "date" })
-                <input type="submit" value="Search" class="btn btn-primary" />
+                <input type="submit" value="Search" class="btn-outline-primary" />
             </div>
         }
     </div>
 
     @if(@Model.PageCount == 0){
-     <p class="mt-4 mb-3" style="font-size: 2em;">No appointments found</p>
+     <p class="mt-4 mb-3" style="font-size: 2em;">No scheduled appointments found</p>
     }else {
 
 
