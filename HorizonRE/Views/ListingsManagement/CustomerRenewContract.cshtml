@@ -7,30 +7,93 @@
 <h2>CustomerRenewContract</h2>
 
 
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
 
-@using (Html.BeginForm())
-{
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-primary" role="alert">
+                    @ViewBag.Message
+                </div>
+            }
 
 
-    foreach (var item in Model)
-    {
 
-        <div>
-            Property # @item.ListingId
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="property" value="@item.ListingId" checked>
-                <label class="form-check-label">Renew</label>
+            @if (Model != null)
+            {
+                using (Html.BeginForm())
+                {
 
-            </div>
-            <input type="text" name="refusal" class="d-none" placeholder="Provide reason for refusal" />
+
+                    int i = 0;
+
+                    foreach (var item in Model)
+                    {
+
+                        <div class="form-group">
+                            Property # @item.ListingId <br /> Address: @item.StreetAddress, @item.City <br />
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="property" checked>
+                                <label class="form-check-label">Renew</label>
+                            </div>
+                            <br />
+
+                            @*@Html.TextBox("DenialReason", null, new { id = "den_" + item.ListingId , @class="form-control", style="visibility:hidden", placeholder="Provide reason for refusal"})*@
+
+                            @Html.TextBoxFor(m => m[i].RenewDenialReason, new { @class = "form-control", style = "visibility:hidden", placeholder = "Provide reason for refusal" })
+                            <div class="invalid-feedback">
+                                Please provide a reason
+                            </div>
+                            @Html.HiddenFor(m => m[i].ListingId)
+
+                            @{
+                                i++;
+                            }
+
+
+
+                            @*<input type="text" name="refusal" class="form-control" style="visibility:hidden" placeholder="Provide reason for refusal" />*@
+
+                        </div>
+
+
+
+                    }
+
+
+                    <input type="button" value="Submit" data-toggle="modal" data-target="#confirmation" class="btn btn-cta text-white" />
+
+
+                    <div class="modal" id="confirmation" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Renew Contract</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>You are about to renew contracts for your listings. <br /> All listings with contract not prolonged will be deleted after the expiration date.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-cta text-white">Confirm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+            }
+
         </div>
-
-}
-
-
+    </div>
+</div>
 
 
-}
 
 <script>
 
@@ -41,20 +104,44 @@
     Array.from(boxes).forEach(el => {
         el.addEventListener('change', () => {
 
-            console.log(el)
+            let parent = el.parentNode.parentNode;
+            let inp = parent.querySelector("input[type='text']");
 
-            if (true) {
 
-                let parent = el.parentNode.parentNode;
-                console.log(parent)
 
-                let inp = parent.querySelector("input[type='text']");
 
-                console.log(inp)
-
-                inp.classList.toggle("d-none");
-
+            if (inp.style.visibility == "hidden") {
+                inp.style.visibility = "visible";
+            } else {
+                inp.style.visibility = "hidden";
             }
+
+
+            if (el.checked) {
+                inp.value = "";
+                console.log(inp)
+            }
+
+
+            if (!el.checked) {
+                inp.focus();
+            }
+
+
+            inp.addEventListener("blur", () => {
+                if (!el.checked && inp.value == "") {
+
+                    inp.focus();
+
+                    inp.classList.add("is-invalid");
+
+
+                } else {
+                    inp.classList.remove("is-invalid");
+
+                }
+            })
+
         }
         )
     })
