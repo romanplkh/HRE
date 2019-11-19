@@ -36,9 +36,9 @@ namespace HorizonRE
             var client = new SendGridClient(ConfigurationManager.AppSettings["EmailSender"]);
             myMessage.AddTo(message.Destination);
 
-            var to = new EmailAddress(message.Destination, "C");
+            var to = new EmailAddress(message.Destination);
             myMessage.From = new EmailAddress(
-                                "admin@hre.com", "Admin");
+                                "no-reply@horizon.ca", "Horizon Real Estate");
             myMessage.Subject = message.Subject;
             myMessage.PlainTextContent = message.Body;
             myMessage.HtmlContent = message.Body;

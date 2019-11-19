@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "RenewContract";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+
+
+
+
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col">
+            @using (Html.BeginForm("RenewContract", "ListingsManagement", FormMethod.Post))
+            {
+
+                <h2 class="display-4 mb-5"> Notify customers about contract expiration</h2>
+
+
+                <input type="submit" class="btn btn-primary btn-block p-5 font-weight-bold text-uppercase" style="font-size:2.3rem" value="Notify" />
+            }
+        </div>
+    </div>
+</div>
+
