@@ -439,6 +439,10 @@
     <Compile Include="Migrations\201911162149262_AddPasswordCustomerTable.Designer.cs">
       <DependentUpon>201911162149262_AddPasswordCustomerTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911171851433_IncreasedImageNameLength.cs" />
+    <Compile Include="Migrations\201911171851433_IncreasedImageNameLength.Designer.cs">
+      <DependentUpon>201911171851433_IncreasedImageNameLength.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Appointment.cs" />
@@ -496,6 +500,7 @@
     <Content Include="Content\CSS\bundle.css" />
     <Content Include="Content\CSS\reportPrint.css" />
     <Content Include="Content\Files\download.jpg" />
+    <Content Include="Content\Files\NoImage.png" />
     <Content Include="Content\Fonts\slick.svg" />
     <Content Include="Content\Fonts\webfonts\all.css" />
     <Content Include="Content\Fonts\webfonts\fa-brands-400.svg" />
@@ -809,6 +814,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911162149262_AddPasswordCustomerTable.resx">
       <DependentUpon>201911162149262_AddPasswordCustomerTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911171851433_IncreasedImageNameLength.resx">
+      <DependentUpon>201911171851433_IncreasedImageNameLength.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

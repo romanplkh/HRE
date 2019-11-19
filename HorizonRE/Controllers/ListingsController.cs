@@ -17,7 +17,7 @@ namespace HorizonRE.Controllers
         private HorizonContext db = new HorizonContext();
         // GET: Listings
         [HttpGet]
-        public ActionResult Index(int? page, string currentCity, int? currentProvince, int? currentCountry, int? currentBedroom, int? currentBathrooms, string citySearch = null, decimal? currentPriceFrom = null, decimal? currentPriceTo = null, bool? currentPriceOrder = null, int? CountryList = null, int? ProvincesList = null, int? bedrooms = null, int? bathrooms = null, decimal? priceFrom = null, decimal? priceTo = null, bool? priceOrder = null)
+        public ActionResult Index(int? page, string currentCity, int? currentProvince, int? currentCountry, int? currentBedroom, int? currentBathrooms, string citySearch = null, decimal? currentPriceFrom = null, decimal? currentPriceTo = null, string currentPriceOrder = null, int? CountryList = null, int? ProvincesList = null, int? bedrooms = null, int? bathrooms = null, decimal? priceFrom = null, decimal? priceTo = null, string priceOrder = null)
         {
 
             var listingsFound = db.Listings.Where(l => l.Status == "Active").AsQueryable();
@@ -119,7 +119,7 @@ namespace HorizonRE.Controllers
 
 
 
-            if (priceOrder == true)
+            if (priceOrder == "on")
             {
                 listingsFound = listingsFound.Include(i => i.Images).OrderByDescending(o => o.Price);
             }
@@ -138,7 +138,7 @@ namespace HorizonRE.Controllers
 
 
 
-            int pageSize = 2;
+            int pageSize = 1;
             int pageNumber = (page ?? 1);
 
 

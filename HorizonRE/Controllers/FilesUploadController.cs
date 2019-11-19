@@ -1,5 +1,4 @@
-﻿using HorizonRE.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using HorizonRE.Models;
 
 
 namespace HorizonRE.Controllers
@@ -45,7 +45,10 @@ namespace HorizonRE.Controllers
                             if (ImageFormat.Jpeg.Equals(img.RawFormat) ||
                                 ImageFormat.Gif.Equals(img.RawFormat) ||
                                 ImageFormat.Bmp.Equals(img.RawFormat) ||
-                                ImageFormat.Png.Equals(img.RawFormat))
+                                ImageFormat.Png.Equals(img.RawFormat) ||
+                                ImageFormat.Tiff.Equals(img.RawFormat)
+
+                                )
                             {
                                 if (System.IO.File.Exists(filePath))
                                 {

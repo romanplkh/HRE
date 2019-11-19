@@ -13,7 +13,7 @@ namespace HorizonRE.Models
 
       [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
       public int ImageId { get; set; }
-      [StringLength(100)]
+      [StringLength(500)]
       public string ImageName { get; set; }
       [Required(ErrorMessage = "Description of image is required")]
       [StringLength(150)]
