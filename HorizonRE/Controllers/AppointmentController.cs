@@ -260,6 +260,10 @@ namespace HorizonRE.Controllers
                           .Contains(lname.ToLower()) && s.StartDate.Date == searchDate);
 
             }
+            if(appList.Count() == 0)
+            {
+                ViewBag.Message = "No scheduled appointments";
+            }
 
             int pageSize = 10;
             int pageNumber = (page ?? 1);

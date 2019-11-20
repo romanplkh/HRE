@@ -7,28 +7,29 @@ using System.Web;
 
 namespace HorizonRE.Models
 {
-
-    //public enum ListingStatus
-    //{
-    //    Available,
-    //    NotAvaiable,
-    //    Expired,
-    //    Sold
-    //}
-
     public class Listing
     {
         public int ListingId { get; set; }
         [Display(Name = "Street Address")]
+        [Required(ErrorMessage = "Provide street address")]
         public string StreetAddress { get; set; }
+
+        [Required(ErrorMessage = "Provide city")]
         public string City { get; set; }
         public string Province { get; set; }
         public string Country { get; set; }
         [Display(Name = "Postal Code")]
+        [Required(ErrorMessage = "Provide a postal code")]
+        [CustomAttribute.PostalCodeIsValid]
         public string PostalCode { get; set; }
+        [Display(Name = "Sq. Area")]
+        [Required(ErrorMessage = "Provide house area")]
         public string Area { get; set; }
+        [Required(ErrorMessage = "Provide number of bedrooms")]
         public int Bedrooms { get; set; }
+        [Required(ErrorMessage = "Provide number of bathrooms")]
         public int Bathrooms { get; set; }
+        [Required(ErrorMessage = "Provide the price")]
         public decimal Price { get; set; }
         [Display(Name = "Contract Signed")]
         public bool ContractSigned { get; set; }
@@ -37,7 +38,7 @@ namespace HorizonRE.Models
         public DateTime ListingEndDate { get; set; }
         [Required]
         public string Status { get; set; }
-
+        [Required]
         public bool RenewNotificationSent { get; set; } = false;
 
         public string RenewDenialReason { get; set; }

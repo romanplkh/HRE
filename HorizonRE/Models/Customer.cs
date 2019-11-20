@@ -26,9 +26,9 @@ namespace HorizonRE.Models
             {
                 if (!string.IsNullOrEmpty(MiddleName))
                 {
-                   return $"{LastName} {FirstName} {MiddleName}";
+                   return $"{FirstName} {MiddleName} {LastName}";
                 }
-                return $"{LastName} {FirstName}";
+                return $"{FirstName} {LastName}";
             }
         }
 

@@ -44,7 +44,8 @@ namespace HorizonRE
             myMessage.HtmlContent = message.Body;
 
 
-            var msg = MailHelper.CreateSingleEmail(myMessage.From, to, myMessage.Subject, myMessage.PlainTextContent, myMessage.HtmlContent);
+            var msg = MailHelper.CreateSingleEmail(myMessage.From, to, 
+                myMessage.Subject, myMessage.PlainTextContent, myMessage.HtmlContent);
             var response = await client.SendEmailAsync(msg);
 
         }
