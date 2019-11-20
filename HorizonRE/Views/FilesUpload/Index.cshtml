@@ -22,9 +22,6 @@
                         <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
                         @Html.ValidationMessage("file", "", new {@class = "text-danger"})
                     </div>
-                   
-
-                   
                 </div>
                 <div class="form-group">
                     @Html.TextAreaFor(i => i.ImageDescription, new {@class = "form-control", style = "resize:none", rows = "5", id="textarea"})

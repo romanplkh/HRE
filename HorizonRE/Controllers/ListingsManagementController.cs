@@ -38,7 +38,8 @@ namespace HorizonRE.Controllers
                 viewModel.Listings = db.Listings.Include(l => l.Employee);
 
 
-                viewModel.Listings = viewModel.Customers.Where(c => c.CustomerId == customerId.Value).Single().Listings;
+                viewModel.Listings = viewModel.Customers
+                    .Where(c => c.CustomerId == customerId.Value).Single().Listings;
 
 
                 if (viewModel.Listings.Count() == 0)
@@ -114,7 +115,8 @@ namespace HorizonRE.Controllers
 
         // GET: ListingsManagement/Create
         [HttpPost]
-        public ActionResult Create(Listing listing, HttpPostedFileBase[] selectedImages, string[] selectedFeature, string SelectedCustomer)
+        public ActionResult Create(Listing listing, HttpPostedFileBase[] selectedImages, 
+            string[] selectedFeature, string SelectedCustomer)
         {
             int customerId = int.Parse(SelectedCustomer);
 
@@ -151,7 +153,10 @@ namespace HorizonRE.Controllers
                         var InputFileName = Path.GetFileName(file.FileName);
 
 
-                        ImageFile img = db.Images.Where(i => i.ImageName.ToLower().Contains(InputFileName.ToLower()) && i.Approved == true).FirstOrDefault();
+                        ImageFile img = db.Images
+                            .Where(i => i.ImageName.ToLower()
+                            .Contains(InputFileName.ToLower()) 
+                            && i.Approved == true).FirstOrDefault();
 
 
                         if (img != null)
@@ -205,7 +210,9 @@ namespace HorizonRE.Controllers
                     validImages.ForEach(img =>
                     {
 
-                        ImageFile imageToUpdate = db.Images.Where(im => im.ImageName.ToLower().Contains(img.ToLower())).FirstOrDefault();
+                        ImageFile imageToUpdate = db.Images
+                            .Where(im => im.ImageName.ToLower()
+                            .Contains(img.ToLower())).FirstOrDefault();
                         imageToUpdate.ListingId = id;
 
                         db.Images.Attach(imageToUpdate);
@@ -222,9 +229,11 @@ namespace HorizonRE.Controllers
 
 
             PopualteFeatures(listing);
-            ViewBag.CityAreas = new SelectList(db.CityAreas, "AreaId", "Name", listing.AreaId);
+            ViewBag.CityAreas = new SelectList(db.CityAreas, 
+                "AreaId", "Name", listing.AreaId);
 
-            ViewBag.Employees = new SelectList(db.Employees, "EmployeeId", "FullName", listing.EmployeeId);
+            ViewBag.Employees = new SelectList(db.Employees, 
+                "EmployeeId", "FullName", listing.EmployeeId);
 
             return View(listing);
         }
@@ -288,7 +297,6 @@ namespace HorizonRE.Controllers
                .ToList();
 
                 ViewBag.Report = groupedListings;
-
             }
             else
             {
@@ -296,10 +304,7 @@ namespace HorizonRE.Controllers
             }
 
             return View();
-
-
         }
-
 
 
         [HttpGet]
@@ -330,44 +335,37 @@ namespace HorizonRE.Controllers
         public async Task<ActionResult> RenewContract(int? id = null)
         {
 
-
-
             DateTime deadline = DateTime.Now.AddDays(7);
 
-            var listings = db.Listings.Where(l => l.ListingEndDate <= deadline && l.RenewNotificationSent == false).ToList();
-
+            var listings = db.Listings
+                .Where(l => l.ListingEndDate <= deadline 
+                && l.RenewNotificationSent == false).ToList();        
 
             if (listings.Count == 0)
             {
                 return View();
             }
 
-
-
-
             foreach (Listing lis in listings)
             {
-
                 var customerToSend = UserManager.FindByName(lis.Customer.Email);
-
 
                 if (customerToSend != null)
                 {
-                    string msg = $"Dear {lis.Customer.FullName}, <br/> <br/> Your contract for listing # {lis.ListingId} is about to expire on {lis.ListingEndDate.ToShortDateString()} <br/> Please click  <a href='https://localhost:44343/ListingsManagement/CustomerRenewContract/?customerId={lis.CustomerId}'>this link</a>  to renew contract. <br/> You will be required to login to your account. <br/><br/>" +
+                    string msg = $"Dear {lis.Customer.FullName}, " +
+                        $"<br/> <br/> Your contract for listing # {lis.ListingId} " +
+                        $"is about to expire on {lis.ListingEndDate.ToShortDateString()} " +
+                        $"<br/> Please click  " +
+                        $"<a href='https://localhost:44343/ListingsManagement/CustomerRenewContract/?customerId={lis.CustomerId}'>this link</a>  " +
+                        $"to renew contract. <br/> You will be required to login to " +
+                        $"your account. <br/><br/>" +
                    $"Kind regards, <br/>" +
                    $"{lis.Employee.FullName}";
 
-                    await UserManager.SendEmailAsync(customerToSend.Id, "Renew Contract", msg);
+                    await UserManager.SendEmailAsync(customerToSend.Id, 
+                        "Renew Contract", msg);
                 }
-
-
             }
-
-
-
-            //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a> <br/> You must click 'Forget password' and select your password. <br/> Kind regards, <br/ > Horizon Real Estate");
-
-
             return View();
         }
 
@@ -383,7 +381,9 @@ namespace HorizonRE.Controllers
             }
 
             DateTime deadline = DateTime.Now.AddDays(7);
-            var listings = db.Listings.Where(l => l.CustomerId == customerId && l.Status == "Active" && l.ListingEndDate <= deadline && l.RenewDenialReason == "").ToList();
+            var listings = db.Listings
+                .Where(l => l.CustomerId == customerId && l.Status == "Active" 
+                && l.ListingEndDate <= deadline && l.RenewDenialReason == "").ToList();
 
             if (listings.Count == 0)
             {
@@ -399,17 +399,13 @@ namespace HorizonRE.Controllers
 
         [HttpPost]
         //[Authorize(Roles = RoleName.CUSTOMER)]
-        public ActionResult CustomerRenewContract(List<Listing> list /* string[] DenialReason*/)
+        public ActionResult CustomerRenewContract(List<Listing> list)
         {
-
             foreach (Listing l in list)
             {
-
-
                 if (l.RenewDenialReason != null)
                 {
                     //Listing scheduled to delete
-
                     db.Listings.Attach(l);
                     db.Entry(l).Property(x => x.RenewDenialReason).IsModified = true;
                     db.Configuration.ValidateOnSaveEnabled = false;
@@ -418,7 +414,8 @@ namespace HorizonRE.Controllers
                 else
                 {
                     //Renew contract + add amount of days left
-                    var listingToUpdate = db.Listings.Where(lis => lis.ListingId == l.ListingId).FirstOrDefault();
+                    var listingToUpdate = db.Listings
+                        .Where(lis => lis.ListingId == l.ListingId).FirstOrDefault();
 
 
                     if (listingToUpdate == null)
@@ -428,25 +425,22 @@ namespace HorizonRE.Controllers
                         return View();
                     }
 
-
                     DateTime endDateListing = listingToUpdate.ListingEndDate;
 
-                    endDateListing = endDateListing.AddDays(endDateListing.Subtract(DateTime.Now).Days).AddMonths(3);
+                    endDateListing = endDateListing
+                        .AddDays(endDateListing.Subtract(DateTime.Now).Days).AddMonths(3);
                     listingToUpdate.ListingEndDate = endDateListing;
                     db.Listings.Attach(listingToUpdate);
-                    db.Entry(listingToUpdate).Property(x => x.ListingEndDate).IsModified = true;
+                    db.Entry(listingToUpdate).Property(x => x.ListingEndDate)
+                        .IsModified = true;
                     db.Configuration.ValidateOnSaveEnabled = false;
                     db.SaveChanges();
                 }
-
-
             }
-
 
             ViewBag.Message = "Your changes were saved";
 
             return View();
-
         }
 
 

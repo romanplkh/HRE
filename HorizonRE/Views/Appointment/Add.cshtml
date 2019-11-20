@@ -42,9 +42,11 @@
 
                 <label>Find customer by email: </label>
                 <div class="input-group">
-                    @Html.TextBox("email", ViewBag.EmailCurrent as string, new { required = true, type = "email" })
+                    @Html.TextBox("email", ViewBag.EmailCurrent as string,
+                   new {@class="form-control", required = true, type = "email" })
                     <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="submit" id="button-addon2">Find</button>
+                        <button class="btn btn-outline-primary" 
+                                type="submit" id="button-addon2">Find</button>
                     </div>
 
                 </div>
@@ -53,7 +55,8 @@
                 @if (ViewBag.Customer != null)
                 {
 
-                    <h2 class="mt-4">Customer Information</h2>
+                    <h2 class="mt-4 display-4" 
+                        style="font-size:1.5em">Customer</h2>
                     <div class="card h-50">
                         <div class="card-body">
                             <div class="card-title">
@@ -81,7 +84,8 @@
                 {
                     <label>Find listing by id: </label>
                     <div class="input-group">
-                        @Html.TextBox("listingId", ViewBag.CurrentListing as string, new { required = true })
+                        @Html.TextBox("listingId", ViewBag.CurrentListing as string,
+                       new { @class = "form-control", required = true })
                         <div class="input-group-append">
                             <button class="btn btn-outline-primary" type="submit">Find</button>
                         </div>
@@ -91,7 +95,7 @@
 
                 @if (ViewBag.Listing != null)
                 {
-                    <h2 class="mt-4">Listing Information</h2>
+                    <h2 class="mt-4 display-4" style="font-size:1.5em">Listing</h2>
                     <div class="card h-50">
                         <div class="card-body">
                             <div class="card-title">
@@ -112,8 +116,7 @@
             <div class="col-md-6">
                 @if (ViewBag.Listing != null)
                 {
-
-                    <h2>Appointment Information</h2>
+                    <h2 class="display-4" style="font-size:1.5em">Appointment Information</h2>
                     <div class="card border-0">
                         <div class="form-group">
                             @Html.LabelFor(m => m.StartDate)

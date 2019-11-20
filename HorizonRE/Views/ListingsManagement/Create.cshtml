@@ -20,29 +20,36 @@
    FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.Hidden("Status", "No contract")
+        @Html.Hidden("RenewNotificationSent", false)
 
         @Html.Hidden("SelectedCustomer", ViewBag.SelectedCustomer as string)
 
         <div class="form-row">
             <div class="form-group col-md-4">
+                @Html.LabelFor(m => m.Country)
+                @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(m => m.Province)
+                @Html.TextBoxFor(m => m.Province, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Province, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-4">
                 @Html.LabelFor(m => m.StreetAddress)
                 @Html.TextBoxFor(m => m.StreetAddress, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.StreetAddress, "", new { @class = "text-danger" })
             </div>
+            
+
+        </div>
+        <div class="form-row">
             <div class="form-group col-md-4">
                 @Html.LabelFor(m => m.City)
                 @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
 
             </div>
-            <div class="form-group col-md-4">
-                @Html.LabelFor(m => m.Province)
-                @Html.TextBoxFor(m => m.Province, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Province, "", new { @class = "text-danger" })
-
-            </div>
-        </div>
-        <div class="form-row">
             <div class="form-group col-md-4">
                 @Html.LabelFor(m => m.PostalCode)
                 @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control" })
@@ -54,14 +61,15 @@
                 @Html.DropDownListFor(m => m.AreaId,
                         ViewBag.CityAreas as SelectList, new { @class = "form-control" })
             </div>
+            
+        </div>
+        <div class="form-row">
             <div class="form-group col-md-4">
                 @Html.LabelFor(m => m.Area)
                 @Html.TextBoxFor(m => m.Area, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Area, "", new { @class = "text-danger" })
 
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group col-md-4">
                 @Html.LabelFor(m => m.Bathrooms)
                 @Html.TextBoxFor(m => m.Bathrooms, new { @class = "form-control" })
@@ -75,14 +83,15 @@
 
             </div>
 
+            
+        </div>
+        <div class="form-row">
             <div class="form-group col-md-4">
                 @Html.LabelFor(m => m.Price)
                 @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
 
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group col-md-4">
                 @Html.Label("Agent")
                 @Html.DropDownListFor(m => m.EmployeeId,

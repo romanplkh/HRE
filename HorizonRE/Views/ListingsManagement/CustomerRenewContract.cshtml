@@ -4,10 +4,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>CustomerRenewContract</h2>
-
 
 <div class="container my-5">
+    <div class="row mb-4">
+        <h2 class="text-center display-4 mb-4">Contracts Renew</h2>
+    </div>
+
+
     <div class="row justify-content-center">
         <div class="col-md-8">
 
@@ -19,29 +22,26 @@
             }
 
 
-
             @if (Model != null)
             {
                 using (Html.BeginForm())
                 {
-
-
                     int i = 0;
 
                     foreach (var item in Model)
                     {
 
-                        <div class="form-group">
-                            Property # @item.ListingId <br /> Address: @item.StreetAddress, @item.City <br />
+                        <div class="form-group mb-2">
+                            Property #@item.ListingId <br /> Address: @item.StreetAddress, 
+                                @item.City <br />
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" name="property" checked>
                                 <label class="form-check-label">Renew</label>
                             </div>
                             <br />
 
-                            @*@Html.TextBox("DenialReason", null, new { id = "den_" + item.ListingId , @class="form-control", style="visibility:hidden", placeholder="Provide reason for refusal"})*@
-
-                            @Html.TextBoxFor(m => m[i].RenewDenialReason, new { @class = "form-control", style = "visibility:hidden", placeholder = "Provide reason for refusal" })
+                            @Html.TextBoxFor(m => m[i].RenewDenialReason, 
+                            new { @class = "form-control", style = "visibility:hidden", placeholder = "Provide reason for refusal" })
                             <div class="invalid-feedback">
                                 Please provide a reason
                             </div>
@@ -51,18 +51,13 @@
                                 i++;
                             }
 
-
-
-                            @*<input type="text" name="refusal" class="form-control" style="visibility:hidden" placeholder="Provide reason for refusal" />*@
-
                         </div>
-
-
 
                     }
 
-
-                    <input type="button" value="Submit" data-toggle="modal" data-target="#confirmation" class="btn btn-cta text-white" />
+                    <input type="button" value="Submit" 
+                           data-toggle="modal" data-target="#confirmation" 
+                           class="btn btn-cta text-white" />
 
 
                     <div class="modal" id="confirmation" tabindex="-1" role="dialog">
@@ -106,8 +101,6 @@
 
             let parent = el.parentNode.parentNode;
             let inp = parent.querySelector("input[type='text']");
-
-
 
 
             if (inp.style.visibility == "hidden") {
