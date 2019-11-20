@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.SqlServer;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -311,8 +312,6 @@ namespace HorizonRE.Controllers
         public ActionResult RenewContract()
         {
 
-
-
             return View();
         }
 
@@ -337,7 +336,10 @@ namespace HorizonRE.Controllers
 
             DateTime deadline = DateTime.Now.AddDays(7);
 
-            var listings = db.Listings
+            var listings = db.Listings.ToList();
+
+
+            var listToNotify = listings
                 .Where(l => l.ListingEndDate <= deadline 
                 && l.RenewNotificationSent == false).ToList();        
 
@@ -346,7 +348,7 @@ namespace HorizonRE.Controllers
                 return View();
             }
 
-            foreach (Listing lis in listings)
+            foreach (Listing lis in listToNotify)
             {
                 var customerToSend = UserManager.FindByName(lis.Customer.Email);
 
@@ -364,8 +366,39 @@ namespace HorizonRE.Controllers
 
                     await UserManager.SendEmailAsync(customerToSend.Id, 
                         "Renew Contract", msg);
+
+                    //change notify field
+                    lis.RenewNotificationSent = true;
+
+                    db.Listings.Attach(lis);
+                    db.Entry(lis).Property(x => x.RenewNotificationSent).IsModified = true;
+                    db.Configuration.ValidateOnSaveEnabled = false;
+                    db.SaveChanges();
+
                 }
             }
+
+            //IF CUSTOMER did not replay to email about renew
+            //set listing to expired on expiration date
+            var listToExpire = listings.Where(l => l.ListingEndDate <= DateTime.Now && l.Status == "Active").ToList();
+            if(listToExpire.Count() != 0)
+            {
+                foreach (var item in listToExpire)
+                {
+                    item.Status = "Expired";
+
+                    db.Listings.Attach(item);
+                    db.Entry(item).Property(x => x.Status).IsModified = true;
+                    db.Configuration.ValidateOnSaveEnabled = false;
+                    db.SaveChanges();
+                }
+            }
+
+
+            ViewBag.Msg = $"{listToNotify.Count()} customers were notified. \n " +
+                $"{listToExpire.Count()} expired contracts";
+
+
             return View();
         }
 
@@ -380,19 +413,22 @@ namespace HorizonRE.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            DateTime deadline = DateTime.Now.AddDays(7);
-            var listings = db.Listings
-                .Where(l => l.CustomerId == customerId && l.Status == "Active" 
-                && l.ListingEndDate <= deadline && l.RenewDenialReason == "").ToList();
+            var lst = from list in db.Listings
+                      let notifDate = SqlFunctions.DateAdd("dd", -7, list.ListingEndDate)
+                      where list.CustomerId == customerId &&
+                      list.Status == "Active" &&
+                      notifDate >= DateTime.Now && DateTime.Now <= list.ListingEndDate
+                      && list.RenewDenialReason == null
+                      select list;
 
-            if (listings.Count == 0)
+            if (lst.Count() == 0)
             {
                 ViewBag.Message = "No contracts to renew";
 
                 return View();
             }
 
-            return View(listings);
+            return View(lst.ToList());
 
         }
 
@@ -426,6 +462,7 @@ namespace HorizonRE.Controllers
                     }
 
                     DateTime endDateListing = listingToUpdate.ListingEndDate;
+                    listingToUpdate.RenewNotificationSent = false;
 
                     endDateListing = endDateListing
                         .AddDays(endDateListing.Subtract(DateTime.Now).Days).AddMonths(3);
@@ -433,6 +470,8 @@ namespace HorizonRE.Controllers
                     db.Listings.Attach(listingToUpdate);
                     db.Entry(listingToUpdate).Property(x => x.ListingEndDate)
                         .IsModified = true;
+                    db.Entry(listingToUpdate).Property(x => x.RenewNotificationSent)
+                       .IsModified = true;
                     db.Configuration.ValidateOnSaveEnabled = false;
                     db.SaveChanges();
                 }
