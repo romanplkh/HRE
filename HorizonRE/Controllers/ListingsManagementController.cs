@@ -104,10 +104,7 @@ namespace HorizonRE.Controllers
 
             ViewBag.SelectedCustomer = custId;
 
-            PopualteFeatures(listing);
-
-
-
+            PopulateFeatures(listing);
 
             return View();
         }
@@ -131,7 +128,7 @@ namespace HorizonRE.Controllers
                 ViewBag.CityAreas = new SelectList(db.CityAreas, "AreaId", "Name");
 
                 ViewBag.Employees = new SelectList(db.Employees, "EmployeeId", "FirstName");
-                PopualteFeatures(listing);
+                PopulateFeatures(listing);
                 return View();
             }
 
@@ -179,8 +176,6 @@ namespace HorizonRE.Controllers
                         var featureToAdd = db.Features.Find(int.Parse(feat));
 
                         listing.Features.Add(featureToAdd);
-
-
                     }
                 }
 
@@ -229,7 +224,7 @@ namespace HorizonRE.Controllers
             }
 
 
-            PopualteFeatures(listing);
+            PopulateFeatures(listing);
             ViewBag.CityAreas = new SelectList(db.CityAreas, 
                 "AreaId", "Name", listing.AreaId);
 
@@ -240,7 +235,7 @@ namespace HorizonRE.Controllers
         }
 
 
-        private void PopualteFeatures(Listing listing)
+        private void PopulateFeatures(Listing listing)
         {
 
             var allFeattures = db.Features;
@@ -301,7 +296,7 @@ namespace HorizonRE.Controllers
             }
             else
             {
-                ViewBag.Error = "Please select start date to generate report";
+                ViewBag.Error = "Please select start date to generate a report";
             }
 
             return View();
@@ -309,10 +304,74 @@ namespace HorizonRE.Controllers
 
 
         [HttpGet]
-        public ActionResult RenewContract()
+        public ActionResult RenewContract(string id)
         {
+            if(TempData["Message"] != null)
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+                TempData.Remove("Message");
+            }
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                int listId = Convert.ToInt32(id);
+
+               Listing listing = db.Listings.Where(l => l.ListingId == listId)
+                            .FirstOrDefault();
+
+                if (listing != null)
+                {
+                    return View(listing);
+                }
+                else
+                {
+                    ViewBag.Error = "No listing found";
+                    return View();
+                }
+
+            }
 
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult RenewContractManually(Listing listing)
+        {
+            if(listing != null)
+            {
+                var lsToRenew = db.Listings.Where(l => l.ListingId == listing.ListingId)
+                    .SingleOrDefault();
+                if(lsToRenew != null)
+                {
+                    if(lsToRenew.ListingEndDate < DateTime.Now)
+                    {
+                        TempData["Message"] = "You cannot renew a contract for " +
+                        "expired listing";
+                        return RedirectToAction("RenewContract");
+                    }
+
+                    double daysToAdd = (lsToRenew.ListingEndDate.Date - DateTime.Now.Date).Days;
+                    DateTime newExpDate = lsToRenew.ListingEndDate
+                        .AddMonths(3).AddDays(daysToAdd);                     
+
+                    lsToRenew.RenewNotificationSent = false;
+                    lsToRenew.ListingEndDate = newExpDate;
+
+                    db.Listings.Attach(lsToRenew);
+                    db.Entry(lsToRenew).Property(x => x.RenewNotificationSent).IsModified = true;
+                    db.Entry(lsToRenew).Property(x => x.ListingEndDate).IsModified = true;
+                    db.Configuration.ValidateOnSaveEnabled = false;
+                    db.SaveChanges();
+
+                    TempData["Message"] = $"Contract for listing #{lsToRenew.ListingId} " +
+                        $"was successfully renewed";
+                    return RedirectToAction("RenewContract");
+                }
+            }
+
+            TempData["Message"] = "Sorry, something went wrong.";
+
+            return RedirectToAction("RenewContract");
         }
 
 
