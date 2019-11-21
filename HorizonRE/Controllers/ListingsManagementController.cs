@@ -98,6 +98,8 @@ namespace HorizonRE.Controllers
             //GET FEATURES 
 
             ViewBag.CityAreas = new SelectList(db.CityAreas, "AreaId", "Name");
+            ViewBag.Countries = new SelectList(db.Countries, "CountryId", "Name");
+            ViewBag.Provinces = new SelectList(db.Provinces.Where(p => p.CountryId == 1), "ProvinceId", "Name");
 
             //ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FirstName");
             ViewBag.Employees = new SelectList(db.Employees, "EmployeeId", "FirstName");
@@ -113,7 +115,7 @@ namespace HorizonRE.Controllers
 
         // GET: ListingsManagement/Create
         [HttpPost]
-        public ActionResult Create(Listing listing, HttpPostedFileBase[] selectedImages, 
+        public ActionResult Create(Listing listing, HttpPostedFileBase[] selectedImages,
             string[] selectedFeature, string SelectedCustomer)
         {
             int customerId = int.Parse(SelectedCustomer);
@@ -125,110 +127,137 @@ namespace HorizonRE.Controllers
 
                 ViewBag.Error = "You can only select no more than 7 images for a property";
 
-                ViewBag.CityAreas = new SelectList(db.CityAreas, "AreaId", "Name");
+                //ViewBag.CityAreas = new SelectList(db.CityAreas, "AreaId", "Name");
 
-                ViewBag.Employees = new SelectList(db.Employees, "EmployeeId", "FirstName");
-                PopulateFeatures(listing);
-                return View();
+                //ViewBag.Employees = new SelectList(db.Employees, "EmployeeId", "FirstName");
+                //PopulateFeatures(listing);
+                //return View();
             }
-
-
-            if (!listing.ContractSigned)
+            else
             {
-                listing.EmployeeId = null;
-            }
 
-
-
-            List<string> validImages = new List<string>();
-            if (ModelState.IsValid)
-            {   //iterating through multiple file collection   
-                foreach (HttpPostedFileBase file in selectedImages)
+                if (!listing.ContractSigned)
                 {
-                    //Checking file is available to save.  
-                    if (file != null)
+                    listing.EmployeeId = null;
+                }
+
+
+
+                List<string> validImages = new List<string>();
+                List<string> invalidImages = new List<string>();
+                if (ModelState.IsValid)
+                {   //iterating through multiple file collection   
+                    foreach (HttpPostedFileBase file in selectedImages)
                     {
-                        var InputFileName = Path.GetFileName(file.FileName);
-
-
-                        ImageFile img = db.Images
-                            .Where(i => i.ImageName.ToLower()
-                            .Contains(InputFileName.ToLower()) 
-                            && i.Approved == true).FirstOrDefault();
-
-
-                        if (img != null)
+                        //Checking file is available to save.  
+                        if (file != null)
                         {
-                            validImages.Add(img.ImageName);
+                            var InputFileName = Path.GetFileName(file.FileName);
+
+
+                            ImageFile img = db.Images
+                                .Where(i => i.ImageName.ToLower()
+                                .Contains(InputFileName.ToLower())
+                                && i.Approved == true && i.ListingId == null).FirstOrDefault();
+
+
+                            if (img != null)
+                            {
+                                validImages.Add(img.ImageName);
+                            }
+                            else
+                            {
+                                invalidImages.Add(file.FileName);
+                            }
+
+
+                        }
+
+                        if (invalidImages.Count > 0)
+                        {
+                            //string invalidImagesNames = "";
+                            //foreach (var item in invalidImages)
+                            //{
+                            //    invalidImagesNames += item + " " + "\n";
+                            //}
+
+                            ViewBag.InvalidImagesError = invalidImages;
+
                         }
 
                     }
 
-                }
-
-                if (selectedFeature != null)
-                {
-                    listing.Features = new List<Feature>();
-
-                    foreach (var feat in selectedFeature)
+                    if (selectedFeature != null)
                     {
+                        listing.Features = new List<Feature>();
 
-                        var featureToAdd = db.Features.Find(int.Parse(feat));
+                        foreach (var feat in selectedFeature)
+                        {
 
-                        listing.Features.Add(featureToAdd);
-                    }
-                }
+                            var featureToAdd = db.Features.Find(int.Parse(feat));
 
-
-                if (validImages.Count > 0)
-                {
-
-                    //If contract is not signed
-                    if (listing.ContractSigned)
-                    {
-
-                        listing.ListingStartDate = DateTime.Now;
-                        listing.ListingEndDate = DateTime.Now.AddMonths(3);
-                        listing.Status = "Active";
-                    }
-                    else
-                    {
-                        listing.Status = "No contract";
+                            listing.Features.Add(featureToAdd);
+                        }
                     }
 
-                    db.Listings.Add(listing);
-                    db.SaveChanges();
 
-
-                    //get id of listing, to associate it with images
-                    int id = listing.ListingId;
-
-                    validImages.ForEach(img =>
+                    if (validImages.Count > 0 && invalidImages.Count == 0)
                     {
 
-                        ImageFile imageToUpdate = db.Images
-                            .Where(im => im.ImageName.ToLower()
-                            .Contains(img.ToLower())).FirstOrDefault();
-                        imageToUpdate.ListingId = id;
 
-                        db.Images.Attach(imageToUpdate);
+                        //If contract is not signed
+                        if (listing.ContractSigned)
+                        {
 
-                        db.Entry(imageToUpdate).Property(i => i.ListingId).IsModified = true;
+                            listing.ListingStartDate = DateTime.Now;
+                            var todayPlus3Months = DateTime.Now.AddMonths(3);
+                            listing.ListingEndDate = todayPlus3Months;
+                            listing.Status = "Active";
+                        }
+                        else
+                        {
+                            listing.Status = "No contract";
+                        }
 
-                        // db.Entry(customer).State = EntityState.Modified;
+                        db.Listings.Add(listing);
                         db.SaveChanges();
-                    });
 
-                    return RedirectToAction("Index");
+
+                        //get id of listing, to associate it with images
+                        int id = listing.ListingId;
+
+                        validImages.ForEach(img =>
+                        {
+
+                            ImageFile imageToUpdate = db.Images
+                                .Where(im => im.ImageName.ToLower()
+                                .Contains(img.ToLower())).FirstOrDefault();
+                            imageToUpdate.ListingId = id;
+
+                            db.Images.Attach(imageToUpdate);
+
+                            db.Entry(imageToUpdate).Property(i => i.ListingId).IsModified = true;
+
+                            // db.Entry(customer).State = EntityState.Modified;
+                            db.SaveChanges();
+                        });
+
+                        return RedirectToAction("Index");
+                    }
                 }
             }
 
 
+
+
             PopulateFeatures(listing);
-            ViewBag.CityAreas = new SelectList(db.CityAreas, 
+            ViewBag.CityAreas = new SelectList(db.CityAreas,
                 "AreaId", "Name", listing.AreaId);
 
-            ViewBag.Employees = new SelectList(db.Employees, 
+            ViewBag.Countries = new SelectList(db.Countries, "CountryId", "Name");
+            ViewBag.Provinces = new SelectList(db.Provinces, "ProvinceId", "Name");
+
+            ViewBag.Employees = new SelectList(db.Employees,
                 "EmployeeId", "FullName", listing.EmployeeId);
 
             return View(listing);
@@ -306,7 +335,7 @@ namespace HorizonRE.Controllers
         [HttpGet]
         public ActionResult RenewContract(string id)
         {
-            if(TempData["Message"] != null)
+            if (TempData["Message"] != null)
             {
                 ViewBag.Message = TempData["Message"].ToString();
                 TempData.Remove("Message");
@@ -316,8 +345,8 @@ namespace HorizonRE.Controllers
             {
                 int listId = Convert.ToInt32(id);
 
-               Listing listing = db.Listings.Where(l => l.ListingId == listId)
-                            .FirstOrDefault();
+                Listing listing = db.Listings.Where(l => l.ListingId == listId)
+                             .FirstOrDefault();
 
                 if (listing != null)
                 {
@@ -337,13 +366,13 @@ namespace HorizonRE.Controllers
         [HttpPost]
         public ActionResult RenewContractManually(Listing listing)
         {
-            if(listing != null)
+            if (listing != null)
             {
                 var lsToRenew = db.Listings.Where(l => l.ListingId == listing.ListingId)
                     .SingleOrDefault();
-                if(lsToRenew != null)
+                if (lsToRenew != null)
                 {
-                    if(lsToRenew.ListingEndDate < DateTime.Now)
+                    if (lsToRenew.ListingEndDate < DateTime.Now)
                     {
                         TempData["Message"] = "You cannot renew a contract for " +
                         "expired listing";
@@ -352,7 +381,7 @@ namespace HorizonRE.Controllers
 
                     double daysToAdd = (lsToRenew.ListingEndDate.Date - DateTime.Now.Date).Days;
                     DateTime newExpDate = lsToRenew.ListingEndDate
-                        .AddMonths(3).AddDays(daysToAdd);                     
+                        .AddMonths(3).AddDays(daysToAdd);
 
                     lsToRenew.RenewNotificationSent = false;
                     lsToRenew.ListingEndDate = newExpDate;
@@ -399,8 +428,8 @@ namespace HorizonRE.Controllers
 
 
             var listToNotify = listings
-                .Where(l => l.ListingEndDate <= deadline 
-                && l.RenewNotificationSent == false).ToList();        
+                .Where(l => l.ListingEndDate <= deadline
+                && l.RenewNotificationSent == false).ToList();
 
             if (listings.Count == 0)
             {
@@ -423,7 +452,7 @@ namespace HorizonRE.Controllers
                    $"Kind regards, <br/>" +
                    $"{lis.Employee.FullName}";
 
-                    await UserManager.SendEmailAsync(customerToSend.Id, 
+                    await UserManager.SendEmailAsync(customerToSend.Id,
                         "Renew Contract", msg);
 
                     //change notify field
@@ -440,7 +469,7 @@ namespace HorizonRE.Controllers
             //IF CUSTOMER did not replay to email about renew
             //set listing to expired on expiration date
             var listToExpire = listings.Where(l => l.ListingEndDate <= DateTime.Now && l.Status == "Active").ToList();
-            if(listToExpire.Count() != 0)
+            if (listToExpire.Count() != 0)
             {
                 foreach (var item in listToExpire)
                 {
