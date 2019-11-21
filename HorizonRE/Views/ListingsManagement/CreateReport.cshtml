@@ -64,24 +64,34 @@
 
                                 @foreach (var listing in item.listing)
                                 {
-                                    <tr>
-                                        <td>@listing.StreetAddress @listing.City</td>
-                                        <td>@listing.Customer.FullName</td>
-                                        <td>@listing.Customer.Phone</td>
-                                        <td>@listing.Customer.Email</td>
+                                <tr>
+                                    <td>@listing.StreetAddress @listing.City</td>
+                                    <td>@listing.Customer.FullName</td>
+                                    <td>@listing.Customer.Phone</td>
+                                    <td>@listing.Customer.Email</td>
+                                    @if (listing.Employee == null)
+                                    {
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                    }
+                                    else
+                                    {
                                         <td>@listing.Employee.FullName</td>
                                         <td>@listing.Employee.OfficeEmail</td>
                                         <td>@listing.Employee.OfficePhone</td>
-                                        @if (listing.ContractSigned)
-                                        {
-                                            <td>@listing.ListingEndDate.ToShortDateString()</td>
-                                        }
-                                        else
-                                        {
-                                            <td>No contract signed</td>
-                                        }
+                                    }
 
-                                    </tr>
+                                    @if (listing.ContractSigned)
+                                    {
+                                        <td>@listing.ListingEndDate.ToShortDateString()</td>
+                                    }
+                                    else
+                                    {
+                                        <td>No contract signed</td>
+                                    }
+
+                                </tr>
 
                                 }
                             </tbody>
@@ -90,7 +100,7 @@
 
                 }
 
-                <input type="button" id="print" class="btn btn-primary"
+                <input type="button" id="print" class="btn btn-primary mb-3"
                        value="Print" onclick="printReport()">
             }
             else
@@ -112,10 +122,10 @@
 
         let date = document.getElementById('start').getAttribute("value");
         let today = moment().format("YYYY-MM-DD");
-        
+
 
         document.getElementById('start-date').textContent = `from ${date} to ${today}`;
-            window.print();
-        };
+        window.print();
+    };
 </script>
 

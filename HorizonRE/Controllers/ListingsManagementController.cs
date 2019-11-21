@@ -272,8 +272,8 @@ namespace HorizonRE.Controllers
         [HttpGet]
         public ActionResult CreateReport(string date, int? page)
         {
-            var listings = db.Listings.ToList();
 
+            var listings = db.Listings.ToList();
 
             if (!string.IsNullOrEmpty(date))
             {
@@ -283,14 +283,14 @@ namespace HorizonRE.Controllers
                            && l.ListingStartDate.Date <= DateTime.Now.Date).ToList();
 
 
-                var groupedListings = listings
+                var grListings = listings
                .GroupBy(l => l.Status, (key, listing) => new ListingReportViewModel
                {
                    Status = key,
                    listing = listing
-               })
-               .OrderByDescending(l => l.Status)
+               })               
                .ToList();
+                var groupedListings = grListings.OrderByDescending(l => l.Status).ToList();
 
                 ViewBag.Report = groupedListings;
             }
