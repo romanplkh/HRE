@@ -95,7 +95,7 @@ namespace HorizonRE.Controllers
             if (provSearch != null) listingsFound = listingsFound.Where(l => l.Province.Contains(provSearch));
 
 
-            int ? bedroomsSaved = null;
+            //int ? bedroomsSaved = null;
 
             if (bedrooms != null && bedrooms != 0)
             {
