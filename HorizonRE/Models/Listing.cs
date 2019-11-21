@@ -20,7 +20,7 @@ namespace HorizonRE.Models
         public string Country { get; set; }
         [Display(Name = "Postal Code")]
         [Required(ErrorMessage = "Provide a postal code")]
-        [CustomAttribute.PostalCodeIsValid]
+       // [CustomAttribute.PostalCodeIsValid]
         public string PostalCode { get; set; }
         [Display(Name = "Sq. Area")]
         [Required(ErrorMessage = "Provide house area")]
@@ -39,7 +39,7 @@ namespace HorizonRE.Models
         [Required]
         public string Status { get; set; }
         [Required]
-        public bool RenewNotificationSent { get; set; } = false;
+        public bool RenewNotificationSent { get; set; } 
 
         public string RenewDenialReason { get; set; }
 
