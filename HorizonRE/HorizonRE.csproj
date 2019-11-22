@@ -455,6 +455,10 @@
     <Compile Include="Migrations\201911192353511_UpdateRenewNotifSentToRequired.Designer.cs">
       <DependentUpon>201911192353511_UpdateRenewNotifSentToRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911221252018_StartContractNull.cs" />
+    <Compile Include="Migrations\201911221252018_StartContractNull.Designer.cs">
+      <DependentUpon>201911221252018_StartContractNull.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Appointment.cs" />
@@ -840,6 +844,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911192353511_UpdateRenewNotifSentToRequired.resx">
       <DependentUpon>201911192353511_UpdateRenewNotifSentToRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911221252018_StartContractNull.resx">
+      <DependentUpon>201911221252018_StartContractNull.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

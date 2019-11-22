@@ -34,7 +34,7 @@ namespace HorizonRE.Models
         [Display(Name = "Contract Signed")]
         public bool ContractSigned { get; set; }
         [Display(Name = "Contract Start")]
-        public DateTime ListingStartDate { get; set; }
+        public DateTime? ListingStartDate { get; set; }
         public DateTime ListingEndDate { get; set; }
         [Required]
         public string Status { get; set; }

@@ -52,7 +52,7 @@
 
                             <td>
 
-                                @Html.ActionLink($"{customer.FullName}", 
+                                @Html.ActionLink($"{customer.FullName}",
                                         "Index", new { customerId = customer.CustomerId })
                             </td>
                             <td> @customer.Phone</td>
@@ -90,27 +90,46 @@
                     </tr>
                     @foreach (var listing in Model.Listings)
                     {
-                        <tr>
+                    <tr>
+                        <td>
+                            @listing.ListingId
+                        </td>
+                        @if (listing.ListingStartDate.HasValue)
+                        {
                             <td>
-                                @listing.ListingId
+                                @listing.ListingStartDate.Value.ToShortDateString()
                             </td>
+                        }
+                        else
+                        {
                             <td>
-                                @listing.ListingStartDate.ToShortDateString()
+                                No start date
                             </td>
+                        }
+                        <td>
+                            @listing.ListingEndDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @listing.StreetAddress, @listing.City
+                        </td>
+                        @if (listing.Employee != null)
+                        {
+                        <td>
+                            @listing.Employee.FullName
+                        </td>
+                        }
+                        else
+                        {
                             <td>
-                                @listing.ListingEndDate.ToShortDateString()
+                                No assigned agent
                             </td>
-                            <td>
-                                @listing.StreetAddress, @listing.City
-                            </td>
-                            <td>
-                                @listing.Employee.FullName
-                            </td>
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = listing.ListingId })
-                            </td>
+                        }
+                      
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = listing.ListingId })
+                        </td>
 
-                        </tr>
+                    </tr>
 
                     }
 

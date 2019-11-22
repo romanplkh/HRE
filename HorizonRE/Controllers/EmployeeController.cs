@@ -222,6 +222,7 @@ namespace HorizonRE.Controllers
 
 
         // GET: Provinces in Country for AddEmployee
+        [AllowAnonymous]
         [HttpGet]
         public JsonResult GetProvincesByCountry(int countryId)
         {
