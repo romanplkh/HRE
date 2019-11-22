@@ -10,7 +10,7 @@ using HorizonRE.Models;
 
 namespace HorizonRE.Controllers
 {
-    [Authorize]
+   // [Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

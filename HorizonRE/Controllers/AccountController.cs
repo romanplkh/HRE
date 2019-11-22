@@ -12,7 +12,7 @@ using Microsoft.Owin.Security;
 
 namespace HorizonRE.Controllers
 {
-    [Authorize]
+   // [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;

@@ -38,7 +38,6 @@ namespace HorizonRE.Controllers
 
                 viewModel.Listings = db.Listings.Include(l => l.Employee);
 
-
                 viewModel.Listings = viewModel.Customers
                     .Where(c => c.CustomerId == customerId.Value).Single().Listings;
 
@@ -219,6 +218,19 @@ namespace HorizonRE.Controllers
                             listing.Status = "No contract";
                         }
 
+
+                        int selectedCountry = Convert.ToInt32(Request.Form["Countries"].ToString());
+                        int selectedProvince = Convert.ToInt32(Request.Form["Provinces"].ToString());
+
+                        string countryName = db.Countries.Where(c => c.CountryId == selectedCountry).FirstOrDefault().Name;
+                        string provinceName = db.Provinces.Where(c => c.ProvinceId == selectedProvince).FirstOrDefault().Name;
+
+
+
+                        listing.Country = countryName;
+                        listing.Province = provinceName;
+
+
                         db.Listings.Add(listing);
                         db.SaveChanges();
 
@@ -312,14 +324,22 @@ namespace HorizonRE.Controllers
                            && l.ListingStartDate.Date <= DateTime.Now.Date).ToList();
 
 
+
+                //!ASK OLENA WHAT THE HELL IT IS
                 var grListings = listings
                .GroupBy(l => l.Status, (key, listing) => new ListingReportViewModel
                {
                    Status = key,
                    listing = listing
-               })               
+               })
                .ToList();
-                var groupedListings = grListings.OrderByDescending(l => l.Status).ToList();
+
+
+                var groupedListings = grListings.
+                    OrderByDescending(l => l.Status == "Expired")
+                    .ThenByDescending(l => l.Status == "No Contract")
+                    .ThenByDescending(l => l.Status == "Sold")
+                    .ThenByDescending(l => l.Status == "Active").ToList();
 
                 ViewBag.Report = groupedListings;
             }
