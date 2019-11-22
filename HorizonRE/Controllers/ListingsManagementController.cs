@@ -23,13 +23,32 @@ namespace HorizonRE.Controllers
         private ApplicationUserManager _userManager;
 
         // GET: ListingsManagement
-        public ActionResult Index(int? customerId)
+        public ActionResult Index(int? customerId, string search = null, string currentSearch = null)
         {
-            //var listings = db.Listings.Include(l => l.CityArea).Include(l => l.Customer).Include(l => l.Employee);
+
 
             var viewModel = new ListingCustomerAgentView();
 
-            viewModel.Customers = db.Customers;//.Include(l => l.Listings);
+
+            if (string.IsNullOrEmpty(search))
+            {
+                search = currentSearch;
+            }
+
+
+            if (search != null)
+            {
+                viewModel.Customers = db.Customers.Where(cx => cx.FirstName.ToLower().Contains(search.ToLower()) || cx.LastName.ToLower().Contains(search.ToLower()) || cx.Phone.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "").Contains(search));
+
+
+            }
+
+
+
+
+
+
+
 
 
             if (customerId != null)
@@ -58,7 +77,7 @@ namespace HorizonRE.Controllers
             //viewModel.Listings = viewModel.Customers.Where(c => c.CustomerId == customerId.Value).Single().Listings;
 
 
-            //viewModel
+            ViewBag.CurrentSearch = search;
 
 
             return View(viewModel);
@@ -215,7 +234,7 @@ namespace HorizonRE.Controllers
                         }
                         else
                         {
-                            listing.ListingStartDate = null;                          
+                            listing.ListingStartDate = null;
                             listing.ListingEndDate = DateTime.Now.Date.AddMonths(3);
                             listing.Status = "No contract";
                         }
@@ -323,7 +342,7 @@ namespace HorizonRE.Controllers
                 //search all listings from start date till today
                 DateTime start = DateTime.Parse(date);
                 listings = listings.Where(l => l.ListingStartDate.HasValue ?
-                l.ListingStartDate.Value.Date >= start.Date  : l.ListingStartDate == null
+                l.ListingStartDate.Value.Date >= start.Date : l.ListingStartDate == null
                          && l.ListingStartDate.HasValue ?
                 l.ListingStartDate.Value.Date <= DateTime.Now.Date : l.ListingStartDate == null).ToList();
 
@@ -527,7 +546,7 @@ namespace HorizonRE.Controllers
             }
 
             var lst = from list in db.Listings
-                      let notifDate = SqlFunctions.DateAdd("dd", -7, list.ListingEndDate)                      
+                      let notifDate = SqlFunctions.DateAdd("dd", -7, list.ListingEndDate)
                       where list.CustomerId == customerId &&
                       list.Status == "Active" &&
                       notifDate >= DateTime.Now
