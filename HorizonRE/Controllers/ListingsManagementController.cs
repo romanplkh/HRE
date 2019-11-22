@@ -200,7 +200,7 @@ namespace HorizonRE.Controllers
                     }
 
 
-                    if (validImages.Count > 0 && invalidImages.Count == 0)
+                    if (validImages.Count >= 0 && invalidImages.Count == 0)
                     {
 
 
@@ -208,13 +208,15 @@ namespace HorizonRE.Controllers
                         if (listing.ContractSigned)
                         {
 
-                            listing.ListingStartDate = DateTime.Now;
-                            var todayPlus3Months = DateTime.Now.AddMonths(3);
+                            listing.ListingStartDate = DateTime.Now.Date;
+                            var todayPlus3Months = DateTime.Now.Date.AddMonths(3);
                             listing.ListingEndDate = todayPlus3Months;
                             listing.Status = "Active";
                         }
                         else
                         {
+                            listing.ListingStartDate = null;                          
+                            listing.ListingEndDate = DateTime.Now.Date.AddMonths(3);
                             listing.Status = "No contract";
                         }
 
@@ -320,8 +322,10 @@ namespace HorizonRE.Controllers
             {
                 //search all listings from start date till today
                 DateTime start = DateTime.Parse(date);
-                listings = listings.Where(l => l.ListingStartDate.Date >= start.Date
-                           && l.ListingStartDate.Date <= DateTime.Now.Date).ToList();
+                listings = listings.Where(l => l.ListingStartDate.HasValue ?
+                l.ListingStartDate.Value.Date >= start.Date  : l.ListingStartDate == null
+                         && l.ListingStartDate.HasValue ?
+                l.ListingStartDate.Value.Date <= DateTime.Now.Date : l.ListingStartDate == null).ToList();
 
 
 
@@ -337,7 +341,7 @@ namespace HorizonRE.Controllers
 
                 var groupedListings = grListings.
                     OrderByDescending(l => l.Status == "Expired")
-                    .ThenByDescending(l => l.Status == "No Contract")
+                    .ThenByDescending(l => l.Status.ToLower() == "no contract")
                     .ThenByDescending(l => l.Status == "Sold")
                     .ThenByDescending(l => l.Status == "Active").ToList();
 
@@ -488,7 +492,8 @@ namespace HorizonRE.Controllers
 
             //IF CUSTOMER did not replay to email about renew
             //set listing to expired on expiration date
-            var listToExpire = listings.Where(l => l.ListingEndDate <= DateTime.Now && l.Status == "Active").ToList();
+            var listToExpire = listings.Where
+                (l => l.ListingEndDate <= DateTime.Now && l.Status == "Active").ToList();
             if (listToExpire.Count() != 0)
             {
                 foreach (var item in listToExpire)
@@ -522,10 +527,11 @@ namespace HorizonRE.Controllers
             }
 
             var lst = from list in db.Listings
-                      let notifDate = SqlFunctions.DateAdd("dd", -7, list.ListingEndDate)
+                      let notifDate = SqlFunctions.DateAdd("dd", -7, list.ListingEndDate)                      
                       where list.CustomerId == customerId &&
                       list.Status == "Active" &&
-                      notifDate >= DateTime.Now && DateTime.Now <= list.ListingEndDate
+                      notifDate >= DateTime.Now
+                      && DateTime.Now <= list.ListingEndDate
                       && list.RenewDenialReason == null
                       select list;
 

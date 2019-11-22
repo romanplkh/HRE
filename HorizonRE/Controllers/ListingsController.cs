@@ -138,7 +138,7 @@ namespace HorizonRE.Controllers
 
 
 
-            int pageSize = 2;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
 
 
