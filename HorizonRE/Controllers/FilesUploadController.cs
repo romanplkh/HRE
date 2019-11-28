@@ -13,6 +13,7 @@ using HorizonRE.Models;
 
 namespace HorizonRE.Controllers
 {
+    [Authorize(Roles = RoleName.EMPLOYEE)]
     public class FilesUploadController : Controller
     {
         private HorizonContext db = new HorizonContext();
@@ -73,7 +74,18 @@ namespace HorizonRE.Controllers
                                 image.UploadDate = DateTime.Today;
                                 //@TODO: REMOVE EMPLOYEE ID 
                                 //!REMOVE
-                                image.EmployeeId = 1;
+                                var currentEmployee = db.Employees.Where(e => e.OfficeEmail == User.Identity.Name).FirstOrDefault();
+
+                                if (currentEmployee != null)
+                                {
+                                    image.EmployeeId = currentEmployee.EmployeeId;
+                                }
+                                else
+                                {
+                                    image.EmployeeId = 1;
+                                }
+
+
                                 image.Approved = false;
                                 image.ListingId = null;
 
@@ -153,19 +165,31 @@ namespace HorizonRE.Controllers
 
                     if (img != null)
                     {
-                        //2. Set approved to true 
-                        img.Approved = true;
 
-                        db.Entry(img).State = EntityState.Modified;
-                        db.SaveChanges();
+                        if (img.Employee.OfficeEmail != User.Identity.Name)
+                        {
+                            //2. Set approved to true 
+                            img.Approved = true;
+
+                            db.Entry(img).State = EntityState.Modified;
+                            db.SaveChanges();
+
+                            System.IO.File.Move(sourceFile, destinationFile);
+                            ViewBag.Msg = "File has been approved";
+                        }
+                        else
+                        {
+                            ViewBag.Msg = "You cannot approve your own images";
+                        }
+
+
                     }
 
 
 
 
 
-                    System.IO.File.Move(sourceFile, destinationFile);
-                    ViewBag.Msg = "File has been approved";
+
                 }
                 else
                 {

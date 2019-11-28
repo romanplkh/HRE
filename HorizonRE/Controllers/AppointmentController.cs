@@ -12,6 +12,7 @@ using PagedList;
 
 namespace HorizonRE.Controllers
 {
+    [Authorize(Roles = RoleName.EMPLOYEE)]
     public class AppointmentController : Controller
     {
 
