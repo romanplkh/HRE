@@ -17,6 +17,7 @@ using PagedList;
 
 namespace HorizonRE.Controllers
 {
+    [Authorize(Roles = RoleName.EMPLOYEE)]
     public class ListingsManagementController : Controller
     {
         private HorizonContext db = new HorizonContext();
@@ -193,11 +194,7 @@ namespace HorizonRE.Controllers
 
                         if (invalidImages.Count > 0)
                         {
-                            //string invalidImagesNames = "";
-                            //foreach (var item in invalidImages)
-                            //{
-                            //    invalidImagesNames += item + " " + "\n";
-                            //}
+                        
 
                             ViewBag.InvalidImagesError = invalidImages;
 
@@ -536,7 +533,7 @@ namespace HorizonRE.Controllers
 
 
         [HttpGet]
-        //[Authorize(Roles = RoleName.CUSTOMER)]
+        [Authorize(Roles = RoleName.CUSTOMER)]
         public ActionResult CustomerRenewContract(int? customerId)
         {
 
@@ -567,7 +564,7 @@ namespace HorizonRE.Controllers
 
 
         [HttpPost]
-        //[Authorize(Roles = RoleName.CUSTOMER)]
+        [Authorize(Roles = RoleName.CUSTOMER)]
         public ActionResult CustomerRenewContract(List<Listing> list)
         {
             foreach (Listing l in list)

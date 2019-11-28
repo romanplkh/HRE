@@ -12,7 +12,7 @@ using Microsoft.Owin.Security;
 
 namespace HorizonRE.Controllers
 {
-   // [Authorize]
+
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -76,9 +76,24 @@ namespace HorizonRE.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
+
+
             switch (result)
-            {
+            {//TODO: FINISH AUTHENTICATION REDIRECT
                 case SignInStatus.Success:
+                    var user = await UserManager.FindAsync(model.Email, model.Password);
+                    var roles = await UserManager.GetRolesAsync(user.Id);
+
+                    if (roles.Contains("Employee"))
+                    {
+                        return RedirectToAction("Index", "Employee");
+                    }
+                    else if (roles.Contains("Customer"))
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -478,6 +493,16 @@ namespace HorizonRE.Controllers
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
+            }
+
+
+            //var userRole = UserManager.FindById(User.Identity.GetUserId()).Roles.ToList();
+
+
+
+            if (System.Web.Security.Roles.GetRolesForUser().Contains("Broker"))
+            {
+                return RedirectToAction("Index", "Employee");
             }
             return RedirectToAction("Index", "Home");
         }

@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using HorizonRE.Models;
 using System.Web.Security;
-using System.Threading.Tasks;
+using HorizonRE.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 
 namespace HorizonRE.Controllers
 {
 
-    //[Authorize(Roles = RoleName.BROKER)]
-    //[Authorize(Roles = RoleName.AGENT)]
-    //[Authorize(Roles = RoleName.MANAGER)]
+    [Authorize(Roles = RoleName.EMPLOYEE)]
     public class EmployeeController : Controller
     {
         private HorizonContext db = new HorizonContext();
@@ -45,7 +43,7 @@ namespace HorizonRE.Controllers
 
         // GET: AddEmployee
         [HttpGet]
-        //[Authorize(Roles=RoleName.BROKER)]
+       [Authorize(Roles=RoleName.BROKER)]
         public ActionResult AddEmployee()
         {
             ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name");
@@ -56,7 +54,7 @@ namespace HorizonRE.Controllers
 
         // POST: AddEmployee
         [HttpPost]
-        //[Authorize(Roles = RoleName.BROKER)]
+        [Authorize(Roles = RoleName.BROKER)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddEmployee([Bind(Include = "EmployeeId,FirstName," +
             "LastName, MiddleName,SIN,StreetAddress,City,PostalCode," +
@@ -73,9 +71,18 @@ namespace HorizonRE.Controllers
                 string currentUser = User.Identity.GetUserName();
                 var addedBy = db.Employees.Where(e => e.OfficeEmail.Contains(currentUser)).FirstOrDefault();
 
-                //Need this for the 1st user. 
-                employee.AddedBy = 1;
-                //employee.AddedBy = addedBy.EmployeeId;
+                if (addedBy == null)
+                {
+
+                    //Need this for the 1st user. 
+                    employee.AddedBy = 1;
+                }
+                else
+                {
+
+                    employee.AddedBy = addedBy.EmployeeId;
+                }
+
 
                 employee.Password = GeneratePassword(8, 1);
 
@@ -93,7 +100,7 @@ namespace HorizonRE.Controllers
                 db.SaveChanges();
 
                 //create new employee auth record
-                await CreateAuthRecordAsync(employee);                
+                await CreateAuthRecordAsync(employee);
 
                 return RedirectToAction("Index");
             }
@@ -127,29 +134,10 @@ namespace HorizonRE.Controllers
             if (result.Succeeded)
             {
                 var newAgent = UserManager.FindByName(user.UserName);
-                var roleResult = UserManager.AddToRole(newAgent.Id, "Agent");
-
-                //send email
-                // var subject = "Account created";
-                // var body = "Your account was sucessfully created. " +
-                //  $"Please log in using following email {newAgent.UserName} " +
-                //  $"and password {newAgent.PasswordHash}";
-                //var user = await UserManager.FindByEmailAsync("xxx@gmail.com");
-                // await UserManager.SendEmailAsync(newAgent.Id, subject, body);
+                UserManager.AddToRole(newAgent.Id, "Agent");
+                UserManager.AddToRole(newAgent.Id, "Employee");
 
 
-                //string code = await UserManager.GenerateEmailConfirmationTokenAsync(newAgent.Id);
-                //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = newAgent.Id, code = code }, protocol: Request.Url.Scheme);
-                //await UserManager.SendEmailAsync(newAgent.Id, "Horizon Agent Account",
-                //    "Your account was sucessfully created. " +
-                //    $"Please log in using following email {newAgent.UserName} " +
-                //    $"and password {newAgent.PasswordHash}");
-
-                //UserManager.EmailService = new EmailService();
-                //await UserManager.SendEmailAsync(newAgent.Id, "Horizon Agent Account", 
-                //    "Your account was sucessfully created. " +
-                //    $"Please log in using following email {newAgent.UserName} " +
-                //    $"and password {newAgent.PasswordHash}");
             }
 
         }
@@ -157,8 +145,8 @@ namespace HorizonRE.Controllers
 
         // GET: Edit
         [HttpGet]
-       //[Authorize(Roles = RoleName.BROKER)]
-       //[Authorize(Roles = RoleName.MANAGER)]
+        [Authorize(Roles = RoleName.BROKER)]
+        [Authorize(Roles = RoleName.MANAGER)]
         public ActionResult EditEmployee(int? id)
         {
             if (id == null)
@@ -188,8 +176,8 @@ namespace HorizonRE.Controllers
         //POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-       // [Authorize(Roles = RoleName.BROKER)]
-        //[Authorize(Roles = RoleName.MANAGER)]
+         [Authorize(Roles = RoleName.BROKER)]
+        [Authorize(Roles = RoleName.MANAGER)]
         public ActionResult EditEmployee([Bind(Include = "EmployeeId,FirstName,LastName,MiddleName,SIN,StreetAddress,City,PostalCode,HomePhone,CellPhone,OfficePhone,OfficeEmail,DOB,AddedBy,HireDate, EmployeeProvinceId, CountryList, ProvincesList, ProvinceEmployee")]
          Employee employee)
         {
@@ -209,7 +197,7 @@ namespace HorizonRE.Controllers
 
         // POST: Employee/Delete/5
         [HttpPost]
-       // [Authorize(Roles = RoleName.BROKER)]
+         [Authorize(Roles = RoleName.BROKER)]
         public ActionResult Delete()
         {
             int employeeId = Convert.ToInt32(Request.Form["empId"]);

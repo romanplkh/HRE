@@ -11,5 +11,6 @@ namespace HorizonRE.Models
         public const string AGENT = "Agent";
         public const string MANAGER = "Manager";
         public const string CUSTOMER = "Customer";
+        public const string EMPLOYEE = "Employee";
     }
 }

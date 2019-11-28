@@ -11,6 +11,7 @@ namespace HorizonRE.Migrations
             Sql("INSERT INTO AspNetRoles VALUES('Agent', 'Agent')");
             Sql("INSERT INTO AspNetRoles VALUES('Manager', 'Manager')");
             Sql("INSERT INTO AspNetRoles VALUES('Customer', 'Customer')");
+            Sql("INSERT INTO AspNetRoles VALUES('Employee', 'Employee')");
         }
         
         public override void Down()

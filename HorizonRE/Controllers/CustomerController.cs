@@ -15,6 +15,7 @@ using SendGrid.Helpers.Mail;
 
 namespace HorizonRE.Controllers
 {
+    [Authorize(Roles = RoleName.EMPLOYEE)]
     public class CustomerController : Controller
     {
         private HorizonContext db = new HorizonContext();
