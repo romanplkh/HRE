@@ -31,14 +31,19 @@
                         <a href="#" class="nav-link text-dark font-weight-bold">CONTACT US</a>
                     </li>
                     <li class="nav-item mr-4">
+
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <a href="/Account/LogOff" class="nav-link text-dark font-weight-bold">LOGOUT</a>
-                        }
-                        else
-                        {
-                            <a href="/Account/Login" class="nav-link text-dark font-weight-bold">LOGIN</a>
-                        }
+                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="nav-link btn btn-link text-dark font-weight-bold">LOGOUT</button>
+                            }                   
+                         }
+                    else
+                    {
+                        <a href="/Account/Login" class="nav-link text-dark font-weight-bold">LOGIN</a>
+                    }
 
                     </li>
                     <li class="nav-item">

@@ -77,8 +77,6 @@ namespace HorizonRE.Controllers
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
 
-
-
             switch (result)
             {//TODO: FINISH AUTHENTICATION REDIRECT
                 case SignInStatus.Success:
@@ -91,7 +89,7 @@ namespace HorizonRE.Controllers
                     }
                     else if (roles.Contains("Customer"))
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToLocal(returnUrl);
                     }
 
                     return RedirectToLocal(returnUrl);
@@ -102,6 +100,7 @@ namespace HorizonRE.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
+                    ViewBag.ReturnUrl = returnUrl;
                     return View(model);
             }
         }
