@@ -17,7 +17,7 @@ using PagedList;
 
 namespace HorizonRE.Controllers
 {
-    [Authorize(Roles = RoleName.EMPLOYEE)]
+   [Authorize(Roles = RoleName.EMPLOYEE)]
     public class ListingsManagementController : Controller
     {
         private HorizonContext db = new HorizonContext();
@@ -533,7 +533,8 @@ namespace HorizonRE.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = RoleName.CUSTOMER)]
+        //[AllowAnonymous]
+       [Authorize(Roles = "Customer")]
         public ActionResult CustomerRenewContract(int? customerId)
         {
 
