@@ -1,0 +1,160 @@
+﻿@model HorizonRE.Models.Appointment
+
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <h1 class="display-4 text-center mt-5">Schedule Appointment</h1>
+    </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger  alert-dismissible fade show text-center" role="alert">
+            @ViewBag.Error
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+
+    @if (ViewBag.Msg != null)
+    {
+        <div class="alert alert-success  alert-dismissible fade show text-center" role="alert">
+            @ViewBag.Msg
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+
+
+    @using (@Html.BeginForm("Add", "Appointment", FormMethod.Post))
+    {
+
+        @Html.AntiForgeryToken()
+        <div class="row mt-5">
+            <div class="col-md-3">
+
+                <label>Find customer by email: </label>
+                <div class="input-group">
+                    @Html.TextBox("email", ViewBag.EmailCurrent as string,
+                   new {@class="form-control", required = true, type = "email" })
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" 
+                                type="submit" id="button-addon2">Find</button>
+                    </div>
+
+                </div>
+
+
+                @if (ViewBag.Customer != null)
+                {
+
+                    <h2 class="mt-4 display-4" 
+                        style="font-size:1.5em">Customer</h2>
+                    <div class="card h-50">
+                        <div class="card-body">
+                            <div class="card-title">
+                                @ViewBag.Customer.FullName
+                            </div>
+                            <div class="card-text">
+                                <ul class="list-unstyled">
+                                    <li>@ViewBag.Customer.Phone</li>
+                                    <li>@ViewBag.Customer.Email</li>
+                                    <li>@ViewBag.Customer.StreetAddress</li>
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+
+            <div class="col-md-3">
+                @if (ViewBag.Customer != null)
+                {
+                    <label>Find listing by id: </label>
+                    <div class="input-group">
+                        @Html.TextBox("listingId", ViewBag.CurrentListing as string,
+                       new { @class = "form-control", required = true })
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="submit">Find</button>
+                        </div>
+                    </div>
+
+                }
+
+                @if (ViewBag.Listing != null)
+                {
+                    <h2 class="mt-4 display-4" style="font-size:1.5em">Listing</h2>
+                    <div class="card h-50">
+                        <div class="card-body">
+                            <div class="card-title">
+                                Listing #@ViewBag.Listing.ListingId
+                            </div>
+                            <div class="card-text">
+                                <p>Address: @ViewBag.Listing.StreetAddress @ViewBag.Listing.City</p>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+
+            </div>
+
+
+            <div class="col-md-6">
+                @if (ViewBag.Listing != null)
+                {
+                    <h2 class="display-4" style="font-size:1.5em">Appointment Information</h2>
+                    <div class="card border-0">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.StartDate)
+                            @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control", type = "datetime-local" })
+                            @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.EndDate)
+                            @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control", type = "datetime-local" })
+                            @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Agents")
+                            @Html.DropDownListFor(m => m.EmployeeId, ViewBag.EmployeeId as SelectList, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Comment)
+                            @Html.TextAreaFor(m => m.Comment, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Comment, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.Hidden("ListingId", new { ViewBag.Listing.ListingId })
+                        </div>
+
+                        <input type="submit" value="Submit" class="btn btn-primary float-right" />
+                    </div>
+
+
+
+                }
+            </div>
+
+
+
+        </div>
+
+
+    }
+</div>
+
+

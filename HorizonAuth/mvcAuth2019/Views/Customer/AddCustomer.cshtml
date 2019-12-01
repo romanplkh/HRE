@@ -1,0 +1,44 @@
+﻿@model HorizonRE.Models.Customer
+@{
+    ViewBag.Title = "AddCustomer";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<div class="container mt-md-5 mt-sm-0">
+    <h2 class="text-center display-4 mb-4">Add Customer</h2>
+
+    @using (Html.BeginForm("AddCustomer", "Customer", FormMethod.Post, new { id = "form" }))
+    {
+
+        @*@Html.AntiForgeryToken()*@
+
+        @Html.Partial("_AddEditCustomer")
+
+        <button type="button" id="reset" class="btn btn-secondary ml-4 float-right">Cancel</button>
+        <button type="submit" class="btn btn-primary float-right">Save</button>
+
+    }
+
+</div>
+<script>
+    var resetBtn = document.querySelector('#reset');
+    var form = document.querySelector('form')
+
+
+    resetBtn.addEventListener('click',
+        () => {
+            var elms = form.querySelectorAll('input');
+
+            var spans = form.querySelectorAll('span');
+
+            Array.from(spans).forEach(el => {
+                el.textContent = "";
+            });
+
+            Array.from(elms).forEach(el => {
+                el.value = "";
+                if (el.hasAttribute("aria-invalid")) {
+                    el.setAttribute("aria-invalid", "false");
+                }
+            });
+        });  
+</script>

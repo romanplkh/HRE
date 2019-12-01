@@ -17,10 +17,10 @@ using PagedList;
 
 namespace HorizonRE.Controllers
 {
-   [Authorize(Roles = RoleName.EMPLOYEE)]
+   [Authorize(Roles = RoleName.BROKER)]
     public class ListingsManagementController : Controller
     {
-        private HorizonContext db = new HorizonContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationUserManager _userManager;
 
         // GET: ListingsManagement

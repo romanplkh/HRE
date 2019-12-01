@@ -5,14 +5,14 @@ namespace HorizonRE.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<HorizonRE.Models.HorizonContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<HorizonRE.Models.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(HorizonRE.Models.HorizonContext context)
+        protected override void Seed(HorizonRE.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

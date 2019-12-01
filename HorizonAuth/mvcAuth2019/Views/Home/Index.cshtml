@@ -1,0 +1,358 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- !HEADER -->
+<section class="header-main">
+    <div class="row">
+        <div class="col">
+            <div class="bg-video">
+                <video class="bg-video__content" autoplay muted loop>
+                    <source src="/Content/Asset/Images/Long_shot.mp4" type="video/mp4" />
+                    <source src="/Content/Asset/Images/Long_shot.webm" type="video/webm" />
+                    Your browser is not supported!
+                </video>
+            </div>
+            <div class="header">
+                <div class="row">
+                    <div class="text-box">
+                        <h1>
+                            <span class="heading-main d-block text-white-secondary display-2 font-weight-bold text-uppercase">
+                                Find your
+                            </span>
+                            <span class="display-4 heading-sub d-block text-white-secondary font-weight-bold">
+                                Dream Home with Horizon
+                            </span>
+                        </h1>
+                        <a href="/Listings"
+                           id="btn-browse-listings"
+                           class="btn btn-cta btn-animated text-white font-weight-bold p-3 mt-4">BROWSE LISTINGS</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- !ADVANTAGES -->
+<section class="advantages p-5">
+    <div class="container">
+        <div class="row justify-content-center pt-3 mb-5">
+            <h1 class=" font-weight-bold text-center">
+                A Real Estate Agent You Can Trust
+            </h1>
+            <h5 class=" font-weight-light text-center">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Laudantium, culpa beatae ipsam facere voluptatum quis.
+            </h5>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-lg-4 mb-sm-2">
+                <div class="card text-center p-5 h-100 card-hover">
+                    <div>
+                        <i class="far fa-eye-slash fa-2x icon-card text-center bg-green-secondary text-white-secondary "></i>
+                    </div>
+
+                    <h4 class="card-title text-center mt-5 font-weight-bold pb-4">
+                        NO HIDDEN FEES
+                    </h4>
+                    <div class="card-body">
+                        <p class="card-text text-muted">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Animi, tempora esse! Provident laboriosam nihil laborum!
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-sm-2">
+                <div class="card text-center p-5 h-100 card-hover">
+                    <div>
+                        <i class="far fa-clock fa-2x icon-card text-center bg-green-secondary text-white-secondary "></i>
+                    </div>
+
+                    <h4 class="card-title text-center mt-5 font-weight-bold ">
+                        FLEXIBLE HOURS FOR VIEWING
+                    </h4>
+                    <div class="card-body">
+                        <p class="card-text text-muted">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Veritatis incidunt atque quia nostrum reiciendis adipisci.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-sm-2">
+                <div class="card text-center p-5 h-100 card-hover">
+                    <div>
+                        <i class="fas fa-home fa-2x icon-card text-center bg-green-secondary text-white-secondary "></i>
+                    </div>
+                    <h4 class="card-title text-center mt-5 font-weight-bold ">
+                        CERTIFIED PROPERTIES
+                    </h4>
+                    <div class="card-body">
+                        <p class="card-text text-muted">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Dolorum, harum? Voluptates sint deleniti nulla voluptas?
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- !OLENA CODE HERE  -->
+<!-- POPULAR LISTINGS -->
+
+<section id="pop-listings" class="pt-5 mt-5">
+    <div class="container-fluid">
+        <div class="row justify-content-center pt-3 pb-5">
+            <h1 class="font-weight-bold">Top Listings</h1>
+        </div>
+        <div class="row pb-5"
+             style="width: 85%; margin-left:auto; margin-right:auto">
+            <div class="owl-carousel owl-theme">
+                <div class="item mx-2">
+                    <div class="card">
+                        <img class="card-img-top" src="/Content/Asset/Images/house1.jpg" alt="" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title mb-3">Single Family Home</h5>
+                            <div class="card-text">
+                                <h2 class="mb-3">$ 900,000</h2>
+                                <p class="text-muted small">
+                                    1500 Sq.Ft. &#x22C5; 3 Beds &#x22C5; 1 Bath
+                                </p>
+                                <p class="text-text-link-card">
+                                    500 Main St. Vancouver, BC
+                                </p>
+                                <button class="btn btn-cta text-white">VIEW LISTING</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item mx-2">
+                    <div class="card">
+                        <img class="card-img-top" src="/Content/Asset/Images/house2.jpg" alt="" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title mb-3">Single Family Home</h5>
+                            <div class="card-text">
+                                <h2 class="mb-3">$ 560,000</h2>
+                                <p class="text-muted small">
+                                    1500 Sq.Ft. &#x22C5; 4 Beds &#x22C5; 2 Bath
+                                </p>
+                                <p class="text-text-link-card">
+                                    500 Main St. Vancouver, BC
+                                </p>
+                                <button class="btn btn-cta text-white">VIEW LISTING</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item mx-2">
+                    <div class="card">
+                        <img class="card-img-top" src="/Content/Asset/Images/house3.jpg" alt="" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title mb-3">Single Family Home</h5>
+                            <div class="card-text">
+                                <h2 class="mb-3">$ 230,000</h2>
+                                <p class="text-muted small">
+                                    1500 Sq.Ft. &#x22C5; 3 Beds &#x22C5; 2 Bath
+                                </p>
+                                <p class="text-text-link-card">
+                                    500 Main St. Vancouver, BC
+                                </p>
+                                <button class="btn btn-cta text-white">VIEW LISTING</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item mx-2">
+                    <div class="card">
+                        <img class="card-img-top" src="/Content/Asset/Images/house4.jpg" alt="" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title mb-3">Single Family Home</h5>
+                            <div class="card-text">
+                                <h2 class="mb-3">$ 844,000</h2>
+                                <p class="text-muted small">
+                                    950Sq.Ft. &#x22C5; 3 Beds &#x22C5; 1.5 Bath
+                                </p>
+                                <p class="text-text-link-card">
+                                    500 Main St. WInnipeg, MB
+                                </p>
+                                <button class="btn btn-cta text-white">VIEW LISTING</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item mx-2">
+                    <div class="card">
+                        <img class="card-img-top" src="/Content/Asset/Images/house5.jpg" alt="" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title mb-3">Single Family Home</h5>
+                            <div class="card-text">
+                                <h2 class="mb-3">$ 350,000</h2>
+                                <p class="text-muted small">
+                                    2500 Sq.Ft. &#x22C5; 4 Beds &#x22C5; 3 Bath
+                                </p>
+                                <p class="text-text-link-card">
+                                    500 Main St. Vancouver, BC
+                                </p>
+                                <button class="btn btn-cta text-white">VIEW LISTING</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item mx-2">
+                    <div class="card">
+                        <img class="card-img-top" src="/Content/Asset/Images/house6.jpg" alt="" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title mb-3">Townhouse</h5>
+                            <div class="card-text">
+                                <h2 class="mb-3">$ 360,000</h2>
+                                <p class="text-muted small">
+                                    850 Sq.Ft. &#x22C5; 3 Beds &#x22C5; 1.5 Bath
+                                </p>
+                                <p class="text-text-link-card">
+                                    500 Main St. Vancouver, BC
+                                </p>
+                                <button class="btn btn-cta text-white">VIEW LISTING</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item mx-2">
+                    <div class="card">
+                        <img class="card-img-top" src="/Content/Asset/Images/house7.jpg" alt="" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title mb-3">Semi-Detached Home</h5>
+                            <div class="card-text">
+                                <h2 class="mb-3">$ 440,000</h2>
+                                <p class="text-muted small">
+                                    750 Sq.Ft. &#x22C5; 2 Beds &#x22C5; 1 Bath
+                                </p>
+                                <p class="text-text-link-card">
+                                    500 Main St. Regina, SK
+                                </p>
+                                <button class="btn btn-cta text-white">VIEW LISTING</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item mx-2">
+                    <div class="card">
+                        <img class="card-img-top" src="/Content/Asset/Images/house8.jpg" alt="" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title mb-3">Condo</h5>
+                            <div class="card-text">
+                                <h2 class="mb-3">$ 400,000</h2>
+                                <p class="text-muted small">
+                                    860 Sq.Ft. &#x22C5; 2 Beds &#x22C5; 2 Bath
+                                </p>
+                                <p class="text-text-link-card">
+                                    500 Main St. Toronto, ON
+                                </p>
+                                <button class="btn btn-cta text-white">VIEW LISTING</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center pb-3">
+            <a href="/Listings"
+               id="btn-browse-listings"
+               class="btn btn-cta btn-animated text-white font-weight-bold p-3 mt-4">VIEW ALL LISTINGS</a>
+        </div>
+    </div>
+</section>
+
+<section id="ready-to-buy" class="pb-5">
+    <div class="container text-center mt-5 pt-5">
+        <h3 class="text-white pt-5 mt-5 display-4 moto font-weight-bold">
+            READY TO BUY?
+        </h3>
+        <p class="text-center mb-5 text-white pt-4">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
+            totam itaque sint perspiciatis odio nemo quod suscipit eos nam
+            expedita?
+        </p>
+        <a href="#" class="btn btn-cta text-white p-3 font-weight-bold">CONTACT US</a>
+    </div>
+</section>
+
+<!-- !TESTIMONIALS -->
+<section class="pt-5 mt-3 mb-5 d-none d-md-block text-dark">
+    <div class="container">
+        <div class="row justify-content-center">
+            <h1 class="text-whitest-white mb-5 font-weight-bold">
+                Clients and Partners
+            </h1>
+            <div class="col">
+                <div class="slider">
+                    <div>
+                        <blockquote class="blockquote text-dark text-center">
+                            <p class="mb-0">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                Amet, adipisci?
+                            </p>
+                            <div class="blockquote-footer">
+                                <cite class="text-text-link-card">John Doe</cite>
+                            </div>
+                        </blockquote>
+                    </div>
+                    <div>
+                        <blockquote class="blockquote text-dark  text-center">
+                            <p class="mb-0">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                Amet, adipisci?
+                            </p>
+                            <div class="blockquote-footer">
+                                <cite class="text-text-link-card">Steven Smith</cite>
+                            </div>
+                        </blockquote>
+                    </div>
+                    <div>
+                        <blockquote class="blockquote text-dark text-center">
+                            <p class="mb-0">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                Amet, adipisci?
+                            </p>
+                            <div class="blockquote-footer">
+                                <cite class="text-text-link-card">Megan Fox</cite>
+                            </div>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5 pt-2 d-none d-md-block mb-5 ">
+            <div class="col  d-flex justify-content-between"
+                 id="logo-testimonial">
+                <img src="/Content/Asset/Logos/logo-bbc.png"
+                     alt="bbc"
+                     class="logo-testimonial__img" />
+                <img src="/Content/Asset/Logos/logo-forbes.png"
+                     alt="foorbes"
+                     class="logo-testimonial__img" />
+                <img src="/Content/Asset/Logos/logo-techcrunch.png"
+                     alt="techcrunch"
+                     class="logo-testimonial__img" />
+                <img src="/Content/Asset/Logos/logo-bi.png"
+                     alt="binsider"
+                     class="logo-testimonial__img" />
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -20,9 +20,12 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44343</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication>
+    </IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>
+    </IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -459,6 +462,10 @@
     <Compile Include="Migrations\201911221252018_StartContractNull.Designer.cs">
       <DependentUpon>201911221252018_StartContractNull.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912012003051_REformatContext.cs" />
+    <Compile Include="Migrations\201912012003051_REformatContext.Designer.cs">
+      <DependentUpon>201912012003051_REformatContext.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Appointment.cs" />
@@ -468,7 +475,6 @@
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Feature.cs" />
-    <Compile Include="Models\HorizonContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ImageFile.cs" />
     <Compile Include="Models\Listing.cs" />
@@ -847,6 +853,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201911221252018_StartContractNull.resx">
       <DependentUpon>201911221252018_StartContractNull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912012003051_REformatContext.resx">
+      <DependentUpon>201912012003051_REformatContext.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

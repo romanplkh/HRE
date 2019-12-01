@@ -9,18 +9,20 @@ using System.Web.Mvc;
 using System.Web.Security;
 using HorizonRE.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 
 namespace HorizonRE.Controllers
 {
-
-    [Authorize(Roles = RoleName.EMPLOYEE)]
+ 
+    //[Authorize(Roles = RoleName.EMPLOYEE)]
     public class EmployeeController : Controller
     {
-        private HorizonContext db = new HorizonContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
-        private ApplicationUserManager _userManager;
+        //private ApplicationUserManager _userManager;
 
+        [Authorize(Roles = "User")]
         // GET: AllEmployees
         [HttpGet]
         public ActionResult Index()
@@ -43,7 +45,7 @@ namespace HorizonRE.Controllers
 
         // GET: AddEmployee
         [HttpGet]
-       [Authorize(Roles=RoleName.BROKER)]
+        // [Authorize(Roles=RoleName.BROKER)]
         public ActionResult AddEmployee()
         {
             ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name");
@@ -54,7 +56,7 @@ namespace HorizonRE.Controllers
 
         // POST: AddEmployee
         [HttpPost]
-        [Authorize(Roles = RoleName.BROKER)]
+        // [Authorize(Roles = RoleName.BROKER)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddEmployee([Bind(Include = "EmployeeId,FirstName," +
             "LastName, MiddleName,SIN,StreetAddress,City,PostalCode," +
@@ -99,10 +101,27 @@ namespace HorizonRE.Controllers
 
                 db.SaveChanges();
 
-                //create new employee auth record
-                await CreateAuthRecordAsync(employee);
+                AccountController accountController = new AccountController();
+                accountController.ControllerContext = this.ControllerContext;
 
-                return RedirectToAction("Index");
+
+                RegisterViewModel registerModel = new RegisterViewModel();
+
+                registerModel.Email = employee.OfficeEmail;
+                registerModel.Password = employee.Password;
+                registerModel.ConfirmPassword = employee.Password;
+
+
+               return await accountController.Register(registerModel);
+
+
+
+
+
+                //create new employee auth record
+                // await CreateAuthRecordAsync(employee);
+
+                //return RedirectToAction("Register");
             }
 
             ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name");
@@ -112,41 +131,74 @@ namespace HorizonRE.Controllers
             return View();
         }
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext()
-                    .GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
+        //public ApplicationUserManager UserManager
+        //{
+        //    get
+        //    {
+        //        return _userManager ?? HttpContext.GetOwinContext()
+        //            .GetUserManager<ApplicationUserManager>();
+        //    }
+        //    private set
+        //    {
+        //        _userManager = value;
+        //    }
+        //}
 
-        private async Task CreateAuthRecordAsync(Employee employee)
-        {
-            var user = new ApplicationUser
-            { UserName = employee.OfficeEmail, Email = employee.OfficeEmail };
-            var result = await UserManager.CreateAsync(user, employee.Password);
-            //assign Agent role
-            if (result.Succeeded)
-            {
-                var newAgent = UserManager.FindByName(user.UserName);
-                UserManager.AddToRole(newAgent.Id, "Agent");
-                UserManager.AddToRole(newAgent.Id, "Employee");
+        //public async Task<ActionResult> RegisterAgent(RegisterViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+        //        var result = await UserManager.CreateAsync(user, model.Password);
+        //        if (result.Succeeded)
+        //        {
+
+        //            //Added
+        //            var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+
+        //            var roleManager = new RoleManager<IdentityRole>(roleStore);
+
+        //            //Create role
+        //            await roleManager.CreateAsync(new IdentityRole("CanAccessAdmin"));
+
+        //            //Assign user to role
+        //            await UserManager.AddToRoleAsync(user.Id, "CanAccessAdmin");
 
 
-            }
 
-        }
+
+        //            return RedirectToAction("Index", "Home");
+        //        }
+
+        //    }
+
+        //    // If we got this far, something failed, redisplay form
+        //    return View(model);
+        //}
+
+
+        //private async Task CreateAuthRecordAsync(Employee employee)
+        //{
+        //    var user = new ApplicationUser
+        //    { UserName = employee.OfficeEmail, Email = employee.OfficeEmail };
+        //    var result = await UserManager.CreateAsync(user, employee.Password);
+        //    //assign Agent role
+        //    if (result.Succeeded)
+        //    {
+        //        var newAgent = UserManager.FindByName(user.UserName);
+        //        UserManager.AddToRole(newAgent.Id, "Agent");
+        //        UserManager.AddToRole(newAgent.Id, "Employee");
+
+
+        //    }
+
+        //}
 
 
         // GET: Edit
         [HttpGet]
-        [Authorize(Roles = RoleName.BROKER)]
-        [Authorize(Roles = RoleName.MANAGER)]
+        // [Authorize(Roles = RoleName.BROKER)]
+        //  [Authorize(Roles = RoleName.MANAGER)]
         public ActionResult EditEmployee(int? id)
         {
             if (id == null)
@@ -176,8 +228,8 @@ namespace HorizonRE.Controllers
         //POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-         [Authorize(Roles = RoleName.BROKER)]
-        [Authorize(Roles = RoleName.MANAGER)]
+        //  [Authorize(Roles = RoleName.BROKER)]
+        // [Authorize(Roles = RoleName.MANAGER)]
         public ActionResult EditEmployee([Bind(Include = "EmployeeId,FirstName,LastName,MiddleName,SIN,StreetAddress,City,PostalCode,HomePhone,CellPhone,OfficePhone,OfficeEmail,DOB,AddedBy,HireDate, EmployeeProvinceId, CountryList, ProvincesList, ProvinceEmployee")]
          Employee employee)
         {
@@ -197,7 +249,7 @@ namespace HorizonRE.Controllers
 
         // POST: Employee/Delete/5
         [HttpPost]
-         [Authorize(Roles = RoleName.BROKER)]
+        //  [Authorize(Roles = RoleName.BROKER)]
         public ActionResult Delete()
         {
             int employeeId = Convert.ToInt32(Request.Form["empId"]);

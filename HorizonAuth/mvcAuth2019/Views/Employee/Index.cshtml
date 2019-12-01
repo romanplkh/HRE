@@ -1,0 +1,151 @@
+﻿@model IEnumerable<HorizonRE.Models.Employee>
+
+
+@{
+    ViewBag.Title = "Employees";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+<div class="row  justify-content-between">
+    <div class="col align-self-end">
+        <h2 class="mt-5 display-4">Employees</h2>
+    </div>
+    <div class="col align-self-end d-flex justify-content-end">
+        @Html.ActionLink("Add Employee", "AddEmployee", "Employee", new {@class = "btn btn-primary mt-5 mr-sm-5"})
+    </div>
+
+</div>
+
+
+
+<div class="row justify-content-center mt-5">
+
+
+    <div class="col">
+       
+        <table class="table table-striped table-hover table-responsive-md table-sm">
+            <thead class="thead-dark ">
+            <tr class="text-center">
+                <th scope="col">Name</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.SIN)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Country)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Province)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.StreetAddress)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.PostalCode)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.HomePhone)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.CellPhone)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.OfficePhone)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.DOB)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.HireDate)</th>
+                <th scope="col">Action</th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+            @foreach (var e in Model)
+            {
+                <tr class="text-center">
+                    <td>
+                        @Html.ActionLink($"{e.FirstName} {@e.LastName}", "EditEmployee", new {id = e.EmployeeId})
+                    </td>
+                    <td>
+                        @e.SIN
+                    </td>
+                    <td>
+                        @e.Country
+                    </td>
+                    <td>
+                        @e.Province
+                    </td>
+                    <td>
+                        @e.StreetAddress
+                    </td>
+                    <td>
+                        @e.PostalCode
+                    </td>
+                    <td>
+                        @e.HomePhone
+                    </td>
+                    <td>
+                        @e.CellPhone
+                    </td>
+                    <td>
+                        @e.OfficePhone
+                    </td>
+                    <td>
+                        @e.DOB.ToShortDateString()
+                    </td>
+                    <td>
+                        @e.HireDate.ToShortDateString()
+                    </td>
+                    <td>
+
+                            <i class="fas fa-trash-alt text-danger btnDelete"  data-toggle="modal"  data-target="#exampleModalCenter" data-emp-id="@e.EmployeeId" style="cursor: pointer"></i>
+                        
+                    </td>
+                </tr>
+            }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete employee?
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm("Delete", "Employee", FormMethod.Post))
+                {
+
+                    @Html.Hidden("empId")
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-primary">Yes</button>
+
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var deleteBtn = document.querySelectorAll('.btnDelete');
+    var empId;
+
+    var getId = (employee) => {
+        empId = employee.getAttribute('data-emp-id');
+        document.querySelector('#empId').value = empId;
+    }
+
+    Array.from(deleteBtn).forEach(btn => {
+        btn.addEventListener('click', () => getId(btn));
+       
+    });
+
+
+
+
+   
+
+
+
+
+
+</script>

@@ -8,6 +8,7 @@ using System.Web;
 
 namespace HorizonRE.Models
 {
+    
    public class Employee
    {
       public int EmployeeId { get; set; }

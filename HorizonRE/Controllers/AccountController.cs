@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using HorizonRE.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 
@@ -76,22 +77,9 @@ namespace HorizonRE.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-
             switch (result)
-            {//TODO: FINISH AUTHENTICATION REDIRECT
+            {
                 case SignInStatus.Success:
-                    var user = await UserManager.FindAsync(model.Email, model.Password);
-                    var roles = await UserManager.GetRolesAsync(user.Id);
-
-                    if (roles.Contains("Employee"))
-                    {
-                        return RedirectToAction("Index", "Employee");
-                    }
-                    else if (roles.Contains("Customer"))
-                    {
-                        return RedirectToLocal(returnUrl);
-                    }
-
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -100,7 +88,6 @@ namespace HorizonRE.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    ViewBag.ReturnUrl = returnUrl;
                     return View(model);
             }
         }
@@ -169,6 +156,22 @@ namespace HorizonRE.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+
+                    //Added
+                    var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+
+                    var roleManager = new RoleManager<IdentityRole>(roleStore);
+
+                    //Create role
+                    await roleManager.CreateAsync(new IdentityRole("User"));
+
+                    //Assign user to role
+                    await UserManager.AddToRoleAsync(user.Id, "User");
+
+
+                    //OLD
+
+
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -242,7 +245,7 @@ namespace HorizonRE.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                if (user == null /*|| !(await UserManager.IsEmailConfirmedAsync(user.Id)*/)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -258,6 +261,7 @@ namespace HorizonRE.Controllers
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { UserId = user.Id, code = code }, protocol: Request.Url.Scheme);
                 await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+                Console.WriteLine(user.Id, "Reset Password", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
                 return View("ForgotPasswordConfirmation");
             }
 

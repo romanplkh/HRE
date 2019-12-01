@@ -1,0 +1,132 @@
+﻿@model IEnumerable<HorizonRE.Models.Listing>
+<link rel="stylesheet" media="print" title="Listings Report"
+      type="text/css" href="~/Content/CSS/reportPrint.css">
+
+@{
+    ViewBag.Title = "CreateReport";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="container mt-md-5 mt-sm-0">
+    <div class="row">
+        <div class="col-sm-8 col-lg-10">
+            <h2 class="display-4 mb-4">Listings Report</h2>
+            <p id="start-date" style="display:none"></p>
+        </div>
+    </div>
+
+    <div class="row ml-2">
+
+        @using (Html.BeginForm("CreateReport", "ListingsManagement", FormMethod.Get))
+        {
+            <div class="form-inline mb-3">
+
+                @Html.TextBox("date", null,
+                                new { @class = "form-control mr-4", type = "date", id = "start"})
+                <input type="submit" value="Generate" class="btn btn-primary" />
+            </div>
+        }
+
+    </div>
+    <div class="row">
+        @*@if (Model == null)
+            {
+                <p>Select date and click to generate</p>
+            }*@
+        @{
+            List<HorizonRE.ViewModel.ListingReportViewModel>
+            listingForReport = ViewBag.Report;
+
+            if (listingForReport != null)
+            {
+                foreach (var item in listingForReport)
+                {
+                    if (item.listing.Count() > 0)
+                    {
+                        <h4 class="display-4" style="font-size: 2em">
+                            @Html.DisplayFor(_ => item.Status)
+                        </h4>
+
+                        <table id="listings" class="table table-bordered table-hover mb-3">
+                            <thead class="thead-dark" style="font-size:0.6em">
+                                <tr>
+                                    <th class="lead">Address</th>
+                                    <th class="lead">Customer</th>
+                                    <th class="lead">Customer phone</th>
+                                    <th class="lead">Customer email</th>
+                                    <th class="lead">Agent name</th>
+                                    <th class="lead">Agent email</th>
+                                    <th class="lead">Agent phone</th>
+                                    <th class="lead">Contract expires</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size:0.8em">
+
+                                @foreach (var listing in item.listing)
+                                {
+                                <tr>
+                                    <td>@listing.StreetAddress @listing.City</td>
+                                    <td>@listing.Customer.FullName</td>
+                                    <td>@listing.Customer.Phone</td>
+                                    <td>@listing.Customer.Email</td>
+
+                                    @if (listing.Employee == null)
+                                    {
+                                        <td>No agent assigned</td>
+                                        <td>No agent assigned</td>
+                                        <td>No agent assigned</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@listing.Employee.FullName</td>
+                                        <td>@listing.Employee.OfficeEmail</td>
+                                        <td>@listing.Employee.OfficePhone</td>
+                                    }
+
+                                    @if (listing.ContractSigned)
+                                    {
+                                        <td>@listing.ListingEndDate.ToShortDateString()</td>
+                                    }
+                                    else
+                                    {
+                                        <td>No contract signed</td>
+                                    }
+
+                                </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                }
+
+                <input type="button" id="print" class="btn btn-primary mb-3"
+                       value="Print" onclick="printReport()">
+            }
+            else
+            {
+                <div class="alert alert-primary ml-2 mt-3" role="alert">
+                    @ViewBag.Error
+                </div>
+            }
+
+        }
+
+    </div>
+
+</div>
+
+<script>
+    function printReport() {
+
+
+        let date = document.getElementById('start').getAttribute("value");
+        let today = moment().format("YYYY-MM-DD");
+
+
+        document.getElementById('start-date').textContent = `from ${date} to ${today}`;
+        window.print();
+    };
+</script>
+
