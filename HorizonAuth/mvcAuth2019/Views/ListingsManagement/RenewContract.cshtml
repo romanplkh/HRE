@@ -1,0 +1,90 @@
+﻿@model HorizonRE.Models.Listing
+@{
+    ViewBag.Title = "RenewContract";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="container mt-md-5 mt-sm-0">
+    <div class="row mb-4">
+        <div class="col-sm-8 col-lg-10">
+            <h2 class="display-4 mb-4">Renew Contracts Area</h2>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-6">
+            @using (Html.BeginForm("RenewContract", "ListingsManagement", FormMethod.Post))
+            {
+
+                <h2 class="display-4 mb-5" style="font-size:1.5em">
+                    Notify customers about contract expiration
+                </h2>
+
+                <input type="submit" class="btn btn-primary"
+                       value="Notify" />
+
+                if (ViewBag.Msg != null) { 
+                   <div class="alert alert-primary mt-3" role="alert">
+                        @ViewBag.Msg
+                   </div>
+                }
+
+            }
+        </div>
+        <div class="col-md-6">
+
+
+            <h2 class="display-4 mb-5" style="font-size:1.5em">
+                Renew contract for particular listing
+            </h2>
+            @using (Html.BeginForm("RenewContract", "ListingsManagement", FormMethod.Get))
+            {
+                <div class="input-group w-50">
+
+                    @Html.TextBox("id", null, new { @class = "form-control",
+                            placeholder = "Search listing" })
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-primary">Search</button>
+                    </div>
+                </div>
+
+                if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-primary mt-3" role="alert">
+                        @ViewBag.Message
+                    </div>
+                }
+                if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-primary mt-3" role="alert">
+                        @ViewBag.Error
+                    </div>
+                }
+            }
+
+            @if (@Model != null)
+            {
+                using (Html.BeginForm("RenewContractManually", "ListingsManagement",
+                    FormMethod.Post))
+                {
+
+
+                    <div class="card mt-4 w-50">
+
+                        <div class="card-body">
+                            <h5 class="card-title">Listing Info</h5>
+                            @Html.HiddenFor(m => m.ListingId)
+
+                            <p>Listing #@Model.ListingId</p>
+                            <p>Address @Model.StreetAddress @Model.City</p>
+                            <p>Expiration date @Model.ListingEndDate.ToShortDateString()</p>
+                            <button type="submit"
+                                    class="btn btn-outline-primary">
+                                Renew Contract
+                            </button>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

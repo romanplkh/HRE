@@ -1,0 +1,162 @@
+﻿@model HorizonRE.Models.Employee
+
+
+<div class="form-row mt-5">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.FirstName)
+        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.LastName)
+        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.MiddleName)
+        @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.MiddleName, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-row">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.DOB)
+        @Html.TextBoxFor(m => m.DOB, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.SIN)
+        @Html.TextBoxFor(m => m.SIN, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SIN, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.HireDate)
+        @Html.TextBoxFor(m => m.HireDate, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.HireDate, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-row">
+
+    <div class="form-group col-md-4">
+        @Html.Label("Country")
+        @Html.DropDownList("CountryList", ViewBag.CountryData as SelectList, new { @class = "form-control " })
+
+    </div>
+    <div class="form-group col-md-4">
+        @Html.Label("Province")
+        @Html.DropDownList("ProvincesList", ViewBag.ProvinceData as SelectList, new { @class = "form-control scrollable-menu" })
+    </div>
+
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.City)
+        @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+    </div>
+
+</div>
+<div class="form-row">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.StreetAddress)
+        @Html.TextBoxFor(m => m.StreetAddress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.StreetAddress, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.PostalCode)
+        @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.PostalCode, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.HomePhone)
+        @Html.TextBoxFor(m => m.HomePhone, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.HomePhone, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.CellPhone)
+        @Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CellPhone, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.OfficePhone)
+        @Html.TextBoxFor(m => m.OfficePhone, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.OfficePhone, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group col-md-4">
+        @Html.LabelFor(m => m.OfficeEmail)
+        @Html.TextBoxFor(m => m.OfficeEmail, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.OfficeEmail, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="row justify-content-end">
+    @if (ViewContext.RouteData.Values[ "action" ].ToString() == "EditEmployee")
+    {
+        <button type="submit" class="btn btn-primary mr-3">Update</button>
+    }
+    else
+    {
+        <button type="submit" class="btn btn-primary float-right mr-3">Add</button>
+    }
+
+    <button id="reset" type="button" class="btn btn-secondary">Reset</button>
+</div>
+
+
+<script>
+    var resetBtn = document.querySelector('#reset');
+    var form = document.querySelector('form');
+
+
+    resetBtn.addEventListener('click',
+        () => {
+            var elms = form.querySelectorAll('input');
+
+            var spans = form.querySelectorAll('span');
+
+            Array.from(spans).forEach(el => {
+                el.textContent = "";
+            });
+
+            Array.from(elms).forEach(el => {
+                el.value = "";
+                if (el.hasAttribute("aria-invalid")) {
+                    el.setAttribute("aria-invalid", "false");
+                }
+            });
+
+
+        });
+
+    //DropDowns
+    var country = document.querySelector('#CountryList');
+
+
+    country.addEventListener('change',
+        () => {
+
+            var selectedCountryId = country.value;
+
+            fetch(`/employee/GetProvincesByCountry?countryId=${selectedCountryId}`).then(jsn => jsn.json()).then(
+                data => {
+                    var listProvinces = document.querySelector("#ProvincesList");
+
+                    listProvinces.innerHTML = "";
+
+                    data.forEach(el => {
+
+                        var option = document.createElement("option");
+                        option.value = el.ProvinceId;
+                        option.innerHTML = el.Name;
+                        listProvinces.appendChild(option);
+                    });
+
+
+                }
+            );
+
+        });
+
+
+</script>
