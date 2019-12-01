@@ -1,0 +1,218 @@
+﻿@model HorizonRE.Models.Listing
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="container mt-md-5 mt-sm-0">
+    <h2 class="text-center display-4 mb-4">Add Listing</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.Error
+        </div>
+    }
+
+
+    @using (Html.BeginForm("Create", "ListingsManagement",
+   FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.Hidden("Status", "No contract")
+        @Html.Hidden("RenewNotificationSent", false)
+
+        @Html.Hidden("SelectedCustomer", ViewBag.SelectedCustomer as string)
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(m => m.Country)
+                @Html.DropDownList("Countries", ViewBag.Countries as SelectList, new { @class = "form-control" })
+
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(m => m.Province)
+                @Html.DropDownList("Provinces", ViewBag.Provinces as SelectList, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(m => m.StreetAddress)
+                @Html.TextBoxFor(m => m.StreetAddress, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.StreetAddress, "", new { @class = "text-danger" })
+            </div>
+
+
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(m => m.City)
+                @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(m => m.PostalCode)
+                @Html.TextBoxFor(m => m.PostalCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.PostalCode, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(m => m.CityArea)
+                @Html.DropDownListFor(m => m.AreaId,
+                        ViewBag.CityAreas as SelectList, new { @class = "form-control" })
+            </div>
+
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(m => m.Area)
+                @Html.TextBoxFor(m => m.Area, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Area, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(m => m.Bathrooms)
+                @Html.TextBoxFor(m => m.Bathrooms, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Bathrooms, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="form-group col-md-4">
+                @Html.LabelFor(m => m.Bedrooms)
+                @Html.TextBoxFor(m => m.Bedrooms, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Bedrooms, "", new { @class = "text-danger" })
+
+            </div>
+
+
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                @Html.LabelFor(m => m.Price)
+                @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="form-group col-md-4">
+                @Html.Label("Agent")
+                @Html.DropDownListFor(m => m.EmployeeId,
+                            ViewBag.Employees as SelectList, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-4">
+                @Html.Label("Contract")
+                <div class="form-check">
+
+                    @Html.CheckBoxFor(m => m.ContractSigned, new { @class = "form-check-input mt-3" })
+                    @Html.LabelFor(m => m.ContractSigned, new { @class = "form-check-label my-2" })
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <div class="custom-file">
+                    @Html.Label("Photos")
+                    @Html.TextBox("selectedImages", "", new { @class = "form-control-file", type = "file",
+                            multiple = "multiple", id = "files" })
+                    <small class="form-text text-muted">
+                        Select photos to associate with current
+                        listing
+                    </small>
+                </div>
+                @if (ViewBag.InvalidImagesError != null)
+                {
+                    <div class="alert alert-primary">
+                        Following images cannot be added to this property
+                        <br />
+
+                        @{
+                            List<string> errorMessages = ViewBag.InvalidImagesError;
+
+                            foreach (var msg in errorMessages)
+                            {
+                                <p class="font-weight-bold mb-0">@msg</p>
+
+                            }
+                        }
+
+
+
+
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                @Html.Label("Features")
+                @{
+                    List<HorizonRE.ViewModel.AssociatedFeatures>
+                        features = ViewBag.Features;
+
+
+                    if (features != null)
+                    {
+                        int count = 0;
+                        //FINISH
+
+                        <div class="row justify-content-center">
+
+                            @foreach (var f in features)
+                            {
+                                count++;
+
+                                <div class="form-check mr-5 w-25 mb-3">
+                                    <input type="checkbox" class="form-check-input"
+                                           name="selectedFeature" value="@f.FeatureId" />
+                                    <label class="form-check-label">@f.Title</label>
+                                </div>
+                            }
+
+                        </div>
+                    }
+
+                }
+            </div>
+        </div>
+
+        <input type="submit" value="Save" class="btn btn-primary my-4 float-right" />
+
+    }
+</div>
+
+
+
+
+
+
+<script>
+    //DropDowns
+    var country = document.querySelector('#Countries');
+
+
+    country.addEventListener('change',
+        () => {
+
+            var selectedCountryId = country.value;
+
+            fetch(`/employee/GetProvincesByCountry?countryId=${selectedCountryId}`).then(jsn => jsn.json()).then(
+                data => {
+                    var listProvinces = document.querySelector("#Provinces");
+
+                    listProvinces.innerHTML = "";
+
+                    data.forEach(el => {
+
+                        var option = document.createElement("option");
+                        option.value = el.ProvinceId;
+                        option.innerHTML = el.Name;
+                        listProvinces.appendChild(option);
+                    });
+
+
+                }
+            );
+
+        });
+
+
+
+</script>

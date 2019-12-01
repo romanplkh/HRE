@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "MoveFileDisplay";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="container mt-md-5 mt-sm-0">
+    <h2 class="display-4 mb-4">Approve Photos</h2>
+
+    @if (string.IsNullOrEmpty(ViewBag.Msg))
+    {
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="~/TempFiles/@ViewBag.fileName" alt="@ViewBag.fileName"
+                         class="card-img-top" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                @using (Html.BeginForm("ApproveFile", "FilesUpload", FormMethod.Post))
+                {
+                    <input type="hidden" name="fileToApprove" value="@ViewBag.fileName" />
+                    <h4 class="mb-3">Approve:</h4>
+                    <div class="form mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="approve" value="Yes">
+                            <label class="form-check-label" for="Yes">
+                                Yes
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="approve" value="No">
+                            <label class="form-check-label" for="No">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+                }
+            </div>
+
+        </div>
+    }
+
+
+        <p class="h3 @(!string.IsNullOrEmpty(ViewBag.Msg) ? "show" : "hide")">@ViewBag.Msg</p>
+   
+</div>
+
+
+
+
+

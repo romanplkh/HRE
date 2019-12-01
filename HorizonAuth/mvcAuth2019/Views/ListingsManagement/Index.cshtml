@@ -1,0 +1,174 @@
+﻿@model  HorizonRE.ViewModel.ListingCustomerAgentView
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+<div class="container mt-md-5 mt-sm-0">
+    <h2 class="display-4 mb-4">Listings</h2>
+    <div class="row">
+        <div class="col-md-6">
+            @using (Html.BeginForm("Index", "ListingsManagement", FormMethod.Get))
+            {
+
+                <div class="input-group w-50">
+
+                    @Html.TextBox("search", ViewBag.CurrentSearch as string, new { @class = "form-control", placeholder = "Search Customer" })
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-primary">Search</button>
+                    </div>
+                </div>
+
+            }
+
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            @if (Model.Customers != null && Model.Customers.Count() > 0)
+            {
+                <table id="customers" class="table table-bordered table-hover mb-5">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class="lead">Customer Name</th>
+                            <th class="lead">Phone</th>
+                            <th class="lead">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        @foreach (var customer in Model.Customers)
+                        {
+
+                            string selectedRow = "";
+
+                            if (customer.CustomerId == ViewBag.SelectedCustomer)
+                            {
+                                selectedRow = "alert-info";
+                            }
+
+                            <tr class="@selectedRow">
+
+                                <td>
+
+                                    @Html.ActionLink($"{customer.FullName}",
+                                            "Index", new { customerId = customer.CustomerId, search = ViewBag.CurrentSearch })
+                                </td>
+                                <td> @customer.Phone</td>
+                                <td class="text-center">@Html.ActionLink("Add Listing", "Create", "ListingsManagement", new { custId = customer.CustomerId }, new { @class = "btn btn-success btn-sm" })</td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+            }
+            else
+            {
+
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    Customer not found
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+
+
+            @if (Model.Listings != null && Model.Listings.Count() > 0)
+            {
+                <h3 class="display-4" style="font-size:1.5em"> Customer Listings </h3>
+
+                <table class="table">
+                    <tr>
+                        <th>
+                            Listing Id
+                        </th>
+                        <th>
+                            Contract Start
+                        </th>
+                        <th>
+                            Contract End
+                        </th>
+                        <th>
+                            Address
+                        </th>
+                        <th>
+                            Agent
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                    @foreach (var listing in Model.Listings)
+                    {
+                        <tr>
+                            <td>
+                                @listing.ListingId
+                            </td>
+                            @if (listing.ListingStartDate.HasValue)
+                            {
+                                <td>
+                                    @listing.ListingStartDate.Value.ToShortDateString()
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    No start date
+                                </td>
+                            }
+                            <td>
+                                @listing.ListingEndDate.ToShortDateString()
+                            </td>
+                            <td>
+                                @listing.StreetAddress, @listing.City
+                            </td>
+                            @if (listing.Employee != null)
+                            {
+                                <td>
+                                    @listing.Employee.FullName
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    No assigned agent
+                                </td>
+                            }
+
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = listing.ListingId })
+                            </td>
+
+                        </tr>
+
+                    }
+
+                </table>
+
+
+            }
+
+
+
+            @if (ViewBag.ShowMsg = true && ViewBag.SelectedCustomer != null && Model.Listings.Count() == 0)
+            {
+
+                <div class="alert alert-primary" role="alert">
+                    No listings found
+                </div>
+
+            }
+        </div>
+    </div>
+
+</div>
+
+
+
