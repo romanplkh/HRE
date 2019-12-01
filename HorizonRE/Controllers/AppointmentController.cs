@@ -16,7 +16,7 @@ namespace HorizonRE.Controllers
     public class AppointmentController : Controller
     {
 
-        ApplicationDbContext db = new ApplicationDbContext();
+        HorizonContext db = new HorizonContext();
         // GET: Appointment
         [HttpGet]
         public ActionResult Add(bool success = false)

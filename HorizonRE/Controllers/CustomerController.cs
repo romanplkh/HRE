@@ -18,7 +18,7 @@ namespace HorizonRE.Controllers
     [Authorize(Roles = RoleName.EMPLOYEE)]
     public class CustomerController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private HorizonContext db = new HorizonContext();
         private ApplicationUserManager _userManager;
 
         // GET: all customers and related data

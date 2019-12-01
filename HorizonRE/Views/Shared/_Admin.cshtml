@@ -35,19 +35,8 @@
                        aria-expanded="false"
                        class="dropdown-toggle">
                         <i class="fas fa-user-circle"></i>
-                        <span>
-                            @if (!string.IsNullOrEmpty(User.Identity.Name))
-                            {
-                                User.Identity.Name.Substring(0, User.Identity.Name.IndexOf("@"));
-
-                            }
-                           
-                        </span>
-
+                        <span>@User.Identity.Name.Substring(0, User.Identity.Name.IndexOf("@"))</span>
                     </a>
-
-
-
                     <ul class="collapse list-unstyled" id="adminSub">
                         <li>
                             <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>

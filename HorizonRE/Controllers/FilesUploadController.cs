@@ -16,7 +16,7 @@ namespace HorizonRE.Controllers
     [Authorize(Roles = RoleName.EMPLOYEE)]
     public class FilesUploadController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private HorizonContext db = new HorizonContext();
 
         // GET: FilesUpload
         public ActionResult Index()

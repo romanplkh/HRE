@@ -14,7 +14,7 @@ namespace HorizonRE.Controllers
     public class ListingsController : Controller
     {
 
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private HorizonContext db = new HorizonContext();
         // GET: Listings
         [HttpGet]
         public ActionResult Index(int? page, string currentCity, int? currentProvince, int? currentCountry, int? currentBedroom, int? currentBathrooms, string citySearch = null, decimal? currentPriceFrom = null, decimal? currentPriceTo = null, string currentPriceOrder = null, int? CountryList = null, int? ProvincesList = null, int? bedrooms = null, int? bathrooms = null, decimal? priceFrom = null, decimal? priceTo = null, string priceOrder = null)
