@@ -11,6 +11,7 @@ using HorizonRE.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using mvcAuth2019;
+using mvcAuth2019.Controllers;
 using mvcAuth2019.Models;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -81,58 +82,26 @@ namespace HorizonRE.Controllers
 
                 db.SaveChanges();
 
-                //create customer login
-                await CreateAuthRecordAsync(customer);
 
-                return RedirectToAction("Index");
+                AccountController accountController = new AccountController();
+                accountController.ControllerContext = this.ControllerContext;
+                //create customer login
+                RegisterViewModel registerModel = new RegisterViewModel();
+
+                registerModel.Email = customer.Email;
+                registerModel.Password = customer.Password;
+                registerModel.ConfirmPassword = customer.Password;
+
+
+                return await accountController.Register(registerModel, new string[] { RoleName.CUSTOMER }, new { controller = "Customer", action = "Index" });
+
+               
             }
             ViewData["CountryList"] = new SelectList(db.Countries, "CountryId", "Name");
             ViewData["ProvincesList"] = new SelectList(db.Provinces.Where(c => c.CountryId == 1), "ProvinceId", "Name");
             return View();
         }
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext()
-                    .GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-
-        private async Task CreateAuthRecordAsync(Customer customer)
-        {
-
-            //!CREATE  OBJECT USER
-            var user = new ApplicationUser { UserName = customer.Email, Email = customer.Email };
-
-
-            //!SAVE OBJECT USER IN TABLE USERS
-            var result = await UserManager.CreateAsync(user, customer.Password);
-            //assign Customer role
-            if (result.Succeeded)
-            {
-
-                //!GET CURRENT USER CREATED
-                var createdCustomer = UserManager.FindByName(user.UserName);
-                //!ADD ROLE TO CUSTOMER
-                var roleResult = UserManager.AddToRole(createdCustomer.Id, "Customer");
-
-
-                string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a> <br/> You must click 'Forget password' and select your password. <br/> Kind regards, <br/ > Horizon Real Estate");
-
-
-            }
-
-
-
-        }
 
 
 

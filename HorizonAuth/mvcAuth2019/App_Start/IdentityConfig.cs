@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
@@ -11,6 +12,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using mvcAuth2019.Models;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace mvcAuth2019
 {
@@ -19,9 +22,31 @@ namespace mvcAuth2019
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            return configSendGridasync(message);
+        }
+
+        private async Task configSendGridasync(IdentityMessage message)
+        {
+            var myMessage = new SendGridMessage();
+            var client = new SendGridClient(ConfigurationManager.AppSettings["EmailSender"]);
+            myMessage.AddTo(message.Destination);
+
+            var to = new EmailAddress(message.Destination);
+            myMessage.From = new EmailAddress(
+                                "no-reply@horizon.ca", "Horizon Real Estate");
+            myMessage.Subject = message.Subject;
+            myMessage.PlainTextContent = message.Body;
+            myMessage.HtmlContent = message.Body;
+
+
+            var msg = MailHelper.CreateSingleEmail(myMessage.From, to,
+                myMessage.Subject, myMessage.PlainTextContent, myMessage.HtmlContent);
+            var response = await client.SendEmailAsync(msg);
+
         }
     }
+
+
 
     public class SmsService : IIdentityMessageService
     {

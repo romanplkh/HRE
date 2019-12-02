@@ -17,14 +17,14 @@ using mvcAuth2019.Models;
 namespace HorizonRE.Controllers
 {
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Employee")]
     public class EmployeeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         //private ApplicationUserManager _userManager;
 
-        [Authorize(Roles = "Admin")]
+ 
         // GET: AllEmployees
         [HttpGet]
         public ActionResult Index()
@@ -47,7 +47,7 @@ namespace HorizonRE.Controllers
 
         // GET: AddEmployee
         [HttpGet]
-        // [Authorize(Roles=RoleName.BROKER)]
+        [Authorize(Roles=RoleName.BROKER)]
         public ActionResult AddEmployee()
         {
             ViewBag.CountryList = new SelectList(db.Countries, "CountryId", "Name");
@@ -58,7 +58,7 @@ namespace HorizonRE.Controllers
 
         // POST: AddEmployee
         [HttpPost]
-        // [Authorize(Roles = RoleName.BROKER)]
+        [Authorize(Roles = RoleName.BROKER)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddEmployee([Bind(Include = "EmployeeId,FirstName," +
             "LastName, MiddleName,SIN,StreetAddress,City,PostalCode," +
@@ -114,8 +114,8 @@ namespace HorizonRE.Controllers
                 registerModel.ConfirmPassword = employee.Password;
 
 
-               return await accountController.Register(registerModel);
-
+                return await accountController.Register(registerModel, new string[] { RoleName.AGENT, RoleName.EMPLOYEE }, new { controller = "Employee", action = "Index" } );
+                 
 
 
 
@@ -199,8 +199,8 @@ namespace HorizonRE.Controllers
 
         // GET: Edit
         [HttpGet]
-        // [Authorize(Roles = RoleName.BROKER)]
-        //  [Authorize(Roles = RoleName.MANAGER)]
+        [Authorize(Roles = RoleName.BROKER)]
+        [Authorize(Roles = RoleName.MANAGER)]
         public ActionResult EditEmployee(int? id)
         {
             if (id == null)
@@ -230,8 +230,8 @@ namespace HorizonRE.Controllers
         //POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //  [Authorize(Roles = RoleName.BROKER)]
-        // [Authorize(Roles = RoleName.MANAGER)]
+        [Authorize(Roles = RoleName.BROKER)]
+        [Authorize(Roles = RoleName.MANAGER)]
         public ActionResult EditEmployee([Bind(Include = "EmployeeId,FirstName,LastName,MiddleName,SIN,StreetAddress,City,PostalCode,HomePhone,CellPhone,OfficePhone,OfficeEmail,DOB,AddedBy,HireDate, EmployeeProvinceId, CountryList, ProvincesList, ProvinceEmployee")]
          Employee employee)
         {
@@ -251,7 +251,7 @@ namespace HorizonRE.Controllers
 
         // POST: Employee/Delete/5
         [HttpPost]
-        //  [Authorize(Roles = RoleName.BROKER)]
+        [Authorize(Roles = RoleName.BROKER)]
         public ActionResult Delete()
         {
             int employeeId = Convert.ToInt32(Request.Form["empId"]);

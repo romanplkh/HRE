@@ -488,7 +488,7 @@ namespace HorizonRE.Controllers
                         $"<br/> <br/> Your contract for listing # {lis.ListingId} " +
                         $"is about to expire on {lis.ListingEndDate.ToShortDateString()} " +
                         $"<br/> Please click  " +
-                        $"<a href='https://localhost:44343/ListingsManagement/CustomerRenewContract/?customerId={lis.CustomerId}'>this link</a>  " +
+                        $"<a href='http://localhost:44343/ListingsManagement/CustomerRenewContract/?customerId={lis.CustomerId}'>this link</a>  " +
                         $"to renew contract. <br/> You will be required to login to " +
                         $"your account. <br/><br/>" +
                    $"Kind regards, <br/>" +
@@ -545,12 +545,16 @@ namespace HorizonRE.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            var currentDate = DateTime.Now.ToShortDateString();
+
+            var formattedDate = DateTime.Parse($"{currentDate} 00:00:00");
+
             var lst = from list in db.Listings
                       let notifDate = SqlFunctions.DateAdd("dd", -7, list.ListingEndDate)
                       where list.CustomerId == customerId &&
                       list.Status == "Active" &&
-                      notifDate >= DateTime.Now
-                      && DateTime.Now <= list.ListingEndDate
+                      notifDate >= formattedDate
+                      && formattedDate <= list.ListingEndDate
                       && list.RenewDenialReason == null
                       select list;
 

@@ -13,7 +13,7 @@ using PagedList;
 
 namespace HorizonRE.Controllers
 {
-
+    [Authorize(Roles = RoleName.EMPLOYEE)]
     public class AppointmentController : Controller
     {
 
@@ -262,7 +262,7 @@ namespace HorizonRE.Controllers
                           .Contains(lname.ToLower()) && s.StartDate.Date == searchDate);
 
             }
-            if(appList.Count() == 0)
+            if (appList.Count() == 0)
             {
                 ViewBag.Message = "No scheduled appointments";
             }

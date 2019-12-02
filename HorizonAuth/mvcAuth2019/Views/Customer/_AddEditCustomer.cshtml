@@ -21,7 +21,7 @@
 <div class="form-row">
     <div class="form-group col-md-4">
         @Html.LabelFor(c => c.DOB)
-        @Html.TextBoxFor(c => c.DOB, new { @class = "form-control" })
+        @Html.TextBoxFor(c => c.DOB, new { @class = "form-control", type = "date" })
         @Html.ValidationMessageFor(c => c.DOB, "", new { @class = "text-danger" })
     </div>
     <div class="form-group col-md-4">

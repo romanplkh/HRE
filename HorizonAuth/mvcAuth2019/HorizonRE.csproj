@@ -212,7 +212,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppointmentController.cs" />
-    <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\FilesUploadController.cs" />
@@ -258,6 +257,18 @@
     <Compile Include="Migrations\201912012123571_Clean.cs" />
     <Compile Include="Migrations\201912012123571_Clean.Designer.cs">
       <DependentUpon>201912012123571_Clean.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912021746365_SeedRoles.cs" />
+    <Compile Include="Migrations\201912021746365_SeedRoles.Designer.cs">
+      <DependentUpon>201912021746365_SeedRoles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912021911595_SeedCityAreas.cs" />
+    <Compile Include="Migrations\201912021911595_SeedCityAreas.Designer.cs">
+      <DependentUpon>201912021911595_SeedCityAreas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912021915253_SeedFeatures.cs" />
+    <Compile Include="Migrations\201912021915253_SeedFeatures.Designer.cs">
+      <DependentUpon>201912021915253_SeedFeatures.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -370,6 +381,12 @@
     <Content Include="Content\Fonts\webfonts\fa-regular-400.svg" />
     <Content Include="Content\Fonts\webfonts\fa-solid-900.svg" />
     <Content Include="favicon.ico" />
+    <Content Include="FilesToDelete\alpaca-wallpapers-25367-3589777.jpg" />
+    <Content Include="FilesToDelete\cute_red_panda-wallpaper-1366x768.jpg" />
+    <Content Include="FilesToDelete\New-SBB-Train-Dosto-03.jpg" />
+    <Content Include="FilesToDelete\thumb-1920-777530.jpg" />
+    <Content Include="FilesToDelete\thumb-1920-777530_12329.jpg" />
+    <Content Include="FilesToDelete\thumb-1920-871625.jpg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -572,6 +589,15 @@
     <EmbeddedResource Include="Migrations\201912012123571_Clean.resx">
       <DependentUpon>201912012123571_Clean.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912021746365_SeedRoles.resx">
+      <DependentUpon>201912021746365_SeedRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912021911595_SeedCityAreas.resx">
+      <DependentUpon>201912021911595_SeedCityAreas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912021915253_SeedFeatures.resx">
+      <DependentUpon>201912021915253_SeedFeatures.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
@@ -598,7 +624,10 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>58921</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:58921/</IISUrl>
+          <IISUrl>http://localhost:44343/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>
+          </IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
