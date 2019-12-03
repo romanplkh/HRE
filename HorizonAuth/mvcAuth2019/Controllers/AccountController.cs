@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using mvcAuth2019.Models;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using mvcAuth2019.Models;
 
 namespace mvcAuth2019.Controllers
 {
@@ -76,9 +76,36 @@ namespace mvcAuth2019.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
+
             switch (result)
             {
                 case SignInStatus.Success:
+
+                    var user = await UserManager.FindAsync(model.Email, model.Password);
+                    var roles = await UserManager.GetRolesAsync(user.Id);
+
+                    if (roles.Contains("Employee"))
+                    {
+                        if (!String.IsNullOrEmpty(returnUrl))
+                        {
+                            return RedirectToLocal(returnUrl);
+                        }
+
+
+                        return RedirectToAction("Index", "Employee");
+                    }
+                    else if (roles.Contains("Customer"))
+                    {
+
+                        if (!String.IsNullOrEmpty(returnUrl))
+                        {
+                            return RedirectToLocal(returnUrl);
+                        }
+
+                        return RedirectToAction("Index", "Home");
+                    }
+
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -87,6 +114,7 @@ namespace mvcAuth2019.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
+                    ViewBag.ReturnUrl = returnUrl;
                     return View(model);
             }
         }
@@ -136,7 +164,7 @@ namespace mvcAuth2019.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = RoleName.BROKER)]
         public ActionResult Register()
         {
             return View();
@@ -145,39 +173,59 @@ namespace mvcAuth2019.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+
+        [Authorize(Roles = RoleName.BROKER)]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, string[] roles = null, object routparams = null)
         {
             if (ModelState.IsValid)
             {
                 //!Add properties to user that we want to have to fill in when creating a new account
-                var user = new ApplicationUser {
+                var user = new ApplicationUser
+                {
                     UserName = model.Email,
                     Email = model.Email
-         
-                    
+
+
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
 
-                    //!Get current user created by ApplicationUser
-                    var currentUser = UserManager.FindByName(user.UserName);
-
-                    //!Assign role to newly created user
-                    //!Retruns booleans if we succeeded to add role to the new user
-                    var roleResult = UserManager.AddToRole(currentUser.Id, "User");
+                    if (roles != null && roles.Length > 0)
+                    {
+                        //!Get current user created by ApplicationUser
+                        var currentUser = UserManager.FindByName(user.UserName);
 
 
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                        foreach (string r in roles)
+                        {
+                            //!Assign role to newly created user
+                            //!Retruns booleans if we succeeded to add role to the new user
+                            var roleResult = UserManager.AddToRole(currentUser.Id, r);
+                        }
+                        ////!Assign role to newly created user
+                        ////!Retruns booleans if we succeeded to add role to the new user
+                        //var roleResult = UserManager.AddToRole(currentUser.Id, "User");
+                    }
+
+
+
+
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    if (routparams != null)
+                    {
+                        return RedirectToAction(routparams.GetType().GetProperty("action").GetValue(routparams, null).ToString(), routparams.GetType().GetProperty("controller").GetValue(routparams, null).ToString());
+                    }
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -465,6 +513,10 @@ namespace mvcAuth2019.Controllers
             {
                 return Redirect(returnUrl);
             }
+
+
+
+
             return RedirectToAction("Index", "Home");
         }
 

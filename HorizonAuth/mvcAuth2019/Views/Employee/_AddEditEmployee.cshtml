@@ -22,7 +22,7 @@
 <div class="form-row">
     <div class="form-group col-md-4">
         @Html.LabelFor(m => m.DOB)
-        @Html.TextBoxFor(m => m.DOB, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.DOB, new { @class = "form-control", type = "date", Id="dob" })
         @Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })
     </div>
     <div class="form-group col-md-4">
@@ -32,7 +32,7 @@
     </div>
     <div class="form-group col-md-4">
         @Html.LabelFor(m => m.HireDate)
-        @Html.TextBoxFor(m => m.HireDate, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.HireDate, new { @class = "form-control", type = "date", Id="hd" })
         @Html.ValidationMessageFor(m => m.HireDate, "", new { @class = "text-danger" })
     </div>
 </div>
@@ -91,7 +91,7 @@
 </div>
 
 <div class="row justify-content-end">
-    @if (ViewContext.RouteData.Values[ "action" ].ToString() == "EditEmployee")
+    @if (ViewContext.RouteData.Values["action"].ToString() == "EditEmployee")
     {
         <button type="submit" class="btn btn-primary mr-3">Update</button>
     }
@@ -157,6 +157,36 @@
             );
 
         });
+
+
+
+
+    document.addEventListener("DOMContentLoaded", (event) => {
+        //populate datetime controls
+        let startControl = document.getElementById('dob');
+        let hireDate = document.getElementById('hd');
+
+
+
+        let start = startControl.getAttribute("value");
+        let stDate = moment(new Date(start)).format().toString();
+        stDate = stDate.slice(0, stDate.indexOf("T"));
+
+
+        let hireDateValue = hireDate.getAttribute("value");
+        let hireDateToDisplay = moment(new Date(hireDateValue)).format().toString();
+        hireDateToDisplay = hireDateToDisplay.slice(0, hireDateToDisplay.indexOf("T"));
+
+
+
+
+        startControl.value = stDate;
+        hireDate.value = hireDateToDisplay;
+
+
+    });
+
+
 
 
 </script>

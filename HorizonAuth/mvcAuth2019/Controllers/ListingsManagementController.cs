@@ -19,13 +19,16 @@ using PagedList;
 
 namespace HorizonRE.Controllers
 {
-   
+
+
+    [Authorize]
     public class ListingsManagementController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationUserManager _userManager;
 
         // GET: ListingsManagement
+        [Authorize(Roles = RoleName.EMPLOYEE)]
         public ActionResult Index(int? customerId, string search = null, string currentSearch = null)
         {
 
@@ -87,6 +90,7 @@ namespace HorizonRE.Controllers
         }
 
         // GET: ListingsManagement/Details/5
+        [Authorize(Roles = RoleName.EMPLOYEE)]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -103,6 +107,7 @@ namespace HorizonRE.Controllers
 
         // GET: ListingsManagement/Create
         [HttpGet]
+        [Authorize(Roles = RoleName.EMPLOYEE)]
         public ActionResult Create(int? custId)
         {
 
@@ -123,7 +128,7 @@ namespace HorizonRE.Controllers
             ViewBag.Provinces = new SelectList(db.Provinces.Where(p => p.CountryId == 1), "ProvinceId", "Name");
 
             //ViewBag.CustomerId = new SelectList(db.Customers, "CustomerId", "FirstName");
-            ViewBag.Employees = new SelectList(db.Employees, "EmployeeId", "FirstName");
+            ViewBag.Employees = new SelectList(db.Employees, "EmployeeId", "FullName");
 
             ViewBag.SelectedCustomer = custId;
 
@@ -136,6 +141,7 @@ namespace HorizonRE.Controllers
 
         // GET: ListingsManagement/Create
         [HttpPost]
+        [Authorize(Roles = RoleName.EMPLOYEE)]
         public ActionResult Create(Listing listing, HttpPostedFileBase[] selectedImages,
             string[] selectedFeature, string SelectedCustomer)
         {
@@ -331,6 +337,7 @@ namespace HorizonRE.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = RoleName.EMPLOYEE)]
         public ActionResult CreateReport(string date, int? page)
         {
 
@@ -375,6 +382,7 @@ namespace HorizonRE.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = RoleName.EMPLOYEE)]
         public ActionResult RenewContract(string id)
         {
             if (TempData["Message"] != null)
@@ -406,6 +414,7 @@ namespace HorizonRE.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleName.EMPLOYEE)]
         public ActionResult RenewContractManually(Listing listing)
         {
             if (listing != null)
@@ -461,6 +470,7 @@ namespace HorizonRE.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleName.EMPLOYEE)]
         public async Task<ActionResult> RenewContract(int? id = null)
         {
 
@@ -488,7 +498,7 @@ namespace HorizonRE.Controllers
                         $"<br/> <br/> Your contract for listing # {lis.ListingId} " +
                         $"is about to expire on {lis.ListingEndDate.ToShortDateString()} " +
                         $"<br/> Please click  " +
-                        $"<a href='https://localhost:44343/ListingsManagement/CustomerRenewContract/?customerId={lis.CustomerId}'>this link</a>  " +
+                        $"<a href='http://localhost:44343/ListingsManagement/CustomerRenewContract/?customerId={lis.CustomerId}'>this link</a>  " +
                         $"to renew contract. <br/> You will be required to login to " +
                         $"your account. <br/><br/>" +
                    $"Kind regards, <br/>" +
@@ -536,7 +546,7 @@ namespace HorizonRE.Controllers
 
         [HttpGet]
         //[AllowAnonymous]
-       [Authorize(Roles = "Customer")]
+       [Authorize(Roles = RoleName.CUSTOMER)]
         public ActionResult CustomerRenewContract(int? customerId)
         {
 
@@ -545,14 +555,16 @@ namespace HorizonRE.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var lst = from list in db.Listings
-                      let notifDate = SqlFunctions.DateAdd("dd", -7, list.ListingEndDate)
-                      where list.CustomerId == customerId &&
-                      list.Status == "Active" &&
-                      notifDate >= DateTime.Now
-                      && DateTime.Now <= list.ListingEndDate
-                      && list.RenewDenialReason == null
-                      select list;
+            var currentDate = DateTime.Now;
+
+            var lst = db.Listings.Where(l => l.CustomerId == customerId && l.Status == "Active" && l.RenewDenialReason == null).ToList();
+
+
+            lst = lst.Where(l => l.ListingEndDate.Subtract(currentDate).Days <= 7).ToList();
+
+
+
+
 
             if (lst.Count() == 0)
             {
@@ -567,6 +579,7 @@ namespace HorizonRE.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = RoleName.CUSTOMER)]
         public ActionResult CustomerRenewContract(List<Listing> list)
         {
             foreach (Listing l in list)
