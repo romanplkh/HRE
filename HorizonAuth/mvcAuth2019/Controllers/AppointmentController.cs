@@ -33,7 +33,11 @@ namespace HorizonRE.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add([Bind(Include = "Id,StartDate, EndDate, Comment, ListingId, CustomerId, EmployeeId, email, listingId, Customer, Listing, CurrentListing,EmailCurrent, Error")] Appointment app = null, string email = "", string listingId = "")
+        public ActionResult Add([Bind(Include = "Id,StartDate, " +
+            "EndDate, Comment, ListingId, CustomerId, EmployeeId, " +
+            "email, listingId, Customer, Listing, CurrentListing," +
+            "EmailCurrent, Error")] Appointment app = null, 
+            string email = "", string listingId = "")
         {
 
             //DROPDOWN
@@ -49,7 +53,8 @@ namespace HorizonRE.Controllers
             //seach customer by email
             if (!string.IsNullOrEmpty(email))
             {
-                customer = db.Customers.Where(cx => cx.Email.ToLower() == email.ToLower()).SingleOrDefault();
+                customer = db.Customers.Where(cx => cx.Email.ToLower() 
+                == email.ToLower()).SingleOrDefault();
 
                 if (customer == null)
                 {
@@ -123,14 +128,18 @@ namespace HorizonRE.Controllers
         }
 
 
-        private ActionResult ValidateAppointment(Appointment appointment, Listing listing, string currentListing, string currEmail, Customer customer)
+        private ActionResult ValidateAppointment(Appointment appointment, 
+            Listing listing, string currentListing, string currEmail, 
+            Customer customer)
         {
 
             bool isValid = true;
 
             bool appSameExist = db.Appointments.Where(
-              app => (app.CustomerId == appointment.CustomerId) && (app.ListingId == appointment.ListingId)
-              && (app.StartDate == appointment.StartDate) && (app.EndDate == appointment.EndDate)
+              app => (app.CustomerId == appointment.CustomerId) 
+              && (app.ListingId == appointment.ListingId)
+              && (app.StartDate == appointment.StartDate) 
+              && (app.EndDate == appointment.EndDate)
               ).Count() > 0;
 
             bool agentHasAntoherAppointment = db.Appointments.Where(app => app.EmployeeId == appointment.EmployeeId && appointment.StartDate < app.EndDate && appointment.EndDate > app.StartDate && app.CustomerId != appointment.CustomerId).Count() > 0;
@@ -199,7 +208,8 @@ namespace HorizonRE.Controllers
 
             if (anotherAgentHasAppointmentForThisProperty)
             {
-                ViewBag.Error = "Another agent already has a showing for this property between selected period of time";
+                ViewBag.Error = "Another agent already has a showing for " +
+                    "this property between selected period of time";
                 isValid = false;
             }
 
@@ -299,7 +309,8 @@ namespace HorizonRE.Controllers
         //POST: edit appointment
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id, StartDate, EndDate, ListingId, Comment, " +
+        public ActionResult Edit([Bind(Include = "Id, StartDate, " +
+            "EndDate, ListingId, Comment, " +
             "CustomerId, EmployeeId")] Appointment app)
         {
 
@@ -354,12 +365,12 @@ namespace HorizonRE.Controllers
             if (appInDB != null)
             {
                 return msg = "Sorry, another appointment is scheduled for this listing at " +
-                    "that time";
+                    " that time";
 
             }
             else if (appInDbAgent != null)
             {
-                return msg = "Sorry, another appointment is scheduled with this agent at" +
+                return msg = "Sorry, another appointment is scheduled with this agent at " +
                    "that time";
             }
 

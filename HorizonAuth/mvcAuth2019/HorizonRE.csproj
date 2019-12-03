@@ -270,6 +270,10 @@
     <Compile Include="Migrations\201912021915253_SeedFeatures.Designer.cs">
       <DependentUpon>201912021915253_SeedFeatures.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912032057286_Empty.cs" />
+    <Compile Include="Migrations\201912032057286_Empty.Designer.cs">
+      <DependentUpon>201912032057286_Empty.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Appointment.cs" />
@@ -597,6 +601,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912021915253_SeedFeatures.resx">
       <DependentUpon>201912021915253_SeedFeatures.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912032057286_Empty.resx">
+      <DependentUpon>201912032057286_Empty.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
