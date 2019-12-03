@@ -9,7 +9,7 @@ namespace mvcAuth2019
         {
             filters.Add(new HandleErrorAttribute());
             //!PROTECTS WHOLE APP FROM ACCESS. ONLY ATHORIZED
-            //filters.Add(new AuthorizeAttribute());
+            filters.Add(new AuthorizeAttribute());
         }
     }
 }

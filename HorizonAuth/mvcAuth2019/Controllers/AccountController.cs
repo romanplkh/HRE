@@ -76,6 +76,8 @@ namespace mvcAuth2019.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
+
             switch (result)
             {
                 case SignInStatus.Success:
@@ -162,7 +164,7 @@ namespace mvcAuth2019.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = RoleName.BROKER)]
         public ActionResult Register()
         {
             return View();
@@ -171,7 +173,8 @@ namespace mvcAuth2019.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+
+        [Authorize(Roles = RoleName.BROKER)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model, string[] roles = null, object routparams = null)
         {

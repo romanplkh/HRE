@@ -14,6 +14,7 @@ using mvcAuth2019.Models;
 namespace HorizonRE.Controllers
 {
 
+    [Authorize(Roles = RoleName.EMPLOYEE)]
     public class FilesUploadController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

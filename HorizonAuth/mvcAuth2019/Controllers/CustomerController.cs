@@ -18,7 +18,8 @@ using SendGrid.Helpers.Mail;
 
 namespace HorizonRE.Controllers
 {
-    
+
+    [Authorize(Roles = RoleName.EMPLOYEE)]
     public class CustomerController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -95,7 +96,7 @@ namespace HorizonRE.Controllers
 
                 return await accountController.Register(registerModel, new string[] { RoleName.CUSTOMER }, new { controller = "Customer", action = "Index" });
 
-               
+
             }
             ViewData["CountryList"] = new SelectList(db.Countries, "CountryId", "Name");
             ViewData["ProvincesList"] = new SelectList(db.Provinces.Where(c => c.CountryId == 1), "ProvinceId", "Name");
