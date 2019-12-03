@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace HorizonRE.Models
 {
-    public class RoleName
+    public class RoleName : IdentityRole
     {
         public const string BROKER = "Broker";
         public const string AGENT = "Agent";

@@ -204,7 +204,7 @@ namespace HorizonRE.Controllers
 
                 System.IO.File.Move(sourceFile, destinationFile);
                 //if you want tot delete
-                //System.IO.File.Delete(sourceFile);
+                System.IO.File.Delete(sourceFile);
 
                 ViewBag.Msg = "File has been removed";
             }
