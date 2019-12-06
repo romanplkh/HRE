@@ -199,14 +199,23 @@ namespace HorizonRE.Controllers
             }
             else
             {
-                string sourceFile = Server.MapPath("~/TempFiles/" + fileToApprove);
-                string destinationFile = Server.MapPath("~/FilesToDelete/") + fileToApprove;
+                if(fileToApprove != null)
+                {
+                    string sourceFile = Server.MapPath("~/TempFiles/" + fileToApprove);
+                    string destinationFile = Server.MapPath("~/FilesToDelete/") + fileToApprove;
 
-                System.IO.File.Move(sourceFile, destinationFile);
-                //if you want tot delete
-                System.IO.File.Delete(sourceFile);
+                    System.IO.File.Move(sourceFile, destinationFile);
+                    //if you want tot delete
+                    System.IO.File.Delete(sourceFile);
 
-                ViewBag.Msg = "File has been removed";
+                    ViewBag.Msg = "File has been removed";
+                }
+                else
+                {
+                    getImages();
+                    return View("MoveFile");
+                }
+               
             }
 
             return View("MoveFileDisplay");

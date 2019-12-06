@@ -44,8 +44,10 @@
     }
 
 
-        <p class="h3 @(!string.IsNullOrEmpty(ViewBag.Msg) ? "show" : "hide")">@ViewBag.Msg</p>
-   
+    <p class="h3 @(!string.IsNullOrEmpty(ViewBag.Msg) ? "show" : "hide")">@ViewBag.Msg</p>
+
+    @Html.ActionLink("<-Back to Approve photos", "MoveFile", "FilesUpload")
+
 </div>
 
 
